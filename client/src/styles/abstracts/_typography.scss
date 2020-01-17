@@ -1,0 +1,27 @@
+%heading {
+  font-family: $font-primary;
+  font-weight: 300;
+  color: $default-text-color;
+}
+
+.heading-1 {
+  @extend %heading;
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+.heading-2 {
+  @extend %heading;
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.heading-3 {
+  @extend %heading;
+  font-size: 1.6rem;
+}
+
+.heading-4 {
+  @extend %heading;
+  font-size: 1.9rem;
+}

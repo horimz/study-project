@@ -15,6 +15,7 @@ const _App: React.FC = () => {
   return (
     <Router>
       <Switch>
+        {/* visable only when signed out */}
         <Route exact path='/' component={Landing} />
         <Route exact path='/share' component={Share} />
         <Route exact path='/login' component={Login} />

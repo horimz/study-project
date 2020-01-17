@@ -1,0 +1,55 @@
+.landing {
+  position: relative;
+  min-height: 100vh;
+}
+
+.hero {
+  min-height: 60vh;
+
+  // DEV
+  @include flexCenter;
+  background-color: rgba(blue, 0.3);
+}
+
+.main {
+  display: grid;
+  grid-template-areas:
+    'left left right right right'
+    'left left right right right'
+    'left left right right right'
+    'left left right right right'
+    'bottom bottom bottom bottom bottom';
+  padding: 8rem 10rem;
+
+  // DEV
+  min-height: 500vh;
+
+  &__left {
+    grid-area: left;
+
+    // DEV
+    background-color: rgba(yellow, 0.5);
+
+    &__content {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      @include flexCenter;
+    }
+  }
+
+  &__right {
+    grid-area: right;
+    // DEV
+    @include flexCenter;
+    background-color: rgba(pink, 0.5);
+  }
+
+  &__bottom {
+    grid-area: bottom;
+
+    // DEV
+    @include flexCenter;
+    background-color: rgba(rgba(82, 182, 140, 0.363), 0.5);
+  }
+}

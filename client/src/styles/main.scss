@@ -3,6 +3,17 @@
 @import './abstracts/base';
 @import './abstracts/mixins';
 @import './abstracts/typography';
+@import './abstracts/utils';
+
+// components
+@import './components/nav';
+@import './components/footer';
 
 // pages
 @import './pages/landing';
+
+// Z-INDEX
+// navigation 10
+// mobile-nav 10
+// modal 100
+// backdrop 99
