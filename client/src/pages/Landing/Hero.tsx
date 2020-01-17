@@ -12,15 +12,9 @@ const _Hero: React.FC = () => {
           justifyContent: 'center'
         }}
       >
-        <div style={{ margin: '0 1rem' }}>
-          <Link to='/login'>Login</Link>
-        </div>
-        <div style={{ margin: '0 1rem' }}>
-          <Link to='/main'>Main</Link>
-        </div>
-        <div style={{ margin: '0 1rem' }}>
-          <Link to='/share'>Share</Link>
-        </div>
+        <Link to='/login'>Login</Link>
+        <Link to='/main'>Main</Link>
+        <Link to='/share'>Share</Link>
       </div>
     </React.Fragment>
   );

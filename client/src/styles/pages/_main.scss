@@ -1,0 +1,23 @@
+.main-content {
+  display: flex;
+
+  // DEV
+  height: 100vh;
+
+  &__left-bar {
+    width: 200px; // fixed value
+    flex-shrink: 0;
+
+    // DEV
+    @include flexCenter;
+    background-color: rgba(blue, 0.1);
+  }
+
+  &__content {
+    flex: 1 1;
+
+    // DEV
+    @include flexCenter;
+    background-color: rgba(red, 0.1);
+  }
+}

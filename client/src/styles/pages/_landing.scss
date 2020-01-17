@@ -11,7 +11,7 @@
   background-color: rgba(blue, 0.3);
 }
 
-.main {
+.landing-main {
   display: grid;
   grid-template-areas:
     'left left right right right'
@@ -22,7 +22,8 @@
   padding: 8rem 10rem;
 
   // DEV
-  min-height: 500vh;
+  // min-height: 500vh;
+  height: 500vh;
 
   &__left {
     grid-area: left;
@@ -52,4 +53,10 @@
     @include flexCenter;
     background-color: rgba(rgba(82, 182, 140, 0.363), 0.5);
   }
+}
+
+.landing-content-table {
+  // DEV
+  padding: 15rem 12rem;
+  border: 1px solid $color-black;
 }

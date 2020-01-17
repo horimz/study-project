@@ -3,14 +3,22 @@ import React, { useState, useEffect } from 'react';
 
 import { MobileNav } from './MobileNav';
 
-const FIXED_NAVBAR_BOXED_START_POINT = 30;
-const FIXED_NAVBAR_TOP_OFFSET_LIMIT = 400;
-const FIXED_NAVBAR_MAX_WIDTH = 500;
+let FIXED_NAVBAR_BOXED_START_POINT = 30;
+let FIXED_NAVBAR_TOP_OFFSET_LIMIT = 400;
+let FIXED_NAVBAR_MAX_WIDTH = 500;
 
-const _Nav: React.FC = () => {
+interface NavProps {
+  boxedPoint?: number;
+  offsetLimit?: number;
+}
+
+const _Nav: React.FC<NavProps> = props => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
   const [navigationClass, setNavigationClass] = useState('navigation');
+
+  if (props.boxedPoint) FIXED_NAVBAR_BOXED_START_POINT = props.boxedPoint;
+  if (props.offsetLimit) FIXED_NAVBAR_TOP_OFFSET_LIMIT = props.offsetLimit;
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
