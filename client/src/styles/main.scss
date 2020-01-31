@@ -1,9 +1,12 @@
 // abstracts
 @import './abstracts/variables';
-@import './abstracts/base';
 @import './abstracts/mixins';
-@import './abstracts/typography';
-@import './abstracts/utils';
+
+// base
+@import './base/base';
+@import './base/typography';
+@import './base/utils';
+@import './base/animations';
 
 // components
 @import './components/nav';

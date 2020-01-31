@@ -1,8 +1,16 @@
 import { FetchUserAction } from './user';
+import { FetchFolderAction, FetchFoldersAction } from './folders';
+import { FetchUrlsAction } from './urls';
 
 export enum ActionTypes {
-  fetchUser
+  fetchUser,
+  fetchFolders,
+  fetchFolder,
+  fetchUrls
 }
 
-// TODO: chain other type definition when added
-export type Action = FetchUserAction;
+export type Action =
+  | FetchUserAction
+  | FetchFolderAction
+  | FetchFoldersAction
+  | FetchUrlsAction;

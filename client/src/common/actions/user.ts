@@ -11,16 +11,53 @@ export interface User {
 
 export interface FetchUserAction {
   type: ActionTypes.fetchUser;
-  payload: User;
+  payload: User | false;
 }
 
-export const fetchUser = () => {
-  return async (dispatch: Dispatch) => {
-    const response = await axios.get<User>('/api/current_user');
+export const fetchUser = () => async (dispatch: Dispatch) => {
+  const response = await axios.get<User>('/user');
 
-    dispatch<FetchUserAction>({
-      type: ActionTypes.fetchUser,
-      payload: response.data
-    });
-  };
+  dispatch<FetchUserAction>({
+    type: ActionTypes.fetchUser,
+    payload: response.data
+  });
+};
+
+export const addUser = (user: User) => async (dispatch: Dispatch) => {
+  const response = await axios.post<User>('/user', user);
+
+  dispatch<FetchUserAction>({
+    type: ActionTypes.fetchUser,
+    payload: response.data
+  });
+};
+
+export const editUser = (user: User) => async (dispatch: Dispatch) => {
+  const response = await axios.patch<User>('/user');
+
+  dispatch<FetchUserAction>({
+    type: ActionTypes.fetchUser,
+    payload: response.data
+  });
+};
+
+export const deleteUser = (id: number) => async (dispatch: Dispatch) => {
+  const response = await axios.delete<User>('/user');
+
+  dispatch<FetchUserAction>({
+    type: ActionTypes.fetchUser,
+    payload: response.data
+  });
+};
+
+export const subscribe = (
+  subscribersId: number,
+  subscribesTo: number
+) => async (dispatch: Dispatch) => {
+  const response = await axios.patch<User>('/user');
+
+  dispatch<FetchUserAction>({
+    type: ActionTypes.fetchUser,
+    payload: response.data
+  });
 };

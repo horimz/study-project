@@ -15,6 +15,11 @@ interface LandingProps {
 }
 
 const _Landing: React.FC<LandingProps> = props => {
+  // if (token exists in local storage) then
+  // fetch current user set axios global settings
+  // and redirect to main page
+  // else -> render current page
+
   // if (props.auth === null) return <div>Loading...</div>;
   // if (props.auth !== false) return <Redirect to='/main' />;
 
