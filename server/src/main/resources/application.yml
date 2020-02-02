@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/markery?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    username: markery
+    password: markery
+
+  jpa:
+    hibernate:
+      ddl-auto: update
