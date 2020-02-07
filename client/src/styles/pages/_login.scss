@@ -1,0 +1,12 @@
+.login {
+  min-height: 100vh;
+  padding: 15rem 20rem;
+  background-color: $color-light-background-1;
+
+  &__content {
+    // DEV
+    height: 50vh;
+    @include flexCenter;
+    background-color: rgba(red, 0.1);
+  }
+}

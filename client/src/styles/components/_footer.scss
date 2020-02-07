@@ -1,0 +1,8 @@
+.footer {
+  background-color: $color-dark-background-2;
+  color: $color-white;
+
+  // DEV
+  min-height: 50vh;
+  @include flexCenter;
+}
