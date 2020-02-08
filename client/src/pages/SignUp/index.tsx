@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { StoreState } from '../../common/reducers';
 import { User, addUser } from '../../common/actions';
 
-interface SingUpProps {
+interface SignUpProps {
   auth: User | boolean | null;
   addUser: Function;
 }
 
-const _SignUp: React.FC<SingUpProps> = props => {
+const _SignUp: React.FC<SignUpProps> = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
