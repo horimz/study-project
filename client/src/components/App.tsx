@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // routes
 import { Landing } from '../pages/Landing';
+import { SignUp } from '../pages/SignUp';
 import { Login } from '../pages/Login';
 import { Main } from '../pages/Main';
 import { Share } from '../pages/Share';
@@ -17,8 +18,9 @@ const _App: React.FC = () => {
       <Switch>
         {/* visable only when signed out */}
         <Route exact path='/' component={Landing} />
-        <Route exact path='/share' component={Share} />
+        <Route exact path='/signup' component={SignUp} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/share' component={Share} />
         <Route exact path='/main' component={Main} /> {/* private route */}
         <Route component={PageNotFound} />
       </Switch>

@@ -14,16 +14,13 @@
 .landing-main {
   display: grid;
   grid-template-areas:
-    'left left right right right'
-    'left left right right right'
-    'left left right right right'
-    'left left right right right'
-    'bottom bottom bottom bottom bottom';
-  padding: 8rem 3rem;
+    'left left right right right right'
+    'bottom bottom bottom bottom bottom bottom';
+  padding: 0 5rem;
 
   // DEV
   // min-height: 500vh;
-  height: 500vh;
+  // height: 500vh;
 
   &__left {
     grid-area: left;
@@ -43,6 +40,7 @@
     grid-area: right;
     // DEV
     @include flexCenter;
+    min-height: 200vh;
     background-color: rgba(pink, 0.5);
   }
 
@@ -51,12 +49,7 @@
 
     // DEV
     @include flexCenter;
+    height: 50vh;
     background-color: rgba(rgba(82, 182, 140, 0.363), 0.5);
   }
-}
-
-.landing-content-table {
-  // DEV
-  padding: 15rem 12rem;
-  border: 1px solid $color-black;
 }

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { StoreState } from '../../common/reducers';
-import { User, login } from '../../common/actions';
+import { User, addUser } from '../../common/actions';
 
-interface LoginProps {
+interface SingUpProps {
   auth: User | boolean | null;
-  login: Function;
+  addUser: Function;
 }
 
-const _Login: React.FC<LoginProps> = props => {
+const _SignUp: React.FC<SingUpProps> = props => {
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -18,11 +19,12 @@ const _Login: React.FC<LoginProps> = props => {
     e.preventDefault();
 
     const user = {
+      email,
       username,
       password
     };
 
-    props.login(user);
+    props.addUser(user);
   };
 
   if (props.auth) return <Redirect to='/main' />;
@@ -35,12 +37,25 @@ const _Login: React.FC<LoginProps> = props => {
         </div>
 
         <div className='login__box'>
-          <div className='login__logo'>Logo</div>
+          {/* <div className='login__logo'>Logo</div> */}
 
           <div className='login__form'>
             <form className='form'>
               <div className='u-mb-sm'>
-                <p className='form__header-1'>Login</p>
+                <p className='form__header-2'>Sign Up</p>
+              </div>
+
+              <div className='form__group'>
+                <label htmlFor='email' className='form__label'>
+                  Email
+                </label>
+                <input
+                  type='email'
+                  className='form__input'
+                  id='email'
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                ></input>
               </div>
 
               <div className='form__group'>
@@ -74,9 +89,16 @@ const _Login: React.FC<LoginProps> = props => {
                 className='btn btn--primary'
                 style={{ width: '100%' }}
               >
-                Login
+                Create an Account
               </button>
             </form>
+
+            <div className='login__redirect'>
+              Already have an account?&nbsp;
+              <Link to='/login' className='login__redirect__link'>
+                login
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -90,4 +112,4 @@ const mapStateToProps = ({
   return { auth };
 };
 
-export const Login = connect(mapStateToProps, { login })(_Login);
+export const SignUp = connect(mapStateToProps, { addUser })(_SignUp);

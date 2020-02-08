@@ -1,0 +1,33 @@
+.btn {
+  text-decoration: none;
+  padding: 1.5rem 4rem;
+  display: inline-block;
+  border-radius: 5px;
+  transition: all 0.25s ease-out;
+  position: relative;
+  font-size: 1.5rem;
+
+  border: none;
+  cursor: pointer;
+
+  &--primary {
+    background-image: linear-gradient(
+      -180deg,
+      rgba(255, 255, 255, 0.09) 0%,
+      rgba(17, 17, 17, 0.04) 100%
+    );
+    border: 1px solid rgba($color-grey-light-2, 0.8);
+    outline: none;
+    transition: all 0.25s ease-out;
+
+    &:hover {
+      background-image: linear-gradient(
+        -180deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(17, 17, 17, 0.1) 100%
+      );
+      border: 1px solid rgba($color-grey-light-2, 0.8);
+      transition: all 0.25s ease-out;
+    }
+  }
+}

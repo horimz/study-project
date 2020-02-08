@@ -3,16 +3,25 @@ import { Dispatch } from 'redux';
 import { ActionTypes } from './types';
 
 export interface User {
-  uid: string;
-  displayName: string;
+  uid?: string;
+  username: string;
   email: number;
-  photoUrl?: string;
+  password?: string;
 }
 
 export interface FetchUserAction {
   type: ActionTypes.fetchUser;
   payload: User | false;
 }
+
+export const login = (user: User) => async (dispatch: Dispatch) => {
+  const response = await axios.post<User>('/login');
+
+  dispatch<FetchUserAction>({
+    type: ActionTypes.fetchUser,
+    payload: response.data
+  });
+};
 
 export const fetchUser = () => async (dispatch: Dispatch) => {
   const response = await axios.get<User>('/user');
@@ -41,7 +50,7 @@ export const editUser = (user: User) => async (dispatch: Dispatch) => {
   });
 };
 
-export const deleteUser = (id: number) => async (dispatch: Dispatch) => {
+export const deleteUser = (uid: number) => async (dispatch: Dispatch) => {
   const response = await axios.delete<User>('/user');
 
   dispatch<FetchUserAction>({
