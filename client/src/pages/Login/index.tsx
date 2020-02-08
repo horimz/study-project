@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { StoreState } from '../../common/reducers';
 import { User, login } from '../../common/actions';
@@ -86,6 +86,13 @@ const _Login: React.FC<LoginProps> = props => {
                 Login
               </button>
             </form>
+
+            <div className='login__redirect'>
+              New to Markery?&nbsp;
+              <Link to='/signup' className='login__redirect__link'>
+                Create an account.
+              </Link>
+            </div>
           </div>
         </div>
       </div>
