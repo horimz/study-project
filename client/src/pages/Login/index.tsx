@@ -12,10 +12,16 @@ interface LoginProps {
 const _Login: React.FC<LoginProps> = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const onSubmit = (e: React.MouseEvent) => {
-    // TODO: add validation
     e.preventDefault();
+
+    // client side validation
+    if (!username || !password) {
+      setError('Please provide a username and password.');
+      return;
+    }
 
     const user = {
       username,
@@ -69,6 +75,9 @@ const _Login: React.FC<LoginProps> = props => {
                   onChange={e => setPassword(e.target.value)}
                 />
               </div>
+
+              <div className='form__errors u-mb-sm'>{error}</div>
+
               <button
                 onClick={e => onSubmit(e)}
                 className='btn btn--primary'
