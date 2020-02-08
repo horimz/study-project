@@ -1,9 +1,7 @@
-package com.markery.server.controllers;
+package com.markery.server.controller;
 
-import com.markery.server.models.entity.User;
-import com.markery.server.models.network.Header;
+import com.markery.server.model.entity.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;

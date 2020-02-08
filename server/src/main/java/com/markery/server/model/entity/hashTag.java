@@ -1,4 +1,4 @@
-package com.markery.server.models.entity;
+package com.markery.server.model.entity;
 
 import javax.persistence.Entity;
 

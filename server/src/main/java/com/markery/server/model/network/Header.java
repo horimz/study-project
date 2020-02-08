@@ -1,4 +1,4 @@
-package com.markery.server.models.network;
+package com.markery.server.model.network;
 
 import lombok.Data;
 
