@@ -1,8 +1,18 @@
 .footer {
   background-color: $color-dark-background-2;
   color: $color-white;
-
+  padding: 5rem 0;
   // DEV
-  min-height: 50vh;
   @include flexCenter;
+
+  &__project-link {
+    font-size: 2rem;
+    color: $color-white;
+    text-decoration: none;
+    transition: all 0.25s ease-out;
+
+    &:hover {
+      color: $color-blue-light-1;
+    }
+  }
 }

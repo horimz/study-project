@@ -6,7 +6,7 @@
   transition: all 0.25s ease-out;
   position: relative;
   font-size: 1.5rem;
-
+  color: $color-black;
   border: none;
   cursor: pointer;
 
@@ -28,6 +28,28 @@
       );
       border: 1px solid rgba($color-grey-light-2, 0.8);
       transition: all 0.25s ease-out;
+    }
+  }
+
+  &--blue {
+    background-color: $color-blue-light-1;
+    color: $color-white;
+    font-size: 2rem;
+
+    &:hover {
+      background-color: darken($color-blue-light-1, 10%);
+    }
+
+    &--inverted {
+      background-color: transparent;
+      color: $color-blue-light-1;
+      border: 1.5px solid $color-blue-light-1;
+      font-size: 2rem;
+
+      &:hover {
+        background-color: $color-blue-light-1;
+        color: $color-white;
+      }
     }
   }
 }

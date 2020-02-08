@@ -2,11 +2,13 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 13rem;
+  height: 12rem;
   z-index: 10;
   transition: all 0.3s ease-in-out;
-
-  @include flexCenter;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 10rem;
 
   &--boxed {
     position: fixed;
@@ -14,10 +16,13 @@
     width: 100%;
     height: 8rem;
     z-index: 10;
-
-    @include flexCenter;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 10rem;
     box-shadow: 0 1rem 3rem rgba($color-black, 0.1);
     transition: all 0.3s ease-in-out;
+    background-color: $color-dark-background-2;
   }
 
   &--hidden {
@@ -26,11 +31,33 @@
     width: 100%;
     height: 8rem;
     z-index: 10;
-
-    @include flexCenter;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0rem 10rem;
     box-shadow: 0 1rem 3rem rgba($color-black, 0.1);
     transform: translateY(-10rem);
     transition: all 0.5s ease-in-out;
+  }
+
+  &__logo {
+    // color: $colors-white;
+  }
+
+  &__right-content {
+    &__link {
+      font-size: 2rem;
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        color: $color-blue-light-1;
+      }
+    }
+
+    &__link:not(:last-child) {
+      margin-right: 2.5rem;
+    }
   }
 }
 

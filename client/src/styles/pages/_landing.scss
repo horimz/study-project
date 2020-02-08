@@ -8,48 +8,112 @@
 
   // DEV
   @include flexCenter;
-  background-color: rgba(blue, 0.3);
+  background-color: rgba(199, 192, 192, 0.452);
 }
 
 .landing-main {
   display: grid;
-  grid-template-areas:
-    'left left right right right right'
-    'bottom bottom bottom bottom bottom bottom';
-  padding: 0 5rem;
 
-  // DEV
-  // min-height: 500vh;
-  // height: 500vh;
+  grid-template-columns: 1fr [start-left] 2fr [end-left] 1fr [start-right] 2fr [end-right] 1fr;
+
+  color: $color-white;
+  background-color: $color-dark-background-1;
 
   &__left {
-    grid-area: left;
-
-    // DEV
-    background-color: rgba(yellow, 0.5);
+    grid-column: 2 / span 1;
 
     &__content {
       position: sticky;
       top: 0;
       min-height: 100vh;
-      @include flexCenter;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &-text {
+        font-size: 1.8rem;
+      }
+
+      &-links {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-link {
+        text-decoration: none;
+        color: $color-grey-light-1;
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+
+        span {
+          margin-right: 2rem;
+        }
+
+        &:hover {
+          font-weight: 600;
+          color: $color-white;
+        }
+      }
     }
   }
 
   &__right {
-    grid-area: right;
-    // DEV
-    @include flexCenter;
-    min-height: 200vh;
-    background-color: rgba(pink, 0.5);
+    grid-column: 4 / span 1;
+    background-color: $color-dark-background-1;
+
+    &__content {
+      @include flexCenter;
+      min-height: 100vh;
+      flex-direction: column;
+
+      &-image {
+        margin-bottom: 5rem;
+        padding: 10rem;
+        border: 1px solid pink;
+      }
+
+      &-header {
+        margin-bottom: 3rem;
+      }
+
+      &-text {
+        font-size: 1.8rem;
+      }
+
+      &:last-child {
+        margin-bottom: 5rem;
+      }
+    }
   }
 
   &__bottom {
-    grid-area: bottom;
+    grid-column: 1 / span 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $color-light-background-2;
+    color: $color-black;
 
-    // DEV
-    @include flexCenter;
-    height: 50vh;
-    background-color: rgba(rgba(82, 182, 140, 0.363), 0.5);
+    &-header {
+      font-size: 3rem;
+      padding-top: 8rem;
+    }
+
+    &-content {
+      padding: 10rem 0;
+      display: flex;
+      width: 80%;
+      justify-content: space-around;
+
+      &__left {
+        padding: 15rem;
+        border: 1px solid black;
+      }
+
+      &__right {
+        color: blue;
+        align-self: center;
+      }
+    }
   }
 }

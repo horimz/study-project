@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 // import { HashLink } from 'react-router-hash-link';
 
 import { MobileNav } from './MobileNav';
@@ -35,15 +36,15 @@ const _Nav: React.FC<NavProps> = props => {
     const currentScrollPos = window.pageYOffset;
 
     if (currentScrollPos < FIXED_NAVBAR_BOXED_START_POINT) {
-      setNavigationClass('navigation');
+      setNavigationClass('navigation black');
     } else {
       if (currentScrollPos < FIXED_NAVBAR_TOP_OFFSET_LIMIT) {
-        setNavigationClass('navigation--boxed');
+        setNavigationClass('navigation--boxed white');
       } else {
         if (prevScrollPos < currentScrollPos) {
-          setNavigationClass('navigation--hidden');
+          setNavigationClass('navigation--hidden white');
         } else {
-          setNavigationClass('navigation--boxed');
+          setNavigationClass('navigation--boxed white');
         }
       }
     }
@@ -56,7 +57,19 @@ const _Nav: React.FC<NavProps> = props => {
 
   if (windowWidth < FIXED_NAVBAR_MAX_WIDTH) return <MobileNav />;
 
-  return <nav className={navigationClass}>Navigation</nav>;
+  return (
+    <nav className={navigationClass}>
+      <div className='navigation__logo'>Logo</div>
+      <div className='navigation__right-content'>
+        <Link to='/login' className='navigation__right-content__link'>
+          Log In
+        </Link>
+        <Link to='/signup' className='navigation__right-content__link'>
+          Sign Up
+        </Link>
+      </div>
+    </nav>
+  );
 };
 
 export const Nav = _Nav;
