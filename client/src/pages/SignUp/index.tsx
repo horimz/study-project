@@ -13,10 +13,15 @@ const _SignUp: React.FC<SingUpProps> = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const onSubmit = (e: React.MouseEvent) => {
-    // TODO: add validation
+  const onSubmit = async (e: React.MouseEvent) => {
     e.preventDefault();
+
+    if (!username || !password || !email) {
+      setError('Please fill out the form.');
+      return;
+    }
 
     const user = {
       email,
@@ -37,8 +42,6 @@ const _SignUp: React.FC<SingUpProps> = props => {
         </div>
 
         <div className='login__box'>
-          {/* <div className='login__logo'>Logo</div> */}
-
           <div className='login__form'>
             <form className='form'>
               <div className='u-mb-sm'>
@@ -81,9 +84,13 @@ const _SignUp: React.FC<SingUpProps> = props => {
                   id='password'
                   autoComplete='off'
                   value={password}
+                  required
                   onChange={e => setPassword(e.target.value)}
                 />
               </div>
+
+              <div className='form__errors u-mb-sm'>{error}</div>
+
               <button
                 onClick={e => onSubmit(e)}
                 className='btn btn--primary'
