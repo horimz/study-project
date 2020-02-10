@@ -1,4 +1,4 @@
-package com.markery.server;
+package test.java.com.markery.server;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

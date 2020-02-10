@@ -1,4 +1,4 @@
-package com.markery.server.controller;
+package test.java.com.markery.server.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
