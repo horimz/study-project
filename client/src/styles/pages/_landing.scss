@@ -96,11 +96,11 @@
 
     &-header {
       font-size: 3rem;
-      padding-top: 8rem;
+      padding-top: 5rem;
     }
 
     &-content {
-      padding: 10rem 0;
+      padding: 5rem 0;
       display: flex;
       width: 80%;
       justify-content: space-around;
@@ -113,6 +113,8 @@
       &__right {
         color: blue;
         align-self: center;
+        border: 1px solid black;
+        padding: 15rem;
       }
     }
   }

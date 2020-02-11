@@ -37,14 +37,18 @@
     flex: 1 1;
     display: flex;
     flex-direction: column;
-    padding: 3.5rem 3rem;
+    padding: 0 3.5rem;
 
     &-top {
       display: flex;
-      height: 10vh;
+      padding: 5rem 0 3rem;
       justify-content: space-between;
-      border-bottom: 1px solid $color-grey-light-2;
       flex-direction: row;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: $color-white;
+      border-bottom: 1px solid black;
 
       &__left {
       }
@@ -95,20 +99,41 @@
 
     &-bottom {
       display: flex;
-      padding: 1rem;
+      padding-bottom: 5rem;
 
       &__left {
         flex: 1 1;
-        height: 300vh;
+        height: 500vh;
+        margin-right: 3.5rem;
+        margin-top: 3rem;
+        background-color: rgba($color-light-background-1, 0.1);
+        border: 1px solid black;
+        padding: 1rem 2rem;
       }
 
       &__right {
         flex-shrink: 0;
-        width: 200px;
+        width: 250px;
         border: 1px solid black;
         padding: 2rem;
-        top: 0;
-        height: 80vh;
+        right: 100px;
+        position: sticky;
+        top: 17vh;
+      }
+
+      &__create-link {
+        font-size: 2rem;
+      }
+
+      &__create-folder {
+        font-size: 2rem;
+        cursor: pointer;
+        color: $color-blue-light-2;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+          color: lighten($color-blue-light-2, 20%);
+        }
       }
     }
   }

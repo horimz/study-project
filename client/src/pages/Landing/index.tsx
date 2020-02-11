@@ -25,7 +25,10 @@ const _Landing: React.FC<LandingProps> = props => {
     };
   });
 
-  const handleScroll = (): void => setScrollPos(window.pageYOffset);
+  const handleScroll = (): void => {
+    console.log(window.pageYOffset);
+    setScrollPos(window.pageYOffset);
+  };
 
   return (
     <div className='landing'>
@@ -48,7 +51,7 @@ const _Landing: React.FC<LandingProps> = props => {
                 to='/#content-1'
                 className='landing-main__left__content-link'
                 style={
-                  501 <= scrollPos && scrollPos < 1336
+                  501 <= scrollPos && scrollPos < 1330
                     ? { fontWeight: 600, color: '#fff' }
                     : {}
                 }
@@ -60,7 +63,7 @@ const _Landing: React.FC<LandingProps> = props => {
                 to='/#content-2'
                 className='landing-main__left__content-link'
                 style={
-                  1336 <= scrollPos && scrollPos < 2171
+                  1330 <= scrollPos && scrollPos < 2160
                     ? { fontWeight: 600, color: '#fff' }
                     : {}
                 }
@@ -72,9 +75,7 @@ const _Landing: React.FC<LandingProps> = props => {
                 to='/#content-3'
                 className='landing-main__left__content-link'
                 style={
-                  2171 <= scrollPos && scrollPos < 3000
-                    ? { fontWeight: 600, color: '#fff' }
-                    : {}
+                  2160 <= scrollPos ? { fontWeight: 600, color: '#fff' } : {}
                 }
               >
                 <span>01</span>Content 3

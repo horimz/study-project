@@ -30,8 +30,24 @@
   margin-top: 8rem !important;
 }
 
-.open {
-  display: block !important;
+.u-mr-tiny {
+  margin-right: 1rem !important;
+}
+
+.u-mr-sm {
+  margin-right: 2rem !important;
+}
+
+.u-mr-md {
+  margin-right: 3rem !important;
+}
+
+.u-mr-lg {
+  margin-right: 4rem !important;
+}
+
+.u-mr-hg {
+  margin-right: 8rem !important;
 }
 
 .white {
@@ -40,4 +56,8 @@
 
 .black {
   color: $color-black !important;
+}
+
+.stretch {
+  width: 100% !important;
 }
