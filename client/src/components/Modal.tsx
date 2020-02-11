@@ -8,7 +8,7 @@ interface ModalProps {
 }
 
 const _handleModal = (action: string) => {
-  const backdrop = document.querySelector('.backdrop');
+  const backdrop = document.querySelector('.backdrop-modal');
   const modal = document.querySelector('.modal');
   const body = document.body;
 
@@ -26,7 +26,7 @@ const _handleModal = (action: string) => {
 };
 
 const _openModal = () => {
-  const backdrop = document.querySelector('.backdrop');
+  const backdrop = document.querySelector('.backdrop-modal');
   const modal = document.querySelector('.modal');
   const body = document.body;
 
@@ -38,7 +38,7 @@ const _openModal = () => {
 };
 
 const _closeModal = () => {
-  const backdrop = document.querySelector('.backdrop');
+  const backdrop = document.querySelector('.backdrop-modal');
   const modal = document.querySelector('.modal');
   const body = document.body;
 
@@ -52,7 +52,7 @@ const _closeModal = () => {
 const _Modal: React.FC<ModalProps> = props => {
   return (
     <div>
-      <div onClick={props.onClose} className='backdrop'></div>
+      <div onClick={props.onClose} className='backdrop-modal'></div>
 
       <div className='modal'>
         <div className='modal__title'>{props.title}</div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
+import { Dropdown } from '../../components/Dropdown';
 import { Modal, openModal, closeModal } from '../../components/Modal';
 
 const _Main: React.FC = () => {
@@ -59,6 +60,23 @@ const _Main: React.FC = () => {
     </div>
   );
 
+  const toggler = (
+    <div className='main-content__content-top__right-image'></div>
+  );
+
+  const profileContent = (
+    <div>
+      <div className='dropdown__item'>username</div>
+      <div className='dropdown__item'>Settings</div>
+      <div className='dropdown__item'>Share</div>
+      <div className='dropdown__item'>
+        <Link to='/' className='link'>
+          Log out
+        </Link>
+      </div>
+    </div>
+  );
+
   return (
     <div className='main-content'>
       <Modal
@@ -88,10 +106,11 @@ const _Main: React.FC = () => {
               />
             </div>
             <div className='main-content__content-top__right-profile'>
-              <div className='main-content__content-top__right-image'></div>
+              <Dropdown toggler={toggler} content={profileContent} />
             </div>
           </div>
         </div>
+
         <div className='main-content__content-bottom'>
           <div className='main-content__content-bottom__left'>
             folder content (urls, sub dir), scrollable

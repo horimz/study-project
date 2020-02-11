@@ -51,7 +51,7 @@
   }
 }
 
-.backdrop {
+.backdrop-modal {
   display: none;
   position: fixed;
   top: 0;
@@ -60,8 +60,4 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba($color-black, 0.35);
-}
-
-.open {
-  display: block !important;
 }
