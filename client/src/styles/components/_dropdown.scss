@@ -26,6 +26,10 @@
     font-size: 1.8rem;
     padding: 1rem 1.5rem;
 
+    &:first-child {
+      background-color: $color-light-background-2;
+    }
+
     &:not(:first-child) {
       font-size: 1.9rem;
       cursor: pointer;

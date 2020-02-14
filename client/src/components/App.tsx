@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+// redux
 import { connect } from 'react-redux';
 import { StoreState } from '../common/reducers';
 import { IUser, fetchUser } from '../common/actions';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // routes
 import { Landing } from '../pages/Landing';

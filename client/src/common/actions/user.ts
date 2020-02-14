@@ -3,9 +3,12 @@ import { Dispatch } from 'redux';
 import { ActionTypes } from './types';
 
 export interface IUser {
+  _id?: string;
   username: string;
   email: string;
   password?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IUserResponse {
@@ -60,7 +63,8 @@ export const fetchUser = () => async (dispatch: Dispatch) => {
   const response = await axios.get<IUserResponse>('/api/user');
 
   const { user: _user } = response.data;
-  console.log('fetched user', _user);
+
+  console.log('current_user', _user);
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,
