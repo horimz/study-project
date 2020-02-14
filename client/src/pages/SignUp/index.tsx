@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { StoreState } from '../../common/reducers';
-import { User, addUser } from '../../common/actions';
+import { IUser, addUser } from '../../common/actions';
 
 interface SignUpProps {
-  auth: User | boolean | null;
+  auth: IUser | boolean;
   addUser: Function;
 }
 
@@ -113,9 +113,7 @@ const _SignUp: React.FC<SignUpProps> = props => {
   );
 };
 
-const mapStateToProps = ({
-  auth
-}: StoreState): { auth: User | boolean | null } => {
+const mapStateToProps = ({ auth }: StoreState): { auth: any } => {
   return { auth };
 };
 

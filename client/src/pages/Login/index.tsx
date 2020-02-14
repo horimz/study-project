@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { StoreState } from '../../common/reducers';
-import { User, login } from '../../common/actions';
+import { IUser, login } from '../../common/actions';
 
 interface LoginProps {
-  auth: User | boolean | null;
+  auth: IUser | boolean;
   login: Function;
 }
 
 const _Login: React.FC<LoginProps> = props => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
@@ -18,13 +18,13 @@ const _Login: React.FC<LoginProps> = props => {
     e.preventDefault();
 
     // client side validation
-    if (!username || !password) {
+    if (!email || !password) {
       setError('Please provide a username and password.');
       return;
     }
 
     const user = {
-      username,
+      email,
       password
     };
 
@@ -50,15 +50,15 @@ const _Login: React.FC<LoginProps> = props => {
               </div>
 
               <div className='form__group'>
-                <label htmlFor='username' className='form__label'>
-                  Username
+                <label htmlFor='email' className='form__label'>
+                  Email
                 </label>
                 <input
                   type='text'
                   className='form__input'
-                  id='username'
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
+                  id='email'
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                 ></input>
               </div>
 
@@ -100,9 +100,7 @@ const _Login: React.FC<LoginProps> = props => {
   );
 };
 
-const mapStateToProps = ({
-  auth
-}: StoreState): { auth: User | boolean | null } => {
+const mapStateToProps = ({ auth }: StoreState): { auth: any } => {
   return { auth };
 };
 

@@ -2,47 +2,90 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ActionTypes } from './types';
 
-export interface User {
-  uid?: string;
+export interface IUser {
   username: string;
-  email: number;
+  email: string;
   password?: string;
+}
+
+export interface IUserResponse {
+  user: IUser;
+  token: string;
 }
 
 export interface FetchUserAction {
   type: ActionTypes.fetchUser;
-  payload: User | false;
+  payload: any; // TODO: fix typedef
 }
 
-export const login = (user: User) => async (dispatch: Dispatch) => {
-  const response = await axios.post<User>('/login');
+export const login = (user: IUser) => async (dispatch: Dispatch) => {
+  const response = await axios.post<IUserResponse>('/api/login', user);
+
+  const { user: _user, token } = response.data;
+  localStorage.setItem('authToken', token);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,
-    payload: response.data
+    payload: _user
   });
+};
+
+export const logout = () => async (dispatch: Dispatch) => {
+  const response = await axios.post('/api/logout');
+
+  if (response.status === 200) {
+    localStorage.removeItem('authToken');
+
+    dispatch<FetchUserAction>({
+      type: ActionTypes.fetchUser,
+      payload: false
+    });
+  }
 };
 
 export const fetchUser = () => async (dispatch: Dispatch) => {
-  const response = await axios.get<User>('/user');
+  const token = localStorage.getItem('authToken') || false;
+
+  if (!token) {
+    dispatch<FetchUserAction>({
+      type: ActionTypes.fetchUser,
+      payload: false
+    });
+
+    return;
+  }
+
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  const response = await axios.get<IUserResponse>('/api/user');
+
+  const { user: _user } = response.data;
+  console.log('fetched user', _user);
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,
-    payload: response.data
+    payload: _user
   });
 };
 
-export const addUser = (user: User) => async (dispatch: Dispatch) => {
-  const response = await axios.post<User>('/user', user);
+export const addUser = (user: IUser) => async (dispatch: Dispatch) => {
+  const response = await axios.post<IUserResponse>('/api/user', user);
+
+  const { user: _user, token } = response.data;
+
+  localStorage.setItem('authToken', token);
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,
-    payload: response.data
+    payload: _user
   });
 };
 
-export const editUser = (user: User) => async (dispatch: Dispatch) => {
-  const response = await axios.patch<User>('/user');
+// TODO: update editUser, deleteUser, subscribe
+
+export const editUser = (user: IUser) => async (dispatch: Dispatch) => {
+  const response = await axios.patch<IUserResponse>('/api/user', user);
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,
@@ -51,7 +94,7 @@ export const editUser = (user: User) => async (dispatch: Dispatch) => {
 };
 
 export const deleteUser = (uid: number) => async (dispatch: Dispatch) => {
-  const response = await axios.delete<User>('/user');
+  const response = await axios.delete<IUserResponse>(`/api/user/${uid}`);
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,
@@ -63,7 +106,7 @@ export const subscribe = (
   subscribersId: number,
   subscribesTo: number
 ) => async (dispatch: Dispatch) => {
-  const response = await axios.patch<User>('/user');
+  const response = await axios.patch<IUserResponse>('/api/user');
 
   dispatch<FetchUserAction>({
     type: ActionTypes.fetchUser,

@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { StoreState } from '../../common/reducers';
+import { logout } from '../../common/actions';
+import { Redirect } from 'react-router-dom';
 import { Dropdown } from '../../components/Dropdown';
 import { Modal, openModal, closeModal } from '../../components/Modal';
 
-const _Main: React.FC = () => {
+interface MainProps {
+  auth: any;
+  logout: Function;
+}
+
+const _Main: React.FC<MainProps> = props => {
   const [modalTitle, setModalTitle] = useState('');
   const [placeholder, setPlaceholder] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -66,16 +74,16 @@ const _Main: React.FC = () => {
 
   const profileContent = (
     <div>
-      <div className='dropdown__item'>username</div>
+      <div className='dropdown__item'>{props.auth.username}</div>
       <div className='dropdown__item'>Settings</div>
       <div className='dropdown__item'>Share</div>
-      <div className='dropdown__item'>
-        <Link to='/' className='link'>
-          Log out
-        </Link>
+      <div className='dropdown__item' onClick={() => props.logout()}>
+        Log out
       </div>
     </div>
   );
+
+  if (props.auth === false) return <Redirect to='/' />;
 
   return (
     <div className='main-content'>
@@ -153,4 +161,8 @@ const _Main: React.FC = () => {
   );
 };
 
-export const Main = _Main;
+const mapStateToProps = ({ auth }: StoreState): { auth: any } => {
+  return { auth };
+};
+
+export const Main = connect(mapStateToProps, { logout })(_Main);

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 
 import { StoreState } from '../../common/reducers';
-import { User, fetchUser } from '../../common/actions';
+import { IUser, fetchUser } from '../../common/actions';
 
 import { Nav } from '../../components/Nav';
 import { Footer } from '../../components/Footer';
 
 interface LandingProps {
-  auth: User | boolean | null;
+  auth: IUser | boolean | null;
   fetchUser: Function;
 }
 
@@ -25,10 +25,9 @@ const _Landing: React.FC<LandingProps> = props => {
     };
   });
 
-  const handleScroll = (): void => {
-    console.log(window.pageYOffset);
-    setScrollPos(window.pageYOffset);
-  };
+  const handleScroll = (): void => setScrollPos(window.pageYOffset);
+
+  if (props.auth) return <Redirect to='/main' />;
 
   return (
     <div className='landing'>
@@ -141,7 +140,7 @@ const _Landing: React.FC<LandingProps> = props => {
 
 const mapStateToProps = ({
   auth
-}: StoreState): { auth: User | boolean | null } => {
+}: StoreState): { auth: IUser | boolean | null } => {
   return { auth };
 };
 

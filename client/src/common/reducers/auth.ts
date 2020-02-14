@@ -1,7 +1,7 @@
-import { User, Action, ActionTypes } from '../actions';
+import { IUser, Action, ActionTypes } from '../actions';
 
 export const authReducer = (
-  state: User | boolean | null = null,
+  state: IUser | boolean | null = null,
   action: Action
 ) => {
   switch (action.type) {
