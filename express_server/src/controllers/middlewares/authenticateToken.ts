@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { keys } from '../../keys';
-import { User, UserInterface } from '../../models/User';
+import { User, IUser } from '../../models/User';
 
 // extend express request interface
 declare global {
   namespace Express {
     export interface Request {
       token: string;
-      user: UserInterface;
+      user: IUser;
     }
   }
 }
@@ -31,7 +31,7 @@ export async function authenticateToken(
       'tokens.token': token
     });
 
-    if (!user) throw new Error();
+    if (!user) throw new Error('Cannot find user.');
 
     req.token = token;
     req.user = user;

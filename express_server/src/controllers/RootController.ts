@@ -4,9 +4,14 @@ import path from 'path';
 
 @controller('')
 export class RootController {
-  @get('/*')
-  getReactCode(req: Request, res: Response): void {
-    // TODO: fix manifest syntax error
-    res.sendFile(path.resolve(__dirname, '../../../client/build/index.html'));
+  @get('/test')
+  test(req: Request, res: Response): void {
+    res.send('Test route.');
   }
+
+  // @get('/*')
+  // getReactCode(req: Request, res: Response): void {
+  //   // TODO: fix manifest syntax error
+  //   res.sendFile(path.resolve(__dirname, '../../../client/build/index.html'));
+  // }
 }

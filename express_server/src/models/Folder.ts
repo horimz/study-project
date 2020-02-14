@@ -1,7 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import { Url } from './Url';
 
-export interface FolderInterface extends Document {
+export interface IFolder extends Document {
   folderName: string;
 }
 
@@ -18,7 +18,12 @@ const folderSchema: Schema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    writeConcern: {
+      w: 'majority',
+      j: true,
+      wtimeout: 1000
+    }
   }
 );
 
@@ -36,4 +41,4 @@ folderSchema.pre('remove', async function(next) {
   next();
 });
 
-export const Folder = mongoose.model<FolderInterface>('Folder', folderSchema);
+export const Folder = mongoose.model<IFolder>('Folder', folderSchema);

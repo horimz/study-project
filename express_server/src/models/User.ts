@@ -1,14 +1,28 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { keys } from '../keys';
 import { Folder } from './Folder';
 
-export interface UserInterface extends Document {
-  username: string;
-  email: string;
-  password: string;
+export interface IToken {
+  token: string;
+}
+
+export interface IUser extends Document {
+  // props
+  username?: string;
+  email?: string;
+  password?: string;
+  tokens?: IToken[];
+
+  // methods
+  generateAuthToken?: Function;
+}
+
+export interface IUserModel extends Model<IUser> {
+  // static methods
+  findByCredentials(email: string, password: string): Document;
 }
 
 const userSchema: Schema = new Schema(
@@ -17,19 +31,19 @@ const userSchema: Schema = new Schema(
       type: String,
       unique: true,
       required: true,
-      trim: true
+      trim: true,
+      minlength: 3
     },
     email: {
       type: String,
       unique: true,
       required: true,
       trim: true,
-      lowercase: true
-      // validate(value) {
-      //   if (!validator.isEmail(value)) {
-      //     throw new Error('Email is invalid');
-      //   }
-      // }
+      lowercase: true,
+      validate(value: string) {
+        if (!validator.isEmail(value)) throw new Error('Email is invalid.');
+        return true;
+      }
     },
     password: {
       type: String,
@@ -50,7 +64,12 @@ const userSchema: Schema = new Schema(
     }
   },
   {
-    timestamps: true // timestamps default value is false if not set
+    timestamps: true, // timestamps default value is false if not set
+    writeConcern: {
+      w: 'majority',
+      j: true,
+      wtimeout: 1000
+    }
   }
 );
 
@@ -81,6 +100,7 @@ userSchema.methods.toJSON = function() {
   const user = this;
   const userObject = user.toObject();
 
+  // hide sensitive data before sending to client side
   delete userObject.password;
   delete userObject.tokens;
   delete userObject.avatar;
@@ -94,16 +114,10 @@ userSchema.statics.findByCredentials = async (
   password: string
 ) => {
   const user = await User.findOne({ email });
-
-  if (!user) {
-    throw new Error('Unable to login');
-  }
+  if (!user || !user.password) throw new Error('Unable to login');
 
   const isMatch = await bcrypt.compare(password, user.password);
-
-  if (!isMatch) {
-    throw new Error('Unable to login');
-  }
+  if (!isMatch) throw new Error('Unable to login');
 
   return user;
 };
@@ -126,4 +140,7 @@ userSchema.pre('remove', async function(next) {
   next();
 });
 
-export const User = mongoose.model<UserInterface>('User', userSchema);
+export const User: IUserModel = mongoose.model<IUser, IUserModel>(
+  'User',
+  userSchema
+);

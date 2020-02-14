@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export interface UrlInterface extends Document {
+export interface IUrl extends Document {
   url: string;
   description: string;
 }
@@ -23,8 +23,13 @@ const urlSchema: Schema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true,
+    writeConcern: {
+      w: 'majority',
+      j: true,
+      wtimeout: 1000
+    }
   }
 );
 
-export const Url = mongoose.model<UrlInterface>('Url', urlSchema);
+export const Url = mongoose.model<IUrl>('Url', urlSchema);
