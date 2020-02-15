@@ -59,17 +59,26 @@ export const fetchUser = () => async (dispatch: Dispatch) => {
     return;
   }
 
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  const response = await axios.get<IUserResponse>('/api/user');
+  try {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const response = await axios.get<IUserResponse>('/api/user');
 
-  const { user: _user } = response.data;
+    const { user: _user } = response.data;
 
-  console.log('current_user', _user);
+    console.log('current_user', _user);
 
-  dispatch<FetchUserAction>({
-    type: ActionTypes.fetchUser,
-    payload: _user
-  });
+    dispatch<FetchUserAction>({
+      type: ActionTypes.fetchUser,
+      payload: _user
+    });
+  } catch (e) {
+    localStorage.removeItem('authToken');
+
+    dispatch<FetchUserAction>({
+      type: ActionTypes.fetchUser,
+      payload: false
+    });
+  }
 };
 
 export const addUser = (user: IUser) => async (dispatch: Dispatch) => {

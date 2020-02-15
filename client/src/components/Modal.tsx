@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 interface ModalProps {
   title: string;
@@ -28,17 +29,23 @@ const _closeModal = () => {
 };
 
 const _Modal: React.FC<ModalProps> = props => {
-  return (
+  const { title, body, actions, onClose } = props;
+
+  const modalContent = (
     <div>
-      <div onClick={props.onClose} className='backdrop-modal'></div>
+      <div onClick={onClose} className='backdrop-modal'></div>
 
       <div className='modal'>
-        <div className='modal__title'>{props.title}</div>
-        <div className='modal__body'>{props.body}</div>
-        <div className='modal__actions'>{props.actions}</div>
+        <div className='modal__title'>{title}</div>
+        <div className='modal__body'>{body}</div>
+        <div className='modal__actions'>{actions}</div>
       </div>
     </div>
   );
+
+  const portal = document.querySelector('.portal');
+  if (portal) return ReactDOM.createPortal(modalContent, portal);
+  else throw new Error('Create a modal element under root.');
 };
 
 export const Modal = _Modal;
