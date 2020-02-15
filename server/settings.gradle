@@ -1,1 +1,5 @@
 rootProject.name = 'server'
+
+include 'markery-common'
+include 'markery-auth-api'
+include 'markery-user-api'
