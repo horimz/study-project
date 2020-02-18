@@ -101,7 +101,7 @@ const _LeftBar: React.FC<LeftBarProps> = props => {
       </div>
       <div className='main-content__left-bar__bottom'>
         <button onClick={openModal} className='btn btn--blue'>
-          Add new folder
+          Add folder
         </button>
       </div>
     </div>

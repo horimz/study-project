@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { LeftBar } from './LeftBar';
 import { Contents } from './Contents';
 import { AppProvider } from '../../context';
+import { Spinner } from '../../components/Spinner';
 
 interface MainProps {
   auth: IUser | boolean;
@@ -24,7 +25,7 @@ const _Main: React.FC<MainProps> = props => {
   if (folders === null)
     return (
       <div className='flex-center' style={{ height: '100vh' }}>
-        Fetching folders.
+        <Spinner />
       </div>
     );
 

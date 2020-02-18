@@ -6,6 +6,7 @@ import { addFolder } from '../../../common/actions';
 import { AppContext } from '../../../context';
 import { Modal } from '../../../components/Modal';
 import { BottomModifier } from './BottomModifier';
+import { Spinner } from '../../../components/Spinner';
 
 interface MainContentProps {
   contents: any;
@@ -187,7 +188,7 @@ const _MainContent: React.FC<MainContentProps> = props => {
   if (contents === null)
     return (
       <div className='main-content__content-bottom__left flex-center'>
-        Fetching contents
+        <Spinner />
       </div>
     );
 
