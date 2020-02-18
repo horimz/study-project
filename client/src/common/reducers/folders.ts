@@ -1,7 +1,7 @@
-import { Folders, Action, ActionTypes } from '../actions';
+import { IFolder, Action, ActionTypes } from '../actions';
 
 export const foldersReducer = (
-  state: Folders | null = null,
+  state: IFolder[] | null = null,
   action: Action
 ) => {
   switch (action.type) {

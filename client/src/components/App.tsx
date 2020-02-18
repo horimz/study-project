@@ -23,11 +23,18 @@ interface AppProps {
 }
 
 const _App: React.FC<AppProps> = props => {
-  useEffect(() => {
-    props.fetchUser();
-  }, []); //TODO: fix warning
+  const { auth, fetchUser } = props;
 
-  if (props.auth === null) return <div>Loading...</div>;
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  if (auth === null)
+    return (
+      <div className='flex-center' style={{ height: '100vh' }}>
+        Fetching current user.
+      </div>
+    );
 
   return (
     <Router>

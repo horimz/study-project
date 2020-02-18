@@ -1,16 +1,16 @@
 import { FetchUserAction } from './user';
-import { FetchFolderAction, FetchFoldersAction } from './folders';
+import { FetchFolderContentsAction, FetchFoldersAction } from './folders';
 import { FetchUrlsAction } from './urls';
 
 export enum ActionTypes {
   fetchUser,
   fetchFolders,
-  fetchFolder,
+  fetchFolderContents,
   fetchUrls
 }
 
 export type Action =
   | FetchUserAction
-  | FetchFolderAction
   | FetchFoldersAction
+  | FetchFolderContentsAction
   | FetchUrlsAction;

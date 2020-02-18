@@ -56,6 +56,27 @@
     }
   }
 
+  &--negative {
+    background-color: $color-error;
+    color: $color-white;
+    outline: none;
+
+    &:hover {
+      background-color: lighten($color-error, 10%);
+    }
+
+    &--inverted {
+      background-color: transparent;
+      color: $color-grey-light-2;
+      border: 1px solid $color-grey-light-2;
+
+      &:hover {
+        border: 1px solid $color-error;
+        color: $color-error;
+      }
+    }
+  }
+
   &--blue {
     background-color: $color-blue-light-2;
     color: $color-white;
@@ -78,8 +99,16 @@
   }
 }
 
+.tiny {
+  padding: 1rem 1.5rem !important;
+}
+
 .small {
   padding: 1rem 2.5rem !important;
+}
+
+.fill {
+  height: 100%;
 }
 
 .big {

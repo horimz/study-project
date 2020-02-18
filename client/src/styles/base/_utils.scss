@@ -66,7 +66,54 @@
   display: block !important;
 }
 
+.hide {
+  display: none !important;
+}
+
 .link {
   text-decoration: none;
   color: $color-black;
+  width: 100%;
+}
+
+.active {
+  background-color: darken($color-light-background-1, 10%) !important;
+  pointer-events: none !important;
+}
+
+.flex-center {
+  @include flexCenter;
+}
+
+.checkbox-hidden {
+  display: none;
+
+  &:checked + .checkbox-label {
+    background-color: rgba($color-blue-light-2, 0.8);
+    // background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/32px-White_check.svg.png')
+    //   0px center no-repeat;
+  }
+
+  &:checked ~ div {
+    background-color: rgba($color-blue-light-2, 0.1);
+  }
+}
+
+.checkbox-label {
+  margin-right: 1rem;
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 5px;
+  border: 1px solid $color-white;
+  transform: translateY(15px);
+  cursor: pointer;
+
+  &:hover ~ div {
+    color: $color-blue-light-2;
+  }
+}
+
+.show-checkbox-border {
+  border: 1px solid rgba($color-grey-light-2, 0.7);
 }

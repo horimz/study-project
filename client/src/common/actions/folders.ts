@@ -1,37 +1,47 @@
 import axios from 'axios';
 import { Dispatch } from 'redux';
 import { ActionTypes } from './types';
+import { IUrl } from './urls';
 
-export interface Folder {
-  id: string;
-  name: string;
+export interface IFolder {
+  _id?: string;
+  folderName: string;
+  owner?: string;
 }
 
-export interface Folders {
-  folders: Folder[];
-}
-
-export interface FetchFolderAction {
-  type: ActionTypes.fetchFolder;
-  payload: Folder;
+export interface IFolderContents {
+  folders: IFolder[];
+  urls: IUrl[];
 }
 
 export interface FetchFoldersAction {
   type: ActionTypes.fetchFolders;
-  payload: Folders;
+  payload: IFolder[];
 }
 
-export const fetchFolder = (id: number) => async (dispatch: Dispatch) => {
-  const response = await axios.get<Folder>('/folder');
+export interface FetchFolderContentsAction {
+  type: ActionTypes.fetchFolderContents;
+  payload: IFolderContents | null;
+}
 
-  dispatch<FetchFolderAction>({
-    type: ActionTypes.fetchFolder,
+export const fetchFolderContent = (folderId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
+    payload: null
+  });
+
+  const response = await axios.get<IFolderContents>(`/api/folder/${folderId}`);
+
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
     payload: response.data
   });
 };
 
 export const fetchFolders = () => async (dispatch: Dispatch) => {
-  const response = await axios.get<Folders>('/folders');
+  const response = await axios.get<IFolder[]>('/api/folders');
 
   dispatch<FetchFoldersAction>({
     type: ActionTypes.fetchFolders,
@@ -39,8 +49,10 @@ export const fetchFolders = () => async (dispatch: Dispatch) => {
   });
 };
 
-export const addFolder = (folder: Folder) => async (dispatch: Dispatch) => {
-  const response = await axios.post<Folders>('/folders');
+export const addFolder = (folderName: string) => async (dispatch: Dispatch) => {
+  const folder = { folderName };
+
+  const response = await axios.post<IFolder[]>('/api/folder', folder);
 
   dispatch<FetchFoldersAction>({
     type: ActionTypes.fetchFolders,
@@ -48,8 +60,39 @@ export const addFolder = (folder: Folder) => async (dispatch: Dispatch) => {
   });
 };
 
-export const editFolder = (folder: Folder) => async (dispatch: Dispatch) => {
-  const response = await axios.patch<Folders>('/folders');
+export const addSubFolder = (folderName: string, folderId: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
+    payload: null
+  });
+
+  const folder = { folderName };
+
+  const response = await axios.post<IFolderContents>(
+    `/api/folder/${folderId}`,
+    folder
+  );
+
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
+    payload: response.data
+  });
+};
+
+export const editFolder = (folder: {
+  folderName: string;
+  folderId: string;
+}) => async (dispatch: Dispatch) => {
+  const _folder = {
+    folderName: folder.folderName
+  };
+
+  const response = await axios.patch<IFolder[]>(
+    `/api/folder/${folder.folderId}`,
+    _folder
+  );
 
   dispatch<FetchFoldersAction>({
     type: ActionTypes.fetchFolders,
@@ -57,11 +100,21 @@ export const editFolder = (folder: Folder) => async (dispatch: Dispatch) => {
   });
 };
 
-export const deleteFolder = (id: number) => async (dispatch: Dispatch) => {
-  const response = await axios.delete<Folders>('/folders');
+export const deleteFolder = (id: string) => async (dispatch: Dispatch) => {
+  const response = await axios.delete<IFolder[]>(`/api/folder/${id}`);
 
   dispatch<FetchFoldersAction>({
     type: ActionTypes.fetchFolders,
     payload: response.data
+  });
+};
+
+// update content after update and delete
+export const updateContent = (updatedContents: IFolderContents) => (
+  dispatch: Dispatch
+) => {
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
+    payload: updatedContents
   });
 };

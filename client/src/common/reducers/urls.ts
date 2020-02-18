@@ -1,6 +1,6 @@
-import { Urls, Action, ActionTypes } from '../actions';
+import { IUrl, Action, ActionTypes } from '../actions';
 
-export const urlsReducer = (state: Urls | null = null, action: Action) => {
+export const urlsReducer = (state: IUrl[] | null = null, action: Action) => {
   switch (action.type) {
     case ActionTypes.fetchUrls:
       return action.payload;

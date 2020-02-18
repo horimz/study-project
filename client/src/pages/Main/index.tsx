@@ -1,29 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { StoreState } from '../../common/reducers';
-import { IUser, logout } from '../../common/actions';
+import { IUser, fetchFolders, IFolder } from '../../common/actions';
 import { Redirect } from 'react-router-dom';
 import { LeftBar } from './LeftBar';
 import { Contents } from './Contents';
+import { AppProvider } from '../../context';
 
 interface MainProps {
   auth: IUser | boolean;
-  logout: Function;
+  folders: IFolder[] | null;
+  fetchFolders: Function;
 }
 
 const _Main: React.FC<MainProps> = props => {
-  if (props.auth === false) return <Redirect to='/' />;
+  const { auth, fetchFolders, folders } = props;
+
+  useEffect(() => {
+    fetchFolders();
+  }, [fetchFolders]);
+
+  if (auth === false) return <Redirect to='/' />;
+  if (folders === null)
+    return (
+      <div className='flex-center' style={{ height: '100vh' }}>
+        Fetching folders.
+      </div>
+    );
 
   return (
-    <div className='main-content'>
-      <LeftBar />
-      <Contents />
-    </div>
+    <AppProvider>
+      <div className='main-content'>
+        <LeftBar />
+        <div className='main-content__pusher'></div>
+        <Contents />
+      </div>
+    </AppProvider>
   );
 };
 
-const mapStateToProps = ({ auth }: StoreState): { auth: any } => {
-  return { auth };
+const mapStateToProps = ({
+  auth,
+  folders
+}: StoreState): { auth: IUser | boolean; folders: IFolder[] | null } => {
+  return { auth, folders };
 };
 
-export const Main = connect(mapStateToProps, { logout })(_Main);
+export const Main = connect(mapStateToProps, { fetchFolders })(_Main);

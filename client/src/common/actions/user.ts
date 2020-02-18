@@ -18,7 +18,7 @@ export interface IUserResponse {
 
 export interface FetchUserAction {
   type: ActionTypes.fetchUser;
-  payload: any; // TODO: fix typedef
+  payload: IUser | boolean;
 }
 
 export const login = (user: IUser) => async (dispatch: Dispatch) => {
@@ -97,32 +97,32 @@ export const addUser = (user: IUser) => async (dispatch: Dispatch) => {
 
 // TODO: update editUser, deleteUser, subscribe
 
-export const editUser = (user: IUser) => async (dispatch: Dispatch) => {
-  const response = await axios.patch<IUserResponse>('/api/user', user);
+// export const editUser = (user: IUser) => async (dispatch: Dispatch) => {
+//   const response = await axios.patch<IUserResponse>('/api/user', user);
 
-  dispatch<FetchUserAction>({
-    type: ActionTypes.fetchUser,
-    payload: response.data
-  });
-};
+//   dispatch<FetchUserAction>({
+//     type: ActionTypes.fetchUser,
+//     payload: response.data
+//   });
+// };
 
-export const deleteUser = (uid: number) => async (dispatch: Dispatch) => {
-  const response = await axios.delete<IUserResponse>(`/api/user/${uid}`);
+// export const deleteUser = (uid: number) => async (dispatch: Dispatch) => {
+//   const response = await axios.delete<IUserResponse>(`/api/user/${uid}`);
 
-  dispatch<FetchUserAction>({
-    type: ActionTypes.fetchUser,
-    payload: response.data
-  });
-};
+//   dispatch<FetchUserAction>({
+//     type: ActionTypes.fetchUser,
+//     payload: response.data
+//   });
+// };
 
-export const subscribe = (
-  subscribersId: number,
-  subscribesTo: number
-) => async (dispatch: Dispatch) => {
-  const response = await axios.patch<IUserResponse>('/api/user');
+// export const subscribe = (
+//   subscribersId: number,
+//   subscribesTo: number
+// ) => async (dispatch: Dispatch) => {
+//   const response = await axios.patch<IUserResponse>('/api/user');
 
-  dispatch<FetchUserAction>({
-    type: ActionTypes.fetchUser,
-    payload: response.data
-  });
-};
+//   dispatch<FetchUserAction>({
+//     type: ActionTypes.fetchUser,
+//     payload: response.data
+//   });
+// };

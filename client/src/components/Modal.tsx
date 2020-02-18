@@ -1,53 +1,70 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
+import './Modal.scss';
 
-interface ModalProps {
-  title: string;
+type ModalProps = {
+  open: boolean;
+  title: any;
   body: any;
   actions: any;
-  onClose: any;
-}
-
-const _openModal = () => {
-  const backdrop = document.querySelector('.backdrop-modal');
-  const modal = document.querySelector('.modal');
-  const body = document.body;
-
-  backdrop?.classList.add('open');
-  modal?.classList.add('open');
-  body.style.overflow = 'hidden'; // hide scroll bar
+  onClose: Function;
+  centerTitle?: boolean;
+  size?: string; // tiny small medium large huge
 };
 
-const _closeModal = () => {
-  const backdrop = document.querySelector('.backdrop-modal');
-  const modal = document.querySelector('.modal');
-  const body = document.body;
-
-  backdrop?.classList.remove('open');
-  modal?.classList.remove('open');
-  body.style.overflow = 'visible';
+const setModalWidth = (size: string | undefined) => {
+  if (size === undefined) return '500px'; // default modal width
+  switch (size) {
+    case 'tiny':
+      return '200px';
+    case 'small':
+      return '300px';
+    case 'medium':
+      return '400px';
+    case 'large':
+      return '700px';
+    case 'huge':
+      return '800px';
+    default:
+      throw new Error('Invalid size value.');
+  }
 };
+
+const modalRoot = document.getElementById('modal-root');
 
 const _Modal: React.FC<ModalProps> = props => {
-  const { title, body, actions, onClose } = props;
+  const { open, title, body, actions, onClose, centerTitle, size } = props;
 
-  const modalContent = (
-    <div>
-      <div onClick={onClose} className='backdrop-modal'></div>
+  const close = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onClose();
+  };
 
-      <div className='modal'>
-        <div className='modal__title'>{title}</div>
+  const backdropClasses = classNames('backdrop-modal', { open: open });
+  const modalBoxClasses = classNames('modal__box', { open: open });
+  const modalTitleClasses = classNames('modal__title', {
+    'flex-center': centerTitle
+  });
+
+  const modal = (
+    <React.Fragment>
+      <div className={backdropClasses} onClick={close}></div>
+
+      <div
+        className={modalBoxClasses}
+        style={{ minWidth: setModalWidth(size) }}
+      >
+        <div className={modalTitleClasses}>{title}</div>
         <div className='modal__body'>{body}</div>
         <div className='modal__actions'>{actions}</div>
       </div>
-    </div>
+    </React.Fragment>
   );
 
-  const portal = document.querySelector('.portal');
-  if (portal) return ReactDOM.createPortal(modalContent, portal);
-  else throw new Error('Create a modal element under root.');
+  if (!modalRoot) throw new Error();
+
+  return ReactDOM.createPortal(modal, modalRoot);
 };
 
 export const Modal = _Modal;
-export const openModal = _openModal;
-export const closeModal = _closeModal;
