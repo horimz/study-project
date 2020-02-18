@@ -14,16 +14,19 @@ import { Url } from '../models/Url';
 
 @controller('/api')
 export class ContentController {
-  @post('/contents')
+  @post('/contents/:id')
   @bodyValidator('folders', 'urls')
   @use(authenticateToken)
   async postSubFolder(req: Request, res: Response): Promise<void> {
     const { folders, urls } = req.body;
+    const { id: folderId } = req.params;
 
     try {
-      Folder.deleteFolders(folders);
-      Url.deleteUrls(urls);
-      res.send();
+      await Folder.deleteFolders(folders);
+      await Url.deleteUrls(urls);
+
+      const contents = await Folder.findAllContent(folderId);
+      res.send(contents);
     } catch (e) {
       res.status(500).send({ error: 'Failed to delete contets.' });
     }

@@ -61,7 +61,7 @@ folderSchema.statics.deleteFolders = async (folders: { _id: string }[]) => {
   for (const folder of folders) {
     const folderToDelete = await Folder.findOne({ _id: folder._id });
     if (!folderToDelete) throw new Error('Failed to find folder document.');
-    folderToDelete.remove();
+    await folderToDelete.remove();
   }
 };
 
