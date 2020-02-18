@@ -88,8 +88,8 @@
     &--inverted {
       background-color: transparent;
       color: $color-blue-light-2;
-      border: 1.5px solid $color-blue-light-2;
-      font-weight: 500;
+      border: 1.3px solid $color-blue-light-2;
+      font-weight: 400;
       font-size: 2rem;
       &:hover {
         background-color: $color-blue-light-2;
@@ -111,8 +111,12 @@
   height: 100%;
 }
 
-.big {
+.large {
   padding: 2rem 5rem !important;
+}
+
+.huge {
+  padding: 5rem 10rem !important;
 }
 
 .disabled {

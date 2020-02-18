@@ -29,9 +29,9 @@ const _LeftBar: React.FC<LeftBarProps> = props => {
   }, []);
 
   const onCreate = async () => {
+    closeModal();
     await addFolder(inputValue);
     setToMostCurrentFolder();
-    closeModal();
   };
 
   const onChange = useCallback(
@@ -70,7 +70,7 @@ const _LeftBar: React.FC<LeftBarProps> = props => {
   const renderFolders = () =>
     folders.map((folder: IFolder) => (
       <div
-        key={folder._id}
+        key={folder._id ? folder._id : folder.folderName}
         className={classNames('main-content__left-bar__content', {
           active: selectedFolderId === folder._id
         })}
@@ -95,14 +95,20 @@ const _LeftBar: React.FC<LeftBarProps> = props => {
 
       <div className='main-content__left-bar__top'>
         <div className='main-content__left-bar__logo'>logo</div>
-        <div className='main-content__left-bar__contents'>
+        <div
+          className={classNames('main-content__left-bar__contents', {
+            'flex-center': folders.length === 0
+          })}
+        >
           {renderFolders()}
         </div>
       </div>
       <div className='main-content__left-bar__bottom'>
-        <button onClick={openModal} className='btn btn--blue'>
-          Add folder
-        </button>
+        {folders.length === 0 ? null : (
+          <button onClick={openModal} className='btn btn--blue'>
+            Add folder
+          </button>
+        )}
       </div>
     </div>
   );

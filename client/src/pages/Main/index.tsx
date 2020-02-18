@@ -32,8 +32,13 @@ const _Main: React.FC<MainProps> = props => {
   return (
     <AppProvider>
       <div className='main-content'>
-        <LeftBar />
-        <div className='main-content__pusher'></div>
+        {folders.length !== 0 ? (
+          <React.Fragment>
+            <LeftBar />
+            <div className='main-content__pusher'></div>
+          </React.Fragment>
+        ) : null}
+
         <Contents />
       </div>
     </AppProvider>
