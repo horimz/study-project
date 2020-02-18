@@ -78,6 +78,7 @@ const _LeftBar: React.FC<LeftBarProps> = props => {
           setSelectedFolder(folder.folderName, folder._id);
         }}
       >
+        <span className='icon folder small u-mr-tiny'></span>
         {folder.folderName}
       </div>
     ));

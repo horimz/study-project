@@ -121,6 +121,7 @@ const _Header: React.FC<HeaderProps> = props => {
                 setType(types.edit);
                 openModal();
               }}
+              className='u-ml-sm'
             >
               Edit
             </div>

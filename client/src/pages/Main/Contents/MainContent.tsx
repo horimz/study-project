@@ -120,10 +120,11 @@ const _MainContent: React.FC<MainContentProps> = props => {
               selectedFolders.length !== 0 || selectedUrls.length !== 0
           })}
         >
-          <span className='icon checked'>&nbsp;</span>
+          <span className='icon checked tiny checkbox-icon'></span>
         </label>
+
         <div className='main-content__content-bottom__content'>
-          (Folder) {folder.folderName}
+          <span className='icon folder tiny'></span> {folder.folderName}
         </div>
       </div>
     ));
@@ -145,7 +146,9 @@ const _MainContent: React.FC<MainContentProps> = props => {
             'show-checkbox-border':
               selectedFolders.length !== 0 || selectedUrls.length !== 0
           })}
-        ></label>
+        >
+          <span className='icon checked tiny checkbox-icon'></span>
+        </label>
 
         <div className='main-content__content-bottom__content'>
           <a
@@ -154,7 +157,8 @@ const _MainContent: React.FC<MainContentProps> = props => {
             target='_blank'
             className='link'
           >
-            (URL) {url.name ? url.name : url.url}
+            <span className='icon none tiny'></span>
+            {url.name ? url.name : url.url}
           </a>
         </div>
       </div>
