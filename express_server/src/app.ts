@@ -7,6 +7,9 @@ import bodyParser from 'body-parser';
 
 import { AppRouter } from './AppRouter';
 import './controllers/LoginController';
+import './controllers/FolderController';
+import './controllers/UrlContronller';
+import './controllers/ContentController';
 import './controllers/RootController';
 
 const app: Application = express();

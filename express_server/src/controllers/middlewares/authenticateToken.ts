@@ -38,6 +38,6 @@ export async function authenticateToken(
 
     next();
   } catch (e) {
-    res.status(401).send({ error: 'Authentication error.' });
+    res.status(401).send(false);
   }
 }
