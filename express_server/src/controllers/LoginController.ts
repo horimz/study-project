@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { get, controller, post, bodyValidator, use } from './decorators';
 import { authenticateToken } from './middlewares/authenticateToken';
 import { User, IUser, IToken } from '../models/User';

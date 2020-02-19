@@ -76,13 +76,12 @@ export class FolderController {
     }
   }
 
-  @patch('/folder/:id')
-  @bodyValidator('folderName')
+  @patch('/folder')
+  @bodyValidator('folderName', 'folderId')
   @use(authenticateToken)
   async patchFolder(req: Request, res: Response): Promise<any> {
     const { _id: owner } = req.user;
-    const { id: folderId } = req.params;
-    const { folderName } = req.body;
+    const { folderName, folderId } = req.body;
 
     try {
       const folder = await Folder.findOne({ _id: folderId, owner });
@@ -94,6 +93,31 @@ export class FolderController {
 
       const folders = await Folder.findAllFolders(owner);
       res.send(folders);
+    } catch (e) {
+      res.status(500).send({ error: 'Failed to update folder.' });
+    }
+  }
+
+  @patch('/folder/:id')
+  @bodyValidator('folderName', 'folderId')
+  @use(authenticateToken)
+  async patchSubFolder(req: Request, res: Response): Promise<any> {
+    const { id: parentFolderId } = req.params;
+    const { folderName, folderId } = req.body;
+
+    try {
+      const folder = await Folder.findOne({
+        _id: folderId,
+        owner: parentFolderId
+      });
+      if (!folder)
+        return res.status(404).send({ error: 'Failed to find folder.' });
+
+      folder.folderName = folderName;
+      await folder.save();
+
+      const contents = await Folder.findAllContent(parentFolderId);
+      res.send(contents);
     } catch (e) {
       res.status(500).send({ error: 'Failed to update folder.' });
     }
