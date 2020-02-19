@@ -1,10 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { StoreState } from '../../../common/reducers';
-import { updateContent } from '../../../common/actions';
+import { updateContent, deleteContents } from '../../../common/actions';
+import { AppContext } from '../../../context';
+import { DisableRightBar } from './DisableRightBar';
 import { Modal } from '../../../components/Modal';
 
 type folder = {
@@ -19,13 +20,21 @@ interface BottomModifierProps {
   selectedFolders: folder[];
   selectedUrls: url[];
   contents: any;
+  deleteContents: Function;
   updateContent: Function;
 }
 
 const _BottomModifier: React.FC<BottomModifierProps> = props => {
   const modifier = document.getElementById('modifier');
-  const { selectedFolders, selectedUrls, contents, updateContent } = props;
+  const {
+    selectedFolders,
+    selectedUrls,
+    contents,
+    updateContent,
+    deleteContents
+  } = props;
   const [open, setOpen] = useState<boolean>(false);
+  const { selectedFolderId } = useContext(AppContext);
   const selected = selectedFolders.length !== 0 || selectedUrls.length !== 0;
   const selectedNum = selectedFolders.length + selectedUrls.length;
 
@@ -34,10 +43,7 @@ const _BottomModifier: React.FC<BottomModifierProps> = props => {
   const closeModal = useCallback(() => setOpen(false), []);
 
   const onDelete = () => {
-    axios.post(`/api/contents`, {
-      folders: selectedFolders,
-      urls: selectedUrls
-    });
+    deleteContents(selectedFolders, selectedUrls, selectedFolderId);
 
     let updatedFolderContents = contents.folders;
     let updatedUrlContents = contents.urls;
@@ -76,6 +82,7 @@ const _BottomModifier: React.FC<BottomModifierProps> = props => {
 
   const content = (
     <div className={classNames('bottom-modifier', { hide: !selected || open })}>
+      {selected ? <DisableRightBar /> : null}
       <div
         className={classNames('bottom-modifier__content', {
           hide: !selected || open
@@ -115,6 +122,7 @@ const mapStateToProps = ({ contents }: StoreState): { contents: any } => {
   return { contents };
 };
 
-export const BottomModifier = connect(mapStateToProps, { updateContent })(
-  _BottomModifier
-);
+export const BottomModifier = connect(mapStateToProps, {
+  updateContent,
+  deleteContents
+})(_BottomModifier);

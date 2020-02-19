@@ -63,11 +63,6 @@ export const addFolder = (folderName: string) => async (dispatch: Dispatch) => {
 export const addSubFolder = (folderName: string, folderId: string) => async (
   dispatch: Dispatch
 ) => {
-  dispatch<FetchFolderContentsAction>({
-    type: ActionTypes.fetchFolderContents,
-    payload: null
-  });
-
   const folder = { folderName };
 
   const response = await axios.post<IFolderContents>(
@@ -109,10 +104,38 @@ export const deleteFolder = (id: string) => async (dispatch: Dispatch) => {
   });
 };
 
-// update content after update and delete
-export const updateContent = (updatedContents: IFolderContents) => (
+export const deleteContents = (
+  folders: { _id: string }[],
+  urls: { _id: string }[],
+  folderId: string
+) => async (dispatch: Dispatch) => {
+  const response = await axios.post<IFolderContents>(
+    `/api/contents/${folderId}`,
+    {
+      folders,
+      urls
+    }
+  );
+
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
+    payload: response.data
+  });
+};
+
+// actions for optimization
+export const updateFolders = (updatedFolders: IFolder[]) => (
   dispatch: Dispatch
 ) => {
+  dispatch<FetchFoldersAction>({
+    type: ActionTypes.fetchFolders,
+    payload: updatedFolders
+  });
+};
+
+export const updateContent = (
+  updatedContents: IFolderContents = { folders: [], urls: [] }
+) => (dispatch: Dispatch) => {
   dispatch<FetchFolderContentsAction>({
     type: ActionTypes.fetchFolderContents,
     payload: updatedContents

@@ -27,11 +27,6 @@ export interface FetchUrlsAction {
 export const addUrl = (url: IUrl, folderId: string) => async (
   dispatch: Dispatch
 ) => {
-  dispatch<FetchFolderContentsAction>({
-    type: ActionTypes.fetchFolderContents,
-    payload: null
-  });
-
   const response = await axios.post<IFolderContents>(
     `/api/url/${folderId}`,
     url

@@ -50,6 +50,26 @@
   margin-right: 8rem !important;
 }
 
+.u-ml-tiny {
+  margin-left: 1rem !important;
+}
+
+.u-ml-sm {
+  margin-left: 2rem !important;
+}
+
+.u-ml-md {
+  margin-left: 3rem !important;
+}
+
+.u-ml-lg {
+  margin-left: 4rem !important;
+}
+
+.u-ml-hg {
+  margin-left: 8rem !important;
+}
+
 .white {
   color: $color-white !important;
 }
@@ -89,9 +109,11 @@
   display: none;
 
   &:checked + .checkbox-label {
-    background-color: rgba($color-blue-light-2, 0.8);
-    // background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/White_check.svg/32px-White_check.svg.png')
-    //   0px center no-repeat;
+    background-color: #2196f3;
+  }
+
+  &:checked + .checkbox-label span {
+    display: inline-block;
   }
 
   &:checked ~ div {
@@ -116,4 +138,12 @@
 
 .show-checkbox-border {
   border: 1px solid rgba($color-grey-light-2, 0.7);
+}
+
+.backdrop-white {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba($color-white, 0.5);
+  z-index: 1;
 }

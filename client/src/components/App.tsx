@@ -17,6 +17,8 @@ import { PageNotFound } from '../pages/PageNotFound';
 // styles
 import '../styles/main.scss';
 
+import { Spinner } from '../components/Spinner';
+
 interface AppProps {
   auth: IUser | boolean | null;
   fetchUser: Function;
@@ -32,7 +34,7 @@ const _App: React.FC<AppProps> = props => {
   if (auth === null)
     return (
       <div className='flex-center' style={{ height: '100vh' }}>
-        Fetching current user.
+        <Spinner />
       </div>
     );
 

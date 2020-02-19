@@ -6,6 +6,7 @@ import { addFolder } from '../../../common/actions';
 import { AppContext } from '../../../context';
 import { Modal } from '../../../components/Modal';
 import { BottomModifier } from './BottomModifier';
+import { Spinner } from '../../../components/Spinner';
 
 interface MainContentProps {
   contents: any;
@@ -46,6 +47,9 @@ const _MainContent: React.FC<MainContentProps> = props => {
   const onFolderChecked = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { checked, name: _id } = e.target;
+
+      if (_id === undefined) return;
+
       if (checked) {
         const folder = { _id };
         setSelectedFolders(prev => [...prev, folder]);
@@ -58,6 +62,9 @@ const _MainContent: React.FC<MainContentProps> = props => {
 
   const onUrlChecked = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, name: _id } = e.target;
+
+    if (_id === undefined) return;
+
     if (checked) {
       const url = { _id };
       setSelectedUrls(prev => [...prev, url]);
@@ -67,9 +74,9 @@ const _MainContent: React.FC<MainContentProps> = props => {
   }, []);
 
   const onCreate = async () => {
+    closeModal();
     await addFolder(inputValue);
     setToMostCurrentFolder();
-    closeModal();
   };
 
   const modalBody = (
@@ -103,7 +110,7 @@ const _MainContent: React.FC<MainContentProps> = props => {
   const renderFolders = () => {
     return contents.folders.map((folder: any) => (
       <div
-        key={folder._id}
+        key={folder._id ? folder._id : folder.folderName}
         className='main-content__content-bottom__content-box'
       >
         <input
@@ -120,10 +127,11 @@ const _MainContent: React.FC<MainContentProps> = props => {
               selectedFolders.length !== 0 || selectedUrls.length !== 0
           })}
         >
-          <span className='icon checked'>&nbsp;</span>
+          <span className='icon checked tiny checkbox-icon'></span>
         </label>
+
         <div className='main-content__content-bottom__content'>
-          (Folder) {folder.folderName}
+          <span className='icon folder tiny'></span> {folder.folderName}
         </div>
       </div>
     ));
@@ -131,7 +139,10 @@ const _MainContent: React.FC<MainContentProps> = props => {
 
   const renderUrls = () => {
     return contents.urls.map((url: any) => (
-      <div key={url._id} className='main-content__content-bottom__content-box'>
+      <div
+        key={url._id ? url._id : url.url}
+        className='main-content__content-bottom__content-box'
+      >
         <input
           type='checkbox'
           id={url._id}
@@ -145,7 +156,9 @@ const _MainContent: React.FC<MainContentProps> = props => {
             'show-checkbox-border':
               selectedFolders.length !== 0 || selectedUrls.length !== 0
           })}
-        ></label>
+        >
+          <span className='icon checked tiny checkbox-icon'></span>
+        </label>
 
         <div className='main-content__content-bottom__content'>
           <a
@@ -154,7 +167,8 @@ const _MainContent: React.FC<MainContentProps> = props => {
             target='_blank'
             className='link'
           >
-            (URL) {url.name ? url.name : url.url}
+            <span className='icon none tiny'></span>
+            {url.name ? url.name : url.url}
           </a>
         </div>
       </div>
@@ -164,7 +178,7 @@ const _MainContent: React.FC<MainContentProps> = props => {
   // zero folders created
   if (selectedFolderName === null)
     return (
-      <div className='main-content__content-bottom__left flex-center'>
+      <div className='no-content'>
         <Modal
           open={open}
           title='Create a Folder'
@@ -172,9 +186,11 @@ const _MainContent: React.FC<MainContentProps> = props => {
           actions={modalActions}
           onClose={closeModal}
         />
-
-        <button onClick={openModal} className='btn btn--blue'>
-          Create a Folder
+        <div>Image</div>
+        <div>Welcome to Markery</div>
+        <div>Share contents with people.</div>
+        <button onClick={openModal} className='btn btn--blue--inverted small'>
+          Create your first folder
         </button>
       </div>
     );
@@ -182,16 +198,23 @@ const _MainContent: React.FC<MainContentProps> = props => {
   // fetching content
   if (contents === null)
     return (
-      <div className='main-content__content-bottom__left flex-center'>
-        Fetching contents
+      <div
+        className='main-content__content-bottom__left flex-center'
+        style={{ paddingBottom: 0, minHeight: '65vh' }}
+      >
+        <Spinner />
       </div>
     );
 
   // zero content in folder
   if (contents.folders.length === 0 && contents.urls.length === 0)
     return (
-      <div className='main-content__content-bottom__left flex-center'>
-        Add new contents to this folder
+      <div className='no-content'>
+        <div>Image</div>
+        <div>
+          Welcome to <span>{selectedFolderName}</span>
+        </div>
+        <div>Contents in this folder can be shared with people.</div>
       </div>
     );
 

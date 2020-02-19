@@ -1,7 +1,11 @@
 import React, { useState, useContext, useCallback } from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { editFolder, deleteFolder } from '../../../common/actions';
+import {
+  editFolder,
+  deleteFolder,
+  updateFolders
+} from '../../../common/actions';
 import { AppContext } from '../../../context';
 import { Modal } from '../../../components/Modal';
 import { Profile } from './Profile';
@@ -14,10 +18,11 @@ const types = {
 interface HeaderProps {
   editFolder: Function;
   deleteFolder: Function;
+  updateFolders: Function;
 }
 
 const _Header: React.FC<HeaderProps> = props => {
-  const { editFolder, deleteFolder } = props;
+  const { editFolder, deleteFolder, updateFolders } = props;
   const [open, setOpen] = useState<boolean>(false);
   const [modalTitle, setModalTitle] = useState<string>('');
   const [placeholder, setPlaceholder] = useState<string | null | undefined>('');
@@ -27,7 +32,8 @@ const _Header: React.FC<HeaderProps> = props => {
     selectedFolderName,
     selectedFolderId,
     setSelectedFolder,
-    deleteSelectedFolder
+    deleteSelectedFolder,
+    editSelectedFolder
   } = useContext(AppContext);
 
   const openModal = useCallback(() => setOpen(true), []);
@@ -39,19 +45,19 @@ const _Header: React.FC<HeaderProps> = props => {
     setOpen(false);
   }, []);
 
-  const onEdit = async () => {
+  const onEdit = () => {
     const data = {
       folderName: inputValue,
       folderId: selectedFolderId
     };
 
-    await editFolder(data);
-    setSelectedFolder(inputValue, selectedFolderId);
+    editFolder(data);
+    editSelectedFolder(inputValue);
     closeModal();
   };
 
-  const onDelete = async () => {
-    await deleteFolder(selectedFolderId);
+  const onDelete = () => {
+    deleteFolder(selectedFolderId);
     deleteSelectedFolder();
     closeModal();
   };
@@ -109,9 +115,7 @@ const _Header: React.FC<HeaderProps> = props => {
       />
 
       <div className='main-content__content-top__left'>
-        <div>
-          {selectedFolderName ? selectedFolderName : 'Create your first folder'}
-        </div>
+        <div>{selectedFolderName ? selectedFolderName : ''}</div>
         {selectedFolderName === null ? null : (
           <React.Fragment>
             <div
@@ -121,6 +125,7 @@ const _Header: React.FC<HeaderProps> = props => {
                 setType(types.edit);
                 openModal();
               }}
+              className='u-ml-sm'
             >
               Edit
             </div>
@@ -138,19 +143,27 @@ const _Header: React.FC<HeaderProps> = props => {
         )}
       </div>
       <div className='main-content__content-top__right'>
-        <div>
-          <input
-            type='text'
-            placeholder='search'
-            className='main-content__content-top__right-search'
-          />
-        </div>
-        <div className='main-content__content-top__right-profile'>
-          <Profile />
-        </div>
+        {selectedFolderName === null ? null : (
+          <React.Fragment>
+            <div>
+              <input
+                type='text'
+                placeholder='search'
+                className='main-content__content-top__right-search'
+              />
+            </div>
+            <div className='main-content__content-top__right-profile'>
+              <Profile />
+            </div>
+          </React.Fragment>
+        )}
       </div>
     </div>
   );
 };
 
-export const Header = connect(null, { editFolder, deleteFolder })(_Header);
+export const Header = connect(null, {
+  editFolder,
+  deleteFolder,
+  updateFolders
+})(_Header);
