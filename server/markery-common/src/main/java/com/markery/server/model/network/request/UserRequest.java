@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class UserRequest {
 
     @NotEmpty
-    @EmailCheck
+    @EmailCheck(message = "invalid email format")
     private String email;
 
     @NotEmpty
