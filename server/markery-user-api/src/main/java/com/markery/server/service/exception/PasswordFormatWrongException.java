@@ -1,4 +1,4 @@
 package com.markery.server.service.exception;
 
-public class PasswordWrongException {
+public class PasswordFormatWrongException {
 }

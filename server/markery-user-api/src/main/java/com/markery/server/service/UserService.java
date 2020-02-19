@@ -2,13 +2,11 @@ package com.markery.server.service;
 
 import com.markery.server.model.entity.User;
 import com.markery.server.repository.UserRepository;
-import com.markery.server.service.exception.EmailNotFoundException;
-import org.apache.tomcat.jni.Local;
+import com.markery.server.service.exception.EmailFormatWrongException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -23,7 +21,7 @@ public class UserService {
     public User register(String userName, String email, String password, String createdAt){
         Optional<User> existed = userRepository.findByEmail(email);
         if(existed.isPresent()){
-            throw new EmailNotFoundException(email);
+            throw new EmailFormatWrongException(email);
         }
 
         String encodedPassword = passwordEncoder.encode(password);

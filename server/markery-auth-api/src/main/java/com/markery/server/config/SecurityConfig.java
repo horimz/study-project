@@ -1,4 +1,4 @@
-package com.markery.server.Configs;
+package com.markery.server.config;
 
 import com.markery.server.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,12 +1,16 @@
 package com.markery.server.controller;
 
 import com.markery.server.model.entity.User;
+import com.markery.server.model.network.Header;
+import com.markery.server.model.network.request.UserRequest;
 import com.markery.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
@@ -19,12 +23,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody User resoruces) throws URISyntaxException {
+    public ResponseEntity<?> create(@Valid @RequestBody Header<UserRequest> resoruce) throws URISyntaxException {
 
-        String userName = resoruces.getUserName();
-        String email = resoruces.getEmail();
-        String password = resoruces.getPassword();
-        String registerAt = LocalDateTime.now().toString();
+        UserRequest content = resoruce.getContent();
+
+        String userName = content.getUserName();
+        String email = content.getEmail();
+        String password = content.getPassword();
+        String registerAt = resoruce.getTransactionTime();
 
         userService.register(userName, email, password, registerAt);
 
