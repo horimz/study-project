@@ -38,14 +38,19 @@ export const addUrl = (url: IUrl, folderId: string) => async (
   });
 };
 
-// export const editUrl = (url: IUrl) => async (dispatch: Dispatch) => {
-//   const response = await axios.patch<IUrl[]>('/urls');
+export const editUrl = (url: IUrl, parentFolderId: string) => async (
+  dispatch: Dispatch
+) => {
+  const response = await axios.patch<IFolderContents>(
+    `/api/url/${parentFolderId}`,
+    url
+  );
 
-//   dispatch<FetchUrlsAction>({
-//     type: ActionTypes.fetchUrls,
-//     payload: response.data
-//   });
-// };
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
+    payload: response.data
+  });
+};
 
 // export const deleteUrl = (id: number) => async (dispatch: Dispatch) => {
 //   const response = await axios.delete<IUrl[]>('/urls');

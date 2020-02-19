@@ -80,17 +80,28 @@ export const editFolder = (folder: {
   folderName: string;
   folderId: string;
 }) => async (dispatch: Dispatch) => {
-  const _folder = {
-    folderName: folder.folderName
-  };
-
-  const response = await axios.patch<IFolder[]>(
-    `/api/folder/${folder.folderId}`,
-    _folder
-  );
+  const response = await axios.patch<IFolder[]>('/api/folder/', folder);
 
   dispatch<FetchFoldersAction>({
     type: ActionTypes.fetchFolders,
+    payload: response.data
+  });
+};
+
+export const editSubFolder = (
+  folder: {
+    folderName: string;
+    folderId: string;
+  },
+  parentFolderId: string
+) => async (dispatch: Dispatch) => {
+  const response = await axios.patch<IFolderContents>(
+    `/api/folder/${parentFolderId}`,
+    folder
+  );
+
+  dispatch<FetchFolderContentsAction>({
+    type: ActionTypes.fetchFolderContents,
     payload: response.data
   });
 };

@@ -6,6 +6,7 @@ import { addFolder } from '../../../common/actions';
 import { AppContext } from '../../../context';
 import { Modal } from '../../../components/Modal';
 import { BottomModifier } from './BottomModifier';
+import { EditButton } from './EditButton';
 import { Spinner } from '../../../components/Spinner';
 
 interface MainContentProps {
@@ -131,7 +132,20 @@ const _MainContent: React.FC<MainContentProps> = props => {
         </label>
 
         <div className='main-content__content-bottom__content'>
-          <span className='icon folder tiny'></span> {folder.folderName}
+          <div>
+            <span className='icon folder tiny'></span> {folder.folderName}
+            <button className='btn btn--blue--secondary tiny u-ml-sm transparent'>
+              Share
+            </button>
+          </div>
+          <div className='flex'>
+            <EditButton
+              _id={folder._id}
+              name={folder.folderName}
+              content={folder}
+              type='folder'
+            />
+          </div>
         </div>
       </div>
     ));
@@ -161,15 +175,20 @@ const _MainContent: React.FC<MainContentProps> = props => {
         </label>
 
         <div className='main-content__content-bottom__content'>
-          <a
-            href={url.url}
-            rel='noopener noreferrer'
-            target='_blank'
-            className='link'
-          >
-            <span className='icon none tiny'></span>
-            {url.name ? url.name : url.url}
-          </a>
+          <div>
+            <a
+              href={url.url}
+              rel='noopener noreferrer'
+              target='_blank'
+              className='link'
+            >
+              <span className='icon none tiny'></span>
+              {url.name ? url.name : url.url}
+            </a>
+          </div>
+          <div className='flex'>
+            <EditButton _id={url._id} name={url.url} content={url} type='url' />
+          </div>
         </div>
       </div>
     ));

@@ -126,6 +126,7 @@ const _Header: React.FC<HeaderProps> = props => {
                 openModal();
               }}
               className='u-ml-sm'
+              style={{ height: '50px' }}
             >
               Edit
             </div>
@@ -136,6 +137,7 @@ const _Header: React.FC<HeaderProps> = props => {
                 setType(types.delete);
                 openModal();
               }}
+              style={{ height: '50px' }}
             >
               Delete
             </div>

@@ -68,7 +68,7 @@
       top: 0;
       z-index: 10;
       background-color: $color-white;
-      min-height: 10vh;
+      min-height: 20vh;
       margin-left: 3.5rem;
       padding-right: 1.5rem;
 
@@ -160,6 +160,7 @@
       display: flex;
       padding-bottom: 15rem;
       margin-left: 3.5rem;
+      min-height: 80vh;
 
       &__left {
         flex: 1 1;
@@ -189,9 +190,11 @@
       &__content {
         font-size: 2rem;
         width: 100%;
-        padding: 1.5rem 1rem;
+        padding: 1.5rem 3rem 1.5rem 1rem;
         cursor: pointer;
         transition: all 0.25s ease;
+        display: flex;
+        justify-content: space-between;
 
         &:hover {
           color: $color-blue-light-2;
@@ -199,6 +202,28 @@
 
         &:hover a {
           color: $color-blue-light-2;
+        }
+
+        &:hover button {
+          color: $color-grey-light-2 !important;
+          border: 1.3px solid $color-grey-light-2 !important;
+        }
+
+        &:hover button:hover {
+          color: $color-blue-light-2 !important;
+          border: 1.3px solid $color-blue-light-2 !important;
+        }
+
+        &:hover > .flex .more__icon {
+          background-color: #3d464f;
+        }
+
+        &:hover > .flex .more__icon::before {
+          background-color: #3d464f;
+        }
+
+        &:hover > .flex .more__icon::after {
+          background-color: #3d464f;
         }
       }
 

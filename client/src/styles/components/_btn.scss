@@ -8,7 +8,7 @@
   color: $color-black;
   border: none;
   cursor: pointer;
-  transition: all 0.1s ease-out;
+  transition: all 0.25s ease-out;
 
   &:focus {
     outline: none;
@@ -96,11 +96,25 @@
         color: $color-white;
       }
     }
+
+    &--secondary {
+      background-color: transparent;
+      color: $color-grey-light-2;
+      border: 1.3px solid $color-grey-light-2;
+      font-weight: 400;
+      font-size: 2rem;
+
+      &:hover {
+        border: 1.3px solid $color-blue-light-2 !important;
+        color: $color-blue-light-2 !important;
+      }
+    }
   }
 }
 
 .tiny {
-  padding: 1rem 1.5rem !important;
+  font-size: 1.5rem;
+  padding: 0.2rem 1rem !important;
 }
 
 .small {

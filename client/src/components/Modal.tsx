@@ -48,7 +48,7 @@ const _Modal: React.FC<ModalProps> = props => {
   });
 
   const modal = (
-    <React.Fragment>
+    <div>
       <div className={backdropClasses} onClick={close}></div>
 
       <div
@@ -59,7 +59,7 @@ const _Modal: React.FC<ModalProps> = props => {
         <div className='modal__body'>{body}</div>
         <div className='modal__actions'>{actions}</div>
       </div>
-    </React.Fragment>
+    </div>
   );
 
   if (!modalRoot) throw new Error();
