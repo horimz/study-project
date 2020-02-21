@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 public class EmailNotFoundException extends RuntimeException{
 
-    private Header header;
+    private String message;
 
     public EmailNotFoundException(){
-        Error error = Error.builder()
-                .description("email doesn't exist")
-                .build();
+        this.message = "email dosen't exsist";
+    }
 
-        Header.ERROR(error);
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

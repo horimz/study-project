@@ -6,15 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class PasswordWrongException {
+public class PasswordWrongException extends RuntimeException{
 
-    private Header header;
+    private String message;
 
     public PasswordWrongException(){
-        Error error = Error.builder()
-                .description("password dosen't match with email")
-                .build();
+        this.message = "Wrong Password";
+    }
 
-        Header.ERROR(error);
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

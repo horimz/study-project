@@ -7,11 +7,13 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -23,7 +25,7 @@ public class UserService {
     public User register(String userName, String email, String password, String createdAt){
         Optional<User> existed = userRepository.findByEmail(email);
         if(existed.isPresent()){
-            throw new EmailNotFoundException(email);
+            throw new EmailNotFoundException();
         }
 
         String encodedPassword = passwordEncoder.encode(password);
@@ -38,5 +40,12 @@ public class UserService {
 
         return userRepository.save(user);
     };
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+
 
 }

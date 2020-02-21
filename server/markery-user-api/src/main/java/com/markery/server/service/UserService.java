@@ -6,7 +6,9 @@ import com.markery.server.model.network.request.UserRequest;
 import com.markery.server.model.network.response.UserResponse;
 import com.markery.server.repository.UserRepository;
 import com.markery.server.service.exception.EmailAlreadyExistedException;
+import com.markery.server.service.exception.EmailNotFoundException;
 import com.markery.server.service.exception.PasswordValidatorWrongException;
+import com.markery.server.service.exception.PasswordWrongException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -56,4 +58,16 @@ public class UserService {
                 .userName(result.getUserName())
                 .build();
     };
+
+
+    public User authenticate(String email, String password){
+        User user = userRepository.findByEmail(email).orElseThrow(()->new EmailNotFoundException());
+        String encodedPassword = passwordEncoder.encode(password);
+        if(!passwordEncoder.matches(encodedPassword, user.getPassword())){
+            throw new PasswordWrongException();
+        }
+
+        return user;
+    }
+
 }
