@@ -28,7 +28,7 @@ class LoginControllerTest {
 
     @BeforeEach
     public void setUp(){
-        mvc = MockMvcBuilders.standaloneSetup(loginController).build();
+//        mvc = MockMvcBuilders.standaloneSetup(loginController).build();
     }
 
     @Test
@@ -37,7 +37,6 @@ class LoginControllerTest {
         AuthenticationRequest authReq = AuthenticationRequest.builder()
                 .email("paper@naver.com")
                 .password("paper")
-                .passwordValidator("paper")
                 .build();
 
         ObjectMapper objectMapper = new ObjectMapper();

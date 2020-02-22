@@ -2,7 +2,9 @@ package com.markery.server.service;
 
 import com.markery.server.model.entity.User;
 import com.markery.server.model.network.Header;
+import com.markery.server.model.network.request.AuthenticationRequest;
 import com.markery.server.model.network.request.UserRequest;
+import com.markery.server.model.network.response.AuthenticationResponse;
 import com.markery.server.model.network.response.UserResponse;
 import com.markery.server.repository.UserRepository;
 import com.markery.server.service.exception.EmailAlreadyExistedException;
@@ -36,7 +38,7 @@ public class UserService {
             throw new EmailAlreadyExistedException();
         }
 
-        if(userRequest.getPassword() != userRequest.getPasswordValidator()){
+        if(!userRequest.getPassword().equals(userRequest.getPasswordValidator())){
             throw new PasswordValidatorWrongException();
         }
 
@@ -59,15 +61,15 @@ public class UserService {
                 .build();
     };
 
+    public User authenticate(Header<AuthenticationRequest> requestHeader){
 
-    public User authenticate(String email, String password){
-        User user = userRepository.findByEmail(email).orElseThrow(()->new EmailNotFoundException());
-        String encodedPassword = passwordEncoder.encode(password);
-        if(!passwordEncoder.matches(encodedPassword, user.getPassword())){
+        AuthenticationRequest authenticationRequest = requestHeader.getContent();
+
+        User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(()->new EmailNotFoundException());
+        if(!passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())){
             throw new PasswordWrongException();
         }
 
         return user;
     }
-
 }

@@ -3,7 +3,9 @@ package com.markery.server.controller.exception;
 import com.markery.server.model.network.Header;
 import com.markery.server.model.network.response.Error;
 import com.markery.server.service.exception.EmailAlreadyExistedException;
+import com.markery.server.service.exception.EmailNotFoundException;
 import com.markery.server.service.exception.PasswordValidatorWrongException;
+import com.markery.server.service.exception.PasswordWrongException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +41,10 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(bodyHeader, headers, status);
     }
 
-    @ExceptionHandler(value = {EmailAlreadyExistedException.class, PasswordValidatorWrongException.class})
+    @ExceptionHandler(value = {EmailAlreadyExistedException.class,
+            PasswordValidatorWrongException.class,
+            EmailNotFoundException.class,
+            PasswordWrongException.class})
     public ResponseEntity<Header<Error>> ServiceExceptionHandler(Exception ex, WebRequest request) {
 
         //Get all errors
@@ -55,4 +60,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
         return new ResponseEntity<Header<Error>>(bodyHeader, null, status);
     }
+
+
 }
