@@ -1,0 +1,3 @@
+[submodule "markery-client"]
+	path = markery-client
+	url = https://github.com/horimz/markery-client.git
