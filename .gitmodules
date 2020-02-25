@@ -1,3 +1,6 @@
 [submodule "markery-client"]
 	path = markery-client
 	url = https://github.com/horimz/markery-client.git
+[submodule "markery-express-server"]
+	path = markery-express-server
+	url = https://github.com/horimz/markery-express-server.git
