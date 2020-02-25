@@ -1,8 +1,0 @@
-.share {
-  min-height: 100vh;
-  background-color: $color-light-background-1;
-
-  // DEV
-  @include flexCenter;
-  background-color: rgba(pink, 0.1s);
-}
