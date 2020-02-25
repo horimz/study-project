@@ -1,0 +1,26 @@
+@import '../../Variables.scss';
+
+.setting-delete-account {
+  padding: 1.5rem 0;
+
+  &__content {
+    display: flex;
+    align-items: center;
+  }
+
+  &__header {
+    flex: 2.5 0;
+  }
+
+  &__button {
+    flex: 3 0;
+    font-size: 1.5rem;
+    color: $color-grey-dark-3;
+  }
+
+  &__description {
+    font-size: 1.25rem;
+    margin-top: 1rem;
+    color: $color-grey-dark-1;
+  }
+}

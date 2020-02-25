@@ -13,6 +13,7 @@ export interface IUser extends Document {
   // props
   username?: string;
   email?: string;
+  description?: string;
   password?: string;
   tokens?: IToken[];
 
@@ -44,6 +45,10 @@ const userSchema: Schema = new Schema(
         if (!validator.isEmail(value)) throw new Error('Email is invalid.');
         return true;
       }
+    },
+    description: {
+      type: String,
+      required: true
     },
     password: {
       type: String,
@@ -79,9 +84,6 @@ userSchema.virtual('folders', {
   localField: '_id',
   foreignField: 'owner'
 });
-
-// userSchema.methods are for individual users
-// userSchema statics are for all users
 
 // Add a custom function for a specific user
 userSchema.methods.generateAuthToken = async function() {

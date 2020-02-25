@@ -1,0 +1,55 @@
+@import '../../Variables.scss';
+
+.service-left-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: $color-grey-light-1;
+  width: 250px;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    font-size: 2.5rem;
+    font-weight: 400;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  &__logo {
+    padding-top: 5rem;
+    padding-left: 4rem;
+    margin-bottom: 2rem;
+  }
+
+  &__content {
+    padding-left: 4rem;
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-primary;
+
+    &:hover {
+      color: lighten($color-primary, 20%);
+    }
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      height: 1px;
+      width: 1px;
+      background-color: $color-grey-dark-1;
+      width: 80%;
+      transform: translateY(-55px);
+    }
+  }
+}

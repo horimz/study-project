@@ -1,0 +1,28 @@
+@import '../../Variables.scss';
+
+.thumbnail {
+  flex: 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  position: relative;
+
+  button:not(:last-child) {
+    margin-bottom: 0.8rem;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1px;
+    height: 95%;
+    background-color: $color-grey-light-2;
+  }
+
+  &__content {
+    margin-bottom: 2rem;
+  }
+}

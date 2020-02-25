@@ -1,0 +1,33 @@
+@import '../../Variables.scss';
+
+.create-folder-modal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+  }
+
+  input {
+    width: 100%;
+    margin-bottom: 1rem;
+    font-family: inherit;
+    font-size: 2.5rem;
+    color: $color-blue-1;
+    border: none;
+    border: 1px solid $color-grey-dark-2;
+    border-radius: 5px;
+    padding: 1rem 2rem 1rem 1rem;
+
+    &::placeholder {
+      font-size: 2rem;
+    }
+  }
+
+  &__button-area {
+    align-self: flex-end;
+    font-size: 2.5rem;
+  }
+}

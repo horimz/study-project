@@ -1,0 +1,45 @@
+.service-header {
+  position: fixed;
+  top: 0;
+  height: 120px;
+  width: calc(100% - 250px);
+  background-color: white;
+  z-index: 1;
+
+  &__container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    justify-content: space-between;
+  }
+
+  &__left {
+    flex: 1 1;
+    font-size: 2.5rem;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    // &:hover {
+    //   overflow: visible;
+    // }
+
+    &__path {
+      span {
+        margin-right: 2rem;
+      }
+    }
+  }
+
+  &__right {
+    flex: 0 1;
+    display: flex;
+
+    input {
+      margin-right: 2rem;
+    }
+  }
+}

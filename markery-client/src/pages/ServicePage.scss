@@ -1,0 +1,36 @@
+@import '../Variables.scss';
+
+.service {
+  display: flex;
+
+  &__container {
+    min-height: 100vh;
+    flex-grow: 1;
+
+    // DEV
+    min-height: 300vh;
+  }
+
+  &__content {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    position: relative;
+
+    &-main {
+      flex-grow: 1;
+    }
+  }
+
+  &__left-pusher {
+    width: 250px;
+  }
+
+  &__top-pusher {
+    height: 120px;
+  }
+
+  &__right-pusher {
+    width: 300px;
+  }
+}

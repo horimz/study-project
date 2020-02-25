@@ -6,7 +6,7 @@ import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 
 import { AppRouter } from './AppRouter';
-import './controllers/LoginController';
+import './controllers/AuthController';
 import './controllers/FolderController';
 import './controllers/UrlContronller';
 import './controllers/ContentController';

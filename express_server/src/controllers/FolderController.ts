@@ -106,19 +106,25 @@ export class FolderController {
     const { folderName, folderId } = req.body;
 
     try {
-      const folder = await Folder.findOne({
-        _id: folderId,
-        owner: parentFolderId
-      });
+      const folder = await Folder.findOne({ _id: folderId });
       if (!folder)
         return res.status(404).send({ error: 'Failed to find folder.' });
 
       folder.folderName = folderName;
       await folder.save();
 
-      const contents = await Folder.findAllContent(parentFolderId);
+      let contents;
+
+      if (parentFolderId === 'current') {
+        console.log('in here');
+        contents = await Folder.findAllContent(folderId);
+        return res.send(contents);
+      }
+
+      contents = await Folder.findAllContent(parentFolderId);
       res.send(contents);
     } catch (e) {
+      console.log(e);
       res.status(500).send({ error: 'Failed to update folder.' });
     }
   }
