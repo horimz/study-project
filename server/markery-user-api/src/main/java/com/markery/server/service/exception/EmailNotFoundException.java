@@ -1,7 +1,14 @@
 package com.markery.server.service.exception;
 
 public class EmailNotFoundException extends RuntimeException{
-    public EmailNotFoundException(String email){
-        super("email is duplicatied");
+    private String message;
+
+    public EmailNotFoundException(){
+        this.message = "email dosent exist";
+    }
+
+    @Override
+    public String getMessage(){
+        return message;
     }
 }

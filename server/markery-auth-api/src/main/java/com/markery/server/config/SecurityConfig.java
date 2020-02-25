@@ -1,4 +1,4 @@
-package com.markery.server.Configs;
+package com.markery.server.config;
 
 import com.markery.server.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${jwt.secret}")
-    private String secret;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,6 +30,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public JwtUtil jwtUtil(){return new JwtUtil(secret);}
 }
