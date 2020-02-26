@@ -1,0 +1,19 @@
+.register {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 2fr;
+  margin-top: 5rem;
+
+  @media only screen and (max-width: 750px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__box {
+    grid-column: 2 / span 1;
+
+    @media only screen and (max-width: 900px) {
+      grid-column: 2 / span 2;
+    }
+  }
+}

@@ -1,0 +1,37 @@
+.navigation {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  padding: 0 22rem;
+  display: flex;
+  height: 8rem;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.25s ease;
+  background-color: white;
+
+  @media only screen and (max-width: 850px) {
+    padding: 0 10rem;
+  }
+
+  @media only screen and (max-width: 400px) {
+    padding: 0 5rem;
+  }
+
+  &__left {
+    font-size: 3rem;
+  }
+
+  &__right {
+    font-size: 2rem;
+  }
+
+  &.hide {
+    transform: translateY(-100px);
+  }
+
+  &.boxed {
+    box-shadow: 0px 2px 5px 0px rgba(black, 0.25);
+  }
+}

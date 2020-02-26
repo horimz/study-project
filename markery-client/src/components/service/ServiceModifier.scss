@@ -1,0 +1,66 @@
+.service-modifier {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 300px);
+  height: 100px;
+  border-top: 0.25px solid #aaa;
+  background-color: white;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 550px) {
+    height: 70px;
+  }
+
+  &__container {
+    height: 100%;
+    padding: 1.5rem 4rem;
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+
+    @media only screen and (max-width: 550px) {
+      padding: 0;
+      font-size: 4.5rem;
+    }
+  }
+
+  &__move {
+    margin-right: 2rem;
+
+    @media only screen and (max-width: 550px) {
+      height: 100%;
+      flex: 1 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+      padding: 1.25rem;
+
+      & > button {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0;
+      }
+    }
+  }
+
+  &__delete {
+    @media only screen and (max-width: 550px) {
+      height: 100%;
+      flex: 1 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.25rem;
+
+      & > button {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0;
+      }
+    }
+  }
+}

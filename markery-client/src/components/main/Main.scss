@@ -1,0 +1,158 @@
+@import '../../Variables.scss';
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  font-size: 5rem;
+
+  &__box {
+    padding-top: 5rem;
+    padding-right: 12rem;
+    padding-left: 12rem;
+
+    @media only screen and (max-width: 1200px) {
+      padding: 5rem 0;
+    }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 0.5fr 3fr 0.5fr 4fr;
+
+    @media only screen and (max-width: 850px) {
+      grid-template-columns: 1fr;
+    }
+
+    &__left {
+      grid-column: 2 / span 1;
+      position: relative;
+      font-size: 3rem;
+
+      @media only screen and (max-width: 1200px) {
+        grid-column: 1 / span 2;
+      }
+
+      @media only screen and (max-width: 850px) {
+        display: none;
+      }
+
+      &-header {
+        margin-bottom: 5rem;
+
+        h1 {
+          margin-bottom: 2rem;
+
+          @media only screen and (max-width: 1200px) {
+            font-size: 4rem;
+          }
+        }
+
+        p {
+          font-size: 2.5rem;
+
+          @media only screen and (max-width: 1200px) {
+            font-size: 2rem;
+          }
+        }
+      }
+
+      &-links {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &-link {
+        text-decoration: none;
+        color: black;
+        font-size: 2.5rem;
+
+        &:not(:last-child) {
+          margin-bottom: 2rem;
+        }
+
+        span {
+          margin-right: 2rem;
+        }
+
+        &:hover {
+          color: lighten(black, 50%);
+        }
+      }
+    }
+
+    &__right {
+      grid-column: 4 / span 1;
+
+      @media only screen and (max-width: 1200px) {
+        grid-column: 3 / span 2;
+      }
+
+      @media only screen and (max-width: 850px) {
+        grid-column: 1 / span 1;
+      }
+    }
+
+    &__sticky {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      @media only screen and (max-width: 1200px) {
+        padding: 5rem;
+      }
+    }
+
+    &__about {
+      height: 100vh;
+      border: 1px solid $color-grey-dark-2;
+      @include flexCenter;
+    }
+
+    &__service {
+      height: 100vh;
+      border: 1px solid $color-grey-dark-2;
+      @include flexCenter;
+    }
+
+    &__share {
+      height: 100vh;
+      border: 1px solid $color-grey-dark-2;
+      @include flexCenter;
+    }
+  }
+
+  &__bottom {
+    background-color: $color-grey-light-2;
+    padding: 10rem 15rem;
+
+    @media only screen and (max-width: 800px) {
+      padding: 5rem;
+    }
+
+    &__header {
+      @include flexCenter;
+    }
+
+    &__content {
+      padding: 15rem 0;
+      @include flexCenter;
+      margin-bottom: 3rem;
+    }
+
+    &__button {
+      font-size: 3rem;
+      @include flexCenter;
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+}

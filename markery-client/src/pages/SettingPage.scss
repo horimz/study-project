@@ -1,0 +1,33 @@
+@import '../Variables.scss';
+
+.setting {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  &__container {
+    min-width: 800px;
+    margin-top: 10rem;
+
+    @media only screen and (max-width: 900px) {
+      min-width: 100%;
+      padding: 5rem;
+    }
+  }
+
+  &__content-top {
+    display: flex;
+    margin-bottom: 5rem;
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+  }
+
+  &__content-bottom {
+    display: flex;
+    flex-direction: column;
+  }
+}

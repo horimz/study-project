@@ -1,0 +1,42 @@
+@import '../../Variables.scss';
+
+.thumbnail {
+  flex: 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  position: relative;
+
+  @media only screen and (max-width: 900px) {
+    border-bottom: 1px solid $color-grey-light-2;
+    padding-bottom: 2rem;
+  }
+
+  @media only screen and (max-width: 900px) {
+    flex: 1 1;
+  }
+
+  button:not(:last-child) {
+    margin-bottom: 0.8rem;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: 1px;
+    height: 95%;
+    background-color: $color-grey-light-2;
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+      width: 0px;
+    }
+  }
+
+  &__content {
+    margin-bottom: 2rem;
+  }
+}

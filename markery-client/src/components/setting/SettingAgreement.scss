@@ -1,0 +1,51 @@
+@import '../../Variables.scss';
+
+.setting-agreement {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid $color-grey-light-2;
+
+  &__content {
+    display: flex;
+    align-items: center;
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__header {
+    flex: 2.5 0;
+  }
+
+  &__togglers {
+    flex: 3 0;
+    font-size: 1.5rem;
+    color: $color-grey-dark-3;
+    display: flex;
+
+    @media only screen and (max-width: 900px) {
+      margin-top: 2rem;
+    }
+
+    &-title {
+      width: 200px;
+
+      :not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+
+    &-toggler {
+      flex: 2 0;
+
+      @media only screen and (max-width: 900px) {
+        flex: 3 0;
+      }
+
+      :not(:last-child) {
+        margin-bottom: 0.3rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import '../Variables.scss';
+
+.service {
+  display: flex;
+
+  &__container {
+    flex-grow: 1;
+    min-height: calc(100vh - 120px);
+  }
+
+  &__content {
+    height: 100%;
+    display: flex;
+    width: 100%;
+    position: relative;
+
+    &-main {
+      flex-grow: 1;
+    }
+  }
+
+  &__left-pusher {
+    width: 250px;
+
+    @media only screen and (max-width: 1200px) {
+      width: 0px;
+    }
+  }
+
+  &__top-pusher {
+    height: 120px;
+
+    @media only screen and (max-width: 700px) {
+      height: 0px;
+    }
+  }
+
+  &__right-pusher {
+    width: 300px;
+
+    @media only screen and (max-width: 950px) {
+      width: 0px;
+    }
+  }
+}

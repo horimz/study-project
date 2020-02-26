@@ -1,0 +1,63 @@
+.service-header {
+  position: fixed;
+  top: 0;
+  height: 120px;
+  width: calc(100% - 250px);
+  background-color: white;
+  z-index: 1;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    justify-content: space-between;
+  }
+
+  &__left {
+    flex: 1 1;
+    font-size: 2.5rem;
+    width: 400px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    @media only screen and (max-width: 950px) {
+      width: 200px;
+    }
+
+    &__path {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 2rem;
+
+        & + p {
+          display: inline-block;
+          width: 400px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+
+    input {
+      margin-right: 2rem;
+    }
+  }
+}

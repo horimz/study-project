@@ -1,0 +1,231 @@
+@import '../../Variables.scss';
+
+.modal {
+  display: none;
+  box-shadow: 1px 1px 7px 0px rgba(black, 0.25);
+  z-index: 99;
+  background-color: white;
+  border-radius: 3px;
+
+  &.removeBox {
+    box-shadow: none;
+    background-color: transparent;
+  }
+
+  &.visible {
+    display: block !important;
+  }
+
+  &.top {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.topCenter {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.centerBottom {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &.bottom {
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__cancel {
+    &.visible > .cancel {
+      display: block !important;
+    }
+
+    &:hover > .cancel::before {
+      background-color: $color-grey-dark-4;
+    }
+
+    &:hover > .cancel::after {
+      background-color: $color-grey-dark-4;
+    }
+
+    .cancel {
+      position: fixed;
+      top: 2rem;
+      right: 1.25rem;
+      z-index: 100;
+      width: 2rem;
+      height: 2rem;
+      cursor: pointer;
+      display: none;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        background-color: $color-grey-dark-1;
+        width: 2rem;
+        height: 3px;
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      &::before {
+        transform: rotate(45deg);
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+      }
+
+      &:focus,
+      &::before:focus,
+      &::after:focus {
+        background-color: blue;
+      }
+    }
+  }
+
+  &__contents-area {
+    display: flex;
+    position: relative;
+    font-size: 5rem;
+
+    &.small {
+      min-width: 30vw;
+
+      @media only screen and (max-width: 1000px) {
+        min-width: 50vw;
+      }
+
+      @media only screen and (max-width: 700px) {
+        min-width: 70vw;
+      }
+
+      @media only screen and (max-width: 550px) {
+        min-width: 90vw;
+      }
+    }
+
+    &.medium {
+      min-width: 50vw;
+
+      @media only screen and (max-width: 1000px) {
+        min-width: 70vw;
+      }
+
+      @media only screen and (max-width: 700px) {
+        min-width: 80vw;
+      }
+
+      @media only screen and (max-width: 550px) {
+        min-width: 90vw;
+      }
+    }
+
+    &.large {
+      min-width: 60vw;
+
+      @media only screen and (max-width: 1000px) {
+        min-width: 75vw;
+      }
+
+      @media only screen and (max-width: 700px) {
+        min-width: 85vw;
+      }
+
+      @media only screen and (max-width: 550px) {
+        min-width: 95vw;
+      }
+    }
+  }
+}
+
+.backdrop-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 98;
+  width: 100vw;
+  height: 100vh;
+
+  &.white {
+    &.little {
+      background: rgba(white, 0.45);
+    }
+
+    &.medium {
+      background: rgba(white, 0.65);
+    }
+
+    &.many {
+      background: rgba(white, 0.85);
+    }
+  }
+
+  &.black {
+    &.little {
+      background: rgba(black, 0.25);
+    }
+
+    &.medium {
+      background: rgba(black, 0.45);
+    }
+
+    &.many {
+      background: rgba(black, 0.75);
+    }
+  }
+
+  &.blue {
+    &.little {
+      background: rgba($color-blue-4, 0.45);
+    }
+
+    &.medium {
+      background: rgba($color-blue-4, 0.65);
+    }
+
+    &.many {
+      background: rgba($color-blue-4, 0.85);
+    }
+  }
+
+  &.visible {
+    display: block !important;
+  }
+}
+
+.blur {
+  &-none {
+    backdrop-filter: none;
+  }
+
+  &-little {
+    backdrop-filter: blur(1px);
+  }
+
+  &-medium {
+    backdrop-filter: blur(2px);
+  }
+
+  &-many {
+    backdrop-filter: blur(4px);
+  }
+}

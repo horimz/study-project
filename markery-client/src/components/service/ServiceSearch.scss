@@ -1,0 +1,29 @@
+@import '../../Variables.scss';
+
+.service-search {
+  display: flex;
+
+  span {
+    height: 100%;
+    transform: translate(35px, 6px);
+  }
+
+  input {
+    font-family: inherit;
+    font-size: 1.5rem;
+    color: $color-grey-dark-4;
+    border: 1px solid $color-grey-dark-2;
+    border-radius: 100px;
+    width: 25rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    padding-right: 0.7rem;
+    padding-left: 4rem;
+    transition: all 0.25s;
+
+    &:focus {
+      outline: none;
+      width: 40rem;
+    }
+  }
+}
