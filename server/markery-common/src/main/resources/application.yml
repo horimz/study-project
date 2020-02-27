@@ -4,9 +4,6 @@ spring:
     username: markery
     password: markery
 
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-
   jpa:
     hibernate:
       ddl-auto: update

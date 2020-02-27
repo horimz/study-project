@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -42,15 +43,16 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public Header<?> logout(Authentication authentication) throws URISyntaxException {
-        if(authentication == null){
+    public Header<?> logout(HttpServletRequest req) throws URISyntaxException {
+
+        String token = req.getHeader("Authorization");
+        if(token == null ){
             throw new TokenNotFoundException();
         }
 
-        Claims claims = (Claims)authentication.getPrincipal();
-        Long uid = claims.get("uid", Long.class);
-
-        //TODO Add redis session to add blacklist
+        if(jwtUtil.validateToken(token)){
+            //TODO Add redis session to add blacklist
+        }
 
         return Header.OK();
     }

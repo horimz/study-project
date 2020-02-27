@@ -23,5 +23,11 @@ spring:
     hibernate:
       ddl-auto: update
 
+  redis:
+    host: localhost
+    port: 6379
+    profiles:
+      active: local
+
 jwt:
   secret: 07e3d9f0b41420c4d7a14a392d0d7a362da46df0feb307f43d2aff4118311f73daa0297c8434e534163b6f6c2a2be742ec3bca47971ecb2659e99b3a0851705f

@@ -26,10 +26,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation( 'mysql:mysql-connector-java')
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}

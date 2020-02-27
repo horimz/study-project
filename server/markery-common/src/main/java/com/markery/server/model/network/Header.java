@@ -1,17 +1,21 @@
 package com.markery.server.model.network;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Header<T> {
-    @NotNull
+
     private String transactionTime;
 
     @Valid

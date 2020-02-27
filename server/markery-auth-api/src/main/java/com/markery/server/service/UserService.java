@@ -1,15 +1,21 @@
 package com.markery.server.service;
 
 import com.markery.server.model.entity.User;
+import com.markery.server.model.network.Header;
+import com.markery.server.model.network.request.AuthenticationRequest;
+import com.markery.server.model.network.request.UserRequest;
+import com.markery.server.model.network.response.AuthenticationResponse;
+import com.markery.server.model.network.response.UserResponse;
 import com.markery.server.repository.UserRepository;
+import com.markery.server.service.exception.EmailAlreadyExistedException;
 import com.markery.server.service.exception.EmailNotFoundException;
-import org.apache.tomcat.jni.Local;
+import com.markery.server.service.exception.PasswordValidatorWrongException;
+import com.markery.server.service.exception.PasswordWrongException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -22,30 +28,48 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User register(String userName, String email, String password, String createdAt){
-        Optional<User> existed = userRepository.findByEmail(email);
+    public UserResponse register(Header<UserRequest> resource){
+
+        String createdAt = resource.getTransactionTime();
+        UserRequest userRequest = resource.getContent();
+
+        Optional<User> existed = userRepository.findByEmail(userRequest.getEmail());
         if(existed.isPresent()){
-            throw new EmailNotFoundException();
+            throw new EmailAlreadyExistedException();
         }
 
-        String encodedPassword = passwordEncoder.encode(password);
+        if(!userRequest.getPassword().equals(userRequest.getPasswordValidator())){
+            throw new PasswordValidatorWrongException();
+        }
+
+        String encodedPassword = passwordEncoder.encode(userRequest.getPassword());
 
         User user = User.builder()
-                .userName(userName)
-                .email(email)
+                .userName(userRequest.getUserName())
+                .email(userRequest.getEmail())
                 .password(encodedPassword)
                 .registeredAt(createdAt)
                 .updatedAt(createdAt)
                 .build();
 
-        return userRepository.save(user);
+        User result =  userRepository.save(user);
+
+        return UserResponse.builder()
+                .id(result.getId())
+                .email(result.getEmail())
+                .userName(result.getUserName())
+                .build();
     };
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    public User authenticate(Header<AuthenticationRequest> requestHeader){
+
+        AuthenticationRequest authenticationRequest = requestHeader.getContent();
+
+        User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(()->new EmailNotFoundException());
+        if(!passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())){
+            throw new PasswordWrongException();
+        }
+
+        return user;
     }
-
-
-
 }
