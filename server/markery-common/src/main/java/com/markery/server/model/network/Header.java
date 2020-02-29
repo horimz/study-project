@@ -18,6 +18,8 @@ public class Header<T> {
 
     private String transactionTime;
 
+    private String succsess;
+
     @Valid
     private T content;
 
@@ -25,6 +27,7 @@ public class Header<T> {
     public static<T> Header<T> OK(){
         return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now().toString())
+                .succsess("sucess")
                 .build();
     }
 
@@ -33,12 +36,14 @@ public class Header<T> {
         return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now().toString())
                 .content(content)
+                .succsess("sucess")
                 .build();
     }
 
     public static<T> Header<T> ERROR(){
         return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now().toString())
+                .succsess("error")
                 .build();
     }
 
@@ -46,6 +51,7 @@ public class Header<T> {
         return (Header<T>) Header.builder()
                 .transactionTime(LocalDateTime.now().toString())
                 .content(content)
+                .succsess("error")
                 .build();
     }
 

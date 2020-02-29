@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class FolderRequest {
     private Long id;
-    private String folder_name;
-    private Long parent_folder_id;
+    private String folderName;
+    private Long parentFolderId;
 }
