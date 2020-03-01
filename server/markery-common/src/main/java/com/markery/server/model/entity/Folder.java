@@ -41,4 +41,8 @@ public class Folder {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentFolder")
     @JsonIgnore
     private List<Folder> childFolders;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "folder")
+    @JsonIgnore
+    private List<Url> urlList;
 }

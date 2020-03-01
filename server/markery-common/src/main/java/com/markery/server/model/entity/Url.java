@@ -1,16 +1,13 @@
 package com.markery.server.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +15,21 @@ import javax.persistence.Id;
 public class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
+    private String url;
+
+    private String alias;
 
     private String description;
+
+    @ManyToOne
+    private Folder folder;
+
+    @ManyToOne
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "url")
+    @JsonIgnore
+    private List<HashTag> hashTagList;
 }

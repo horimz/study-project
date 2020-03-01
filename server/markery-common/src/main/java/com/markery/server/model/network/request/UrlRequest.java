@@ -9,9 +9,10 @@ import javax.persistence.GeneratedValue;
 @Builder
 @Getter
 @Setter
-public class URIRequest {
+public class UrlRequest {
+    private Long id;
     private String url;
     private String alias;
     private String description;
-    private String parentFolderId;
+    private Long parentFolderId;
 }
