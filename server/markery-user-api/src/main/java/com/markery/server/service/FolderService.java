@@ -9,6 +9,7 @@ import com.markery.server.repository.FolderRepository;
 import com.markery.server.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sun.misc.FpUtils;
 
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class FolderService {
     @Autowired
     private UserRepository userRepository;
 
-    public FolderResponse createRootFolder(FolderRequest folderRequest, Long userId, String createdAt){
+    @Transactional
+    public FolderResponse createRootFolder(Long userId, String createdAt){
         User user = userRepository.getOne(userId);
         Folder folderTocreate = Folder.builder()
                 .name(user.getUserName())
@@ -42,7 +44,7 @@ public class FolderService {
         return folderResponse;
     }
 
-
+    @Transactional
     public FolderResponse createNormalFolder(FolderRequest folderRequest, Long userId, String createdAt){
 
         Folder folderTocreate = Folder.builder()
@@ -61,7 +63,7 @@ public class FolderService {
 
         return folderResponse;
     }
-
+    @Transactional(readOnly = true)
     public List<FolderResponse> getFolders(Long folderId) {
 
         List<Folder> folderList = folderRepository.findAllByParentFolderId(folderId);
@@ -77,6 +79,7 @@ public class FolderService {
         return folderResponseList;
     }
 
+    @Transactional(readOnly = true)
     public FolderResponse getRootFolder(Long userId){
         Folder folder = folderRepository.findByUserIdAndType(userId, FolderType.ROOT);
         FolderResponse folderResponse = FolderResponse.builder()
@@ -85,6 +88,7 @@ public class FolderService {
         return folderResponse;
     }
 
+    @Transactional
     public void updatefolder(FolderRequest folderRequest){
         Folder folder = folderRepository.findById(folderRequest.getId()).orElseGet(null);
         String folderName = folderRequest.getFolderName();
@@ -92,6 +96,7 @@ public class FolderService {
         folderRepository.save(folder);
     }
 
+    @Transactional
     public void deleteFolder(Long folderId){
         folderRepository.deleteById(folderId);
     }

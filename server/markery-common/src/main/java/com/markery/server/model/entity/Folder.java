@@ -1,5 +1,6 @@
 package com.markery.server.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.markery.server.model.enumclass.FolderType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
+@Entity
 @Builder
 @Getter
 @Setter
@@ -18,6 +20,8 @@ import static javax.persistence.FetchType.LAZY;
 @Accessors(chain = true)
 public class Folder {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -25,12 +29,16 @@ public class Folder {
     @Enumerated(EnumType.STRING)
     private FolderType type;
 
+    private boolean share;
+
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     private Folder parentFolder;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "folder")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentFolder")
+    @JsonIgnore
     private List<Folder> childFolders;
 }

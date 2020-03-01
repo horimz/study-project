@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+@RestController
 @RequestMapping("/api/folders")
 public class FolderController {
 
@@ -26,12 +27,11 @@ public class FolderController {
     public ResponseEntity<Header<FolderResponse>> create(
             Authentication authentication,
             @RequestBody Header<FolderRequest> resource) throws URISyntaxException {
-        Claims claims = (Claims) authentication.getPrincipal();
-        Long uid = Long.parseLong(claims.getId());
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long uid = claims.get("uid", Long.class);
 
         String requestAt = resource.getTransactionTime();
         FolderRequest folderRequest = resource.getContent();
-
         FolderResponse folderResponse = folderService.createNormalFolder(folderRequest, uid, requestAt);
 
         String uri = "/api/folders";
@@ -40,20 +40,21 @@ public class FolderController {
 
     @GetMapping("/{folderId}")
     public Header<List<FolderResponse>> list(Authentication authentication,
-                                             @RequestParam Long folderId){
+                                             @PathVariable("folderId") Long folderId){
         List<FolderResponse> folderResponseList = folderService.getFolders(folderId);
         return Header.OK(folderResponseList);
     }
 
     @GetMapping("/root")
     public Header<FolderResponse> getRootFolderId(Authentication authentication){
-        Claims claims = (Claims) authentication.getPrincipal();
-        Long uid = Long.parseLong(claims.getId());
+        Claims claims = (Claims)authentication.getPrincipal();
+        Long uid = claims.get("uid", Long.class);
+
         FolderResponse folderResponse = folderService.getRootFolder(uid);
         return Header.OK(folderResponse);
     }
 
-    @PutMapping
+    @PatchMapping
     public Header<FolderResponse> update(Authentication authentication,
                                          @RequestBody Header<FolderRequest>  resource){
         FolderRequest folderRequest = resource.getContent();
@@ -63,7 +64,7 @@ public class FolderController {
 
     @DeleteMapping("/{folderId}")
     public Header<FolderResponse> delete(Authentication authentication,
-                                         @RequestParam Long folderId){
+                                         @PathVariable Long folderId){
         folderService.deleteFolder(folderId);
         return Header.OK();
     }

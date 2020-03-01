@@ -1,6 +1,7 @@
 package com.markery.server.model.entity;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude ={"folderList"})
+@Accessors(chain = true)
 public class User {
 
     @Id
@@ -31,6 +33,6 @@ public class User {
 
     private String updatedAt;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "folder")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Folder> folderList;
 }
