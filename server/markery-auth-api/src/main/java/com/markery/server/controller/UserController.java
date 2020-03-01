@@ -1,7 +1,6 @@
 package com.markery.server.controller;
 
 import com.markery.server.model.network.Header;
-import com.markery.server.model.network.request.FolderRequest;
 import com.markery.server.model.network.request.UserRequest;
 import com.markery.server.model.network.response.UserResponse;
 import com.markery.server.service.FolderService;
@@ -25,7 +24,7 @@ public class UserController {
     private FolderService folderService;
 
     @PostMapping
-    public ResponseEntity<Header<UserResponse>> create(@Valid @RequestBody Header<UserRequest> resoruce) throws URISyntaxException {
+    public ResponseEntity<Header<UserResponse>> create(@Valid @RequestBody Header<UserRequest> resoruce) throws URISyntaxException, javax.mail.MessagingException {
         String date = resoruce.getTransactionTime();
         UserResponse userResponse = userService.register(resoruce);
         String url = "/users/" + userResponse.getId();
@@ -38,9 +37,15 @@ public class UserController {
     }
 
     //TODO 이메일 valid bit 바꿔주는 엔드포인트 및 서비스 로직 구현
-//    @PatchMapping("/{uid}")
-//    public ResponseEntity<Header<UserResponse>> validate(@PathVariable Long id,
-//                                                         @RequestBody ){
-//
-//    }
+    @GetMapping("/confirm")
+    public ResponseEntity<Header<UserResponse>> validate(@RequestParam Long uid,
+                                                         @RequestParam String email,
+                                                         @RequestParam String authkey) throws URISyntaxException {
+        boolean varifier = userService.validate(uid, email, authkey);
+
+        String uri = "/users/confirm";
+
+        if(varifier)return ResponseEntity.ok().body(Header.OK());
+        else return ResponseEntity.badRequest().body(Header.ERROR());
+    }
 }

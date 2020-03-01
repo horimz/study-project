@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @RequestMapping("/auth")
-public class LoginController {
+public class AuthController {
     @Autowired
     private UserService userService;
 
