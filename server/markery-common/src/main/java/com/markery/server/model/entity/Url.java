@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude ={"hashTagList"})
 public class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,5 @@ public class Url {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "url")
-    @JsonIgnore
-    private List<HashTag> hashTagList;
+    private List<AddTag> addTagList;
 }

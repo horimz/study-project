@@ -5,6 +5,7 @@ import com.markery.server.model.entity.Url;
 import com.markery.server.model.network.request.FolderRequest;
 import com.markery.server.model.network.request.UrlRequest;
 import com.markery.server.model.network.response.UrlResponse;
+import com.markery.server.repository.AddTagRepository;
 import com.markery.server.repository.FolderRepository;
 import com.markery.server.repository.UrlRepository;
 import com.markery.server.repository.UserRepository;
@@ -26,6 +27,9 @@ public class UrlService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AddTagRepository addTagRepository;
 
     @Transactional
     public UrlResponse createUrl(UrlRequest urlRequest, Long uid, String requestAt) {
@@ -67,17 +71,29 @@ public class UrlService {
 
     @Transactional(readOnly = true)
     public List<UrlResponse> getUrlsWithHashtag(String hashtag) {
-        List<Url> urlList = urlRepository.findAllByhashtagContaining(hashtag);
+
+        List<Object[]> objectList = addTagRepository.findAllContaingHashTag(hashtag);
         List<UrlResponse> urlResponseList = new ArrayList<>();
-        urlList.forEach((url)-> {
-            UrlResponse urlResponse = UrlResponse.builder()
-                    .id(url.getId())
-                    .alias(url.getAlias())
-                    .url(url.getUrl())
-                    .description(url.getDescription())
-                    .build();
+        for(Object[] obj : objectList){
+            UrlResponse urlResponse = new UrlResponse();
+            urlResponse.setId(Long.parseLong(obj[0].toString()));
+            urlResponse.setUrl((String) obj[1]);
+            urlResponse.setAlias((String) obj[2]);
+            urlResponse.setDescription((String) obj[3]);
             urlResponseList.add(urlResponse);
-        });
+
+        };
+
+//        List<UrlResponse> urlResponseList = new ArrayList<>();
+//        urlList.forEach((url)-> {
+//            UrlResponse urlResponse = UrlResponse.builder()
+//                    .id(url.getId())
+//                    .alias(url.getAlias())
+//                    .url(url.getUrl())
+//                    .description(url.getDescription())
+//                    .build();
+//            urlResponseList.add(urlResponse);
+//        });
         return urlResponseList;
     }
 

@@ -1,9 +1,14 @@
 package com.markery.server.model.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class HashTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,6 +16,6 @@ public class HashTag {
 
     private String name;
 
-    @ManyToOne
-    private Url url;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "hashTag")
+    private List<AddTag> addTag;
 }
