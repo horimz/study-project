@@ -12,7 +12,6 @@ import com.markery.server.service.exception.PasswordValidatorWrongException;
 import com.markery.server.service.exception.PasswordWrongException;
 import com.markery.server.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
