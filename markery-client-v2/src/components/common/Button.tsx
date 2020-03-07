@@ -2,7 +2,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 import { palette, buttonColorMap, boxShadow } from "../../lib/styles";
 
-export type ButtonColor =
+type ButtonColor =
   | "lightGren"
   | "grey"
   | "green"
@@ -11,7 +11,7 @@ export type ButtonColor =
   | "red"
   | "pink";
 
-export type ButtonSize = "small" | "medium" | "large";
+type ButtonSize = "small" | "medium" | "large";
 
 interface StyledButtonProps {
   color: ButtonColor;
@@ -19,7 +19,7 @@ interface StyledButtonProps {
   strech: boolean;
 }
 
-export const StyledButton = styled.button<StyledButtonProps>`
+const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,7 +94,7 @@ interface ButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, "size"> {
   strech?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   children,
   color = "lightGrey",
   size = "medium",
@@ -120,3 +120,5 @@ export const Button: React.FC<ButtonProps> = ({
     </StyledButton>
   );
 };
+
+export { Button };

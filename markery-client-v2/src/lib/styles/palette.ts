@@ -28,7 +28,18 @@ const palette = {
   green6: "#12B886",
   green7: "#0CA678",
   green8: "#099268",
-  green9: "#087F5B"
+  green9: "#087F5B",
+  /* Blue */
+  blue0: "#e3fafc",
+  blue1: "#c5f6fa",
+  blue2: "#99e9f2",
+  blue3: "#66d9e8",
+  blue4: "#3bc9db",
+  blue5: "#22b8cf",
+  blue6: "#15aabf",
+  blue7: "#1098ad",
+  blue8: "#0c8599",
+  blue9: "#0b7285"
 };
 
 type buttonColorMapType = {
@@ -88,6 +99,10 @@ const TagColorMap: TagColorMapType = {
   green: {
     color: "#15bd76",
     backgroundColor: "#e2f8ee"
+  },
+  lightBlue: {
+    color: "#00abbf",
+    backgroundColor: "#dcf9fd"
   },
   blue: {
     color: "#0f7ad8",

@@ -4,6 +4,7 @@ import { palette, media } from "../../lib/styles";
 import { StyledSegmentBox } from "../common/SegmentBox";
 
 const AuthFormTemplateBlock = styled(StyledSegmentBox)`
+  margin: 6.5rem 0;
   width: 400px;
   ${media.custom(400)} {
     width: 100%;
