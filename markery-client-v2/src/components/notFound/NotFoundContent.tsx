@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "../common/Button";
 import { Link } from "react-router-dom";
+import { mixin } from "../../lib/styles";
 
 const NotFoundContentBlock = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${mixin.flexCenter}
   flex-direction: column;
 `;
 

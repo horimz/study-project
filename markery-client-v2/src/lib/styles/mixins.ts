@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 
-const base = {
+const mixin = {
   flexCenter: css`
     display: flex;
     justify-content: center;
@@ -25,4 +25,4 @@ const boxShadow = {
   `
 };
 
-export { base, boxShadow };
+export { mixin, boxShadow };

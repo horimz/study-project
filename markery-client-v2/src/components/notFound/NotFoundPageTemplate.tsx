@@ -1,12 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { palette } from "../../lib/styles";
+import { palette, mixin } from "../../lib/styles";
 
 const NotFoundPageTemplateBlock = styled.div`
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  ${mixin.flexCenter}
   background-color: ${palette.background};
 `;
 

@@ -5,6 +5,7 @@ const palette = {
   background: "#eff3f5",
   inputInternalFill: "#e8f0fe",
   border: "#ccd9df",
+  divider: "#d9e3ed",
   error: "#ff4f56",
   /* Grey */
   grey0: "#F8F9FA",
@@ -16,7 +17,18 @@ const palette = {
   grey6: "#868E96",
   grey7: "#495057",
   grey8: "#343A40",
-  grey9: "#212529"
+  grey9: "#212529",
+  /* Green */
+  green0: "#F3FFFB",
+  green1: "#C3FAE8",
+  green2: "#96F2D7",
+  green3: "#63E6BE",
+  green4: "#38D9A9",
+  green5: "#20C997",
+  green6: "#12B886",
+  green7: "#0CA678",
+  green8: "#099268",
+  green9: "#087F5B"
 };
 
 type buttonColorMapType = {
