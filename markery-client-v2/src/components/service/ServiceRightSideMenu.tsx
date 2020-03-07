@@ -68,17 +68,17 @@ const ServiceRightSideMenuUrlsBlock = styled(ServiceRightSideMenuCloseBlock)`
 
 interface ServiceRightSideMenuProps {
   open: boolean;
-  closeSideMenu: () => void;
+  onToggle: () => void;
 }
 
 const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
   open,
-  closeSideMenu
+  onToggle
 }) => {
   return (
     <ServiceRightSideMenuBlock open={open}>
       <ServiceRightSideMenuCloseBlock>
-        <div onClick={() => closeSideMenu()}>
+        <div onClick={() => onToggle()}>
           <AiOutlineClose />
           <span>Close</span>
         </div>

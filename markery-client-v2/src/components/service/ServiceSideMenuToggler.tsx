@@ -48,15 +48,15 @@ const ServiceTogglerBlock = styled.div<{ open: boolean }>`
 
 interface ServiceSideMenuTogglerProps {
   open: boolean;
-  openSideMenu: () => void;
+  onToggle: () => void;
 }
 
 const ServiceSideMenuToggler: React.FC<ServiceSideMenuTogglerProps> = ({
   open,
-  openSideMenu
+  onToggle
 }) => {
   return (
-    <ServiceSideMenuTogglerBlock onClick={() => openSideMenu()}>
+    <ServiceSideMenuTogglerBlock onClick={() => onToggle()}>
       <ServiceTogglerBlock open={open}>
         <AiFillRightCircle />
         <AiOutlineMenuUnfold />
