@@ -18,8 +18,9 @@ const ForgotPasswordPage = loadable(
   loadableConfig
 );
 const SettingsPage = loadable(() => import("./pages/SettingsPage"));
+const ServicePage = loadable(() => import("./pages/service/ServicePage"));
 
-// TODO: add ServicePage & SharePage
+// TODO: add SharePage
 
 interface AppProps {}
 
@@ -35,6 +36,7 @@ const App: React.FC<AppProps> = props => {
         <Route path='/register' component={RegisterPage} />
         <Route path='/forgot-password' component={ForgotPasswordPage} />
         <Route path='/settings' component={SettingsPage} />
+        <Route path='/service' component={ServicePage} />
         <Route component={NotFoundPage} />
       </Switch>
     </BrowserRouter>

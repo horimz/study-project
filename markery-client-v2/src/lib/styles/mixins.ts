@@ -22,6 +22,12 @@ const boxShadow = {
   `,
   inputFocus: css`
     box-shadow: rgb(15, 122, 216) 0px 0px 0px 2px inset;
+  `,
+  serviceRightSideMenu: css`
+    box-shadow: 0 12px 48px 0 rgba(96, 101, 123, 0.24);
+  `,
+  sideMenuToggler: css`
+    box-shadow: 0 4px 8px 0 rgba(96, 101, 123, 0.2);
   `
 };
 

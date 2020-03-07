@@ -3,9 +3,9 @@ import { MainHeader, MainNavType } from "../../components/main/MainHeader";
 
 const BREAK_POINT = 150;
 
-interface MainHeaderControllerProps {}
+interface MainHeaderContainerProps {}
 
-const MainHeaderController: React.FC<MainHeaderControllerProps> = props => {
+const MainHeaderContainer: React.FC<MainHeaderContainerProps> = props => {
   const [mode, setMode] = useState<MainNavType>("normal");
   const [prevScrollPos, setPrevScrollPos] = useState<number>(
     window.pageYOffset
@@ -36,4 +36,4 @@ const MainHeaderController: React.FC<MainHeaderControllerProps> = props => {
   return <MainHeader mode={mode} />;
 };
 
-export { MainHeaderController };
+export { MainHeaderContainer };

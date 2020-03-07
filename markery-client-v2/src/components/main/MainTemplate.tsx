@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MainHero } from "./MainHero";
-import { MainHeaderController } from "../../containers/main/MainHeaderController";
+import { MainHeaderContainer } from "../../containers/main/MainHeaderContainer";
 import { MainFooter } from "./MainFooter";
 import { palette, media, mixin } from "../../lib/styles";
 
@@ -60,7 +60,7 @@ interface MainTemplateProps {}
 const MainTemplate: React.FC<MainTemplateProps> = ({ children }) => {
   return (
     <MainTemplateBlock>
-      <MainHeaderController />
+      <MainHeaderContainer />
       <header>
         <MainHero />
       </header>
