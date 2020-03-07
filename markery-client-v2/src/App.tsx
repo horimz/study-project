@@ -30,11 +30,11 @@ const App: React.FC<AppProps> = props => {
         <title>Markery</title>
       </Helmet>
       <Switch>
-        <Route path="/" component={MainPage} exact />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/forgot-password" component={ForgotPasswordPage} />
-        <Route path="/settings" component={SettingsPage} />
+        <Route path='/' component={MainPage} exact />
+        <Route path='/login' component={LoginPage} />
+        <Route path='/register' component={RegisterPage} />
+        <Route path='/forgot-password' component={ForgotPasswordPage} />
+        <Route path='/settings' component={SettingsPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </BrowserRouter>
