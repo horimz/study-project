@@ -28,6 +28,12 @@ const boxShadow = {
   `,
   sideMenuToggler: css`
     box-shadow: 0 4px 8px 0 rgba(96, 101, 123, 0.2);
+  `,
+  serviceAssistant: css`
+    box-shadow: 0 12px 48px 0 rgba(96, 101, 123, 0.24);
+  `,
+  dropdown: css`
+    box-shadow: 0 12px 48px 0 rgba(96, 101, 123, 0.24);
   `
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { palette, mixin } from "../../lib/styles";
 
-const NotFoundPageTemplateBlock = styled.div`
+const NotFoundTemplateBlock = styled.div`
   height: 100vh;
   ${mixin.flexCenter}
   background-color: ${palette.background};
@@ -11,7 +11,7 @@ const NotFoundPageTemplateBlock = styled.div`
 interface NotFoundTemplateProps {}
 
 const NotFoundTemplate: React.FC<NotFoundTemplateProps> = ({ children }) => {
-  return <NotFoundPageTemplateBlock>{children}</NotFoundPageTemplateBlock>;
+  return <NotFoundTemplateBlock>{children}</NotFoundTemplateBlock>;
 };
 
 export { NotFoundTemplate };

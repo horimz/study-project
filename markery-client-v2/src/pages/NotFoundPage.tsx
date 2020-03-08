@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { NotFoundTemplate } from "../components/notFound/NotFoundPageTemplate";
+import { NotFoundTemplate } from "../components/notFound/NotFoundTemplate";
 import { NotFoundContent } from "../components/notFound/NotFoundContent";
 
 interface NotFoundPageProps {}

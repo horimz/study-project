@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { TagColorMap } from "./lib/styles";
 
 export const GlobalStyles = createGlobalStyle`
 *,
@@ -41,5 +42,13 @@ a {
 
 svg {
   overflow: hidden;
+}
+
+/* Custom classnames */
+.service-side-menu__active {
+  div {
+    color: ${TagColorMap.blue.color};
+    background-color: ${TagColorMap.blue.backgroundColor};
+  }
 }
 `;

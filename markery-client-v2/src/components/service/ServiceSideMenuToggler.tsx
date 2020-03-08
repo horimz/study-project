@@ -27,7 +27,7 @@ const ServiceTogglerBlock = styled.div<{ open: boolean }>`
   transition: transform 0.2s, box-shadow 0.2s, width 0.3s,
     -webkit-transform 0.2s;
   &:hover {
-    box-shadow: 0 4px 12px 0 rgba(96, 101, 123, 0.2);
+    ${boxShadow.sideMenuToggler}
     transform: scale(1.075);
   }
   &:active {

@@ -1,9 +1,10 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { boxShadow, TagColorMap, palette } from "../../lib/styles";
+import { Backdrop } from "../common/Backdrop";
+import { boxShadow, TagColorMap, palette, zIndex } from "../../lib/styles";
 import { AiOutlineClose } from "react-icons/ai";
 import { GoHome } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { TiFolderDelete } from "react-icons/ti";
 import { FiLink } from "react-icons/fi";
 
@@ -17,12 +18,13 @@ const ServiceRightSideMenuBlock = styled.div<{ open: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: white;
-  transition: transform 0.5s, -webkit-transform 0.5s;
+  transition: transform 0.5s;
   ${props =>
     props.open &&
     css`
       transform: translateX(350px);
     `}
+  z-index: ${zIndex.service};
 `;
 
 const ServiceRightSideMenuCloseBlock = styled.div`
@@ -76,36 +78,55 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
   onToggle
 }) => {
   return (
-    <ServiceRightSideMenuBlock open={open}>
-      <ServiceRightSideMenuCloseBlock>
-        <div onClick={() => onToggle()}>
-          <AiOutlineClose />
-          <span>Close</span>
-        </div>
-      </ServiceRightSideMenuCloseBlock>
-      <Serperator />
-      <ServiceRightSideMenuHomeBlock>
-        <Link to='/service'>
-          <div>
-            <GoHome />
-            <span>Home</span>
+    <>
+      <Backdrop open={open} onClick={onToggle} />
+      <ServiceRightSideMenuBlock open={open}>
+        <ServiceRightSideMenuCloseBlock>
+          <div onClick={() => onToggle()}>
+            <AiOutlineClose />
+            <span>Close</span>
           </div>
-        </Link>
-      </ServiceRightSideMenuHomeBlock>
-      <Serperator />
-      <ServiceRightSideMenuFoldersBlock>
-        <div>
-          <TiFolderDelete />
-          <span>Folders</span>
-        </div>
-      </ServiceRightSideMenuFoldersBlock>
-      <ServiceRightSideMenuUrlsBlock>
-        <div>
-          <FiLink />
-          <span>Urls</span>
-        </div>
-      </ServiceRightSideMenuUrlsBlock>
-    </ServiceRightSideMenuBlock>
+        </ServiceRightSideMenuCloseBlock>
+        <Serperator />
+        <ServiceRightSideMenuHomeBlock>
+          <NavLink
+            to='/service'
+            activeClassName='service-side-menu__active'
+            exact
+          >
+            <div>
+              <GoHome />
+              <span>Home</span>
+            </div>
+          </NavLink>
+        </ServiceRightSideMenuHomeBlock>
+        <Serperator />
+        <ServiceRightSideMenuFoldersBlock>
+          <NavLink
+            to='/service/folders'
+            activeClassName='service-side-menu__active'
+            exact
+          >
+            <div>
+              <TiFolderDelete />
+              <span>Folders</span>
+            </div>
+          </NavLink>
+        </ServiceRightSideMenuFoldersBlock>
+        <ServiceRightSideMenuUrlsBlock>
+          <NavLink
+            to='/service/urls'
+            activeClassName='service-side-menu__active'
+            exact
+          >
+            <div>
+              <FiLink />
+              <span>Urls</span>
+            </div>
+          </NavLink>
+        </ServiceRightSideMenuUrlsBlock>
+      </ServiceRightSideMenuBlock>
+    </>
   );
 };
 
