@@ -15,7 +15,7 @@ const MainHeaderBlock = styled.div<{ mode: MainNavType }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 0.25s linear;
+  transition: background-color 0.25s linear, box-shadow 0.25s linear, transform 0.25s linear;
   z-index: ${zIndex.mainNav};
 
   ${props =>

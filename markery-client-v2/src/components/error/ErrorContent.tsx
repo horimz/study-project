@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../common/Button";
 import { StyledSegmentBox } from "../common/SegmentBox";
-import { Link } from "react-router-dom";
+import { Button } from "../common/Button";
 import { FaRegSadTear } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
-const NotFoundContentBlock = styled(StyledSegmentBox)`
+const ErrorContentBlock = styled(StyledSegmentBox)`
   margin: 0 1rem;
   padding: 2rem 3rem;
   .error-header {
@@ -24,11 +24,13 @@ const NotFoundContentBlock = styled(StyledSegmentBox)`
   }
 `;
 
-interface NotFoundContentProps {}
+interface ErrorContentProps {
+  resetError: () => void;
+}
 
-export const NotFoundContent: React.FC<NotFoundContentProps> = props => {
+const ErrorContent: React.FC<ErrorContentProps> = ({ resetError }) => {
   return (
-    <NotFoundContentBlock>
+    <ErrorContentBlock>
       <div className='error-header'>
         <FaRegSadTear />
         <h1>Something went wrong...</h1>
@@ -39,9 +41,13 @@ export const NotFoundContent: React.FC<NotFoundContentProps> = props => {
       </div>
       <div className='error-action'>
         <Link to='/'>
-          <Button color='green'>Back to our site</Button>
+          <Button color='green' onClick={() => resetError()}>
+            Back to our site
+          </Button>
         </Link>
       </div>
-    </NotFoundContentBlock>
+    </ErrorContentBlock>
   );
 };
+
+export { ErrorContent };

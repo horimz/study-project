@@ -1,7 +1,13 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { Backdrop } from "../common/Backdrop";
-import { boxShadow, TagColorMap, palette, zIndex } from "../../lib/styles";
+import {
+  boxShadow,
+  TagColorMap,
+  palette,
+  zIndex,
+  media
+} from "../../lib/styles";
 import { AiOutlineClose } from "react-icons/ai";
 import { GoHome } from "react-icons/go";
 import { NavLink } from "react-router-dom";
@@ -18,13 +24,16 @@ const ServiceRightSideMenuBlock = styled.div<{ open: boolean }>`
   display: flex;
   flex-direction: column;
   background-color: white;
+  z-index: ${zIndex.service};
   transition: transform 0.5s;
   ${props =>
     props.open &&
     css`
       transform: translateX(350px);
     `}
-  z-index: ${zIndex.service};
+  ${media.small} {
+    width: 250px;
+  }
 `;
 
 const ServiceRightSideMenuCloseBlock = styled.div`
@@ -63,9 +72,22 @@ const Serperator = styled.div`
 const ServiceRightSideMenuHomeBlock = styled(ServiceRightSideMenuCloseBlock)``;
 const ServiceRightSideMenuFoldersBlock = styled(ServiceRightSideMenuCloseBlock)`
   margin: 2rem 0 0.5rem;
+  .service__add-folder {
+    flex: 1 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2rem;
+  }
 `;
 const ServiceRightSideMenuUrlsBlock = styled(ServiceRightSideMenuCloseBlock)`
   margin: 0;
+  margin-bottom: 2rem;
+  .service__add-url {
+    flex: 1 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2rem;
+  }
 `;
 
 interface ServiceRightSideMenuProps {
@@ -125,6 +147,7 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
             </div>
           </NavLink>
         </ServiceRightSideMenuUrlsBlock>
+        <Serperator />
       </ServiceRightSideMenuBlock>
     </>
   );

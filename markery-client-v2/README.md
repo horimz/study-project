@@ -9,5 +9,5 @@
 - /settings
 - /service
 - /service/folders
-- /service/folders/:folderId
+- /service/:folderId
 - /service/urls

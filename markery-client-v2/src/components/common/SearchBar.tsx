@@ -1,48 +1,53 @@
 import React, { useState, useCallback } from "react";
 import styled, { css } from "styled-components";
-import { palette, boxShadow } from "../../lib/styles";
+import { palette, boxShadow, media } from "../../lib/styles";
+import { FiSearch } from "react-icons/fi";
 
 interface StyledInputProps {
   focus: boolean;
-  clearBackground: boolean;
 }
 
-const StyledInputBlock = styled.div<StyledInputProps>`
-  margin-top: 1.25rem;
-  width: 100%;
-  label,
+const StyledSearchBar = styled.div<StyledInputProps>`
+  display: flex;
+  position: relative;
+  ${media.xsmall} {
+    width: 100%;
+  }
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 2rem;
+    transform: translate(15px, 13px);
+    color: ${palette.grey4};
+  }
   input {
     display: block;
     line-height: 18px;
     font-size: 14px !important;
-  }
-  label {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: ${palette.label};
-  }
-  input {
     font-style: normal;
     border: none;
     border: 1px solid ${palette.border};
     outline: none;
-    width: 100%;
+    width: 200px;
     border-radius: 6px;
-    padding: 13px 16px;
+    padding: 13px 16px 13px 4.5rem;
     color: ${palette.grey7};
-    background-color: ${palette.inputInternalFill};
-    transition: all 0.1s linear 0s;
+    background-color: white;
+    transition: all 0.2s linear 0s;
+    ${media.custom(750)} {
+      width: 100%;
+      transition: border-color 0.2s linear 0s;
+    }
+    ${media.xsmall} {
+      width: 100%;
+    }
     ${props =>
       props.focus &&
       css`
         ${boxShadow.inputFocus}
         border-color: transparent;
-      `}
-    ${props =>
-      props.clearBackground &&
-      css`
-        background-color: white;
+        width: 380px;
       `}
     &::placeholder {
       color: ${palette.grey4};
@@ -58,20 +63,16 @@ interface InputProps
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  label?: string;
   placeholder?: string;
   name?: string;
   value?: string;
-  clearBackground?: boolean;
   onChange?: React.ChangeEventHandler;
 }
 
-const Input: React.FC<InputProps> = ({
-  label = "",
+const SearchBar: React.FC<InputProps> = ({
   placeholder,
   name,
   value,
-  clearBackground = false,
   onChange,
   id,
   ...rest
@@ -86,8 +87,8 @@ const Input: React.FC<InputProps> = ({
   }, []);
 
   return (
-    <StyledInputBlock focus={focus} clearBackground={clearBackground}>
-      <label htmlFor={id}>{label}</label>
+    <StyledSearchBar focus={focus}>
+      <FiSearch />
       <input
         name={name}
         id={id}
@@ -98,8 +99,8 @@ const Input: React.FC<InputProps> = ({
         onBlur={onBlur}
         {...rest}
       />
-    </StyledInputBlock>
+    </StyledSearchBar>
   );
 };
 
-export { Input };
+export { SearchBar };

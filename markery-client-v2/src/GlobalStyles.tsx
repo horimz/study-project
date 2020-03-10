@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import { TagColorMap } from "./lib/styles";
+import { TagColorMap, palette } from "./lib/styles";
 
 export const GlobalStyles = createGlobalStyle`
 *,
@@ -20,7 +20,7 @@ body {
   font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #3d556b;
+  color: ${palette.text};
   font-size: 14px;
   box-sizing: border-box;
 }

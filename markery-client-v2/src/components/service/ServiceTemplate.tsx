@@ -5,7 +5,6 @@ import { palette } from "../../lib/styles";
 const ServiceTemplateBlock = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
   position: relative;
   background-color: ${palette.background};

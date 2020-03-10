@@ -5,7 +5,7 @@ import { palette, mixin } from "../../lib/styles";
 const NotFoundTemplateBlock = styled.div`
   height: 100vh;
   ${mixin.flexCenter}
-  background-color: ${palette.background};
+  background-color: ${palette.text};
 `;
 
 interface NotFoundTemplateProps {}

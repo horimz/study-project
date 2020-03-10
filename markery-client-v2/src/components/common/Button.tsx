@@ -5,11 +5,13 @@ import { palette, buttonColorMap, boxShadow } from "../../lib/styles";
 type ButtonColor =
   | "lightGren"
   | "grey"
+  | "darkGrey"
   | "green"
   | "lightBlue"
   | "blue"
   | "red"
-  | "pink";
+  | "pink"
+  | "greyToRed";
 
 type ButtonSize = "small" | "medium" | "large";
 
@@ -52,10 +54,10 @@ const StyledButton = styled.button<StyledButtonProps>`
   ${props =>
     props.size === "small" &&
     css`
-      height: 2rem;
+      height: 2.5rem;
       padding-left: 1rem;
       padding-right: 1rem;
-      font-size: 0.75rem;
+      font-size: 1.15rem;
     `}
 
   ${props =>

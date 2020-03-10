@@ -58,8 +58,13 @@ const buttonColorMap: buttonColorMapType = {
   },
   grey: {
     color: "white",
-    backgroundColor: "#8fa6b233",
-    hoverBackgroundColor: "#8fa6b280"
+    backgroundColor: "#8fa6b2",
+    hoverBackgroundColor: "#839caa"
+  },
+  darkGrey: {
+    color: "white",
+    backgroundColor: "#8fa6b280",
+    hoverBackgroundColor: "#ADB5BD"
   },
   green: {
     color: "white",
@@ -79,12 +84,17 @@ const buttonColorMap: buttonColorMapType = {
   red: {
     color: "white",
     backgroundColor: "#ff4f56",
-    hoverBackgroundColor: "#ff6b6b"
+    hoverBackgroundColor: "#ff8787"
   },
   pink: {
     color: "white",
     backgroundColor: "#D645A7",
     hoverBackgroundColor: "#dd66b7"
+  },
+  greyToRed: {
+    color: "white",
+    backgroundColor: "#8fa6b280",
+    hoverBackgroundColor: "#ff4f56"
   }
 };
 

@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 const ServiceHeaderBlock = styled.div`
   position: absolute;
-  top: 15px;
+  top: 20px;
   right: 20px;
   border-radius: 50px;
   padding: 0.5rem 0.75rem 0.5rem 1.25rem;
@@ -45,7 +45,7 @@ const ServiceHeaderDropdownBlock = styled.div<{
   isFirst: boolean;
 }>`
   position: absolute;
-  top: 55px;
+  top: 60px;
   right: 10px;
   z-index: ${zIndex.service};
   transform-origin: 85% 0%;

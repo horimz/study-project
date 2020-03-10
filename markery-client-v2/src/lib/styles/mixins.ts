@@ -34,6 +34,9 @@ const boxShadow = {
   `,
   dropdown: css`
     box-shadow: 0 12px 48px 0 rgba(96, 101, 123, 0.24);
+  `,
+  folder: css`
+    box-shadow: 0 0.625rem 3.5rem 0 rgba(198, 203, 222, 0.45);
   `
 };
 
