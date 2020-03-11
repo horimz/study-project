@@ -3,6 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/markery?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
     username: markery
     password: markery
+    driver-class-name: com.mysql.jdbc.Driver
 
   mail:
     host: smtp.gmail.com

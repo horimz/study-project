@@ -31,6 +31,8 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'mysql:mysql-connector-java'
+	runtime 'mysql:mysql-connector-java'
+
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation( 'mysql:mysql-connector-java')
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
