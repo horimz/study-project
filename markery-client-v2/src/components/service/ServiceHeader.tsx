@@ -57,7 +57,7 @@ const ServiceHeaderDropdownBlock = styled.div<{
       : props.open
       ? css`
           display: flex;
-          animation: ${animation.scaleUp} 0.3s ease;
+          animation: ${animation.scaleUp} 0.3s cubic-bezier(0.4, 0, 0, 1.3);
           animation-fill-mode: forwards;
         `
       : css`

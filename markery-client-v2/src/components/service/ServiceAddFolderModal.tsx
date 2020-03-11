@@ -61,7 +61,7 @@ const ServiceAddFolderModal: React.FC<ServiceAddFolderModalProps> = ({
         Cancel
       </Button>
       <Button
-        color='blue'
+        color='green'
         onClick={() => console.log(`Add folder ${inputs.folderName}`)}
       >
         Add folder

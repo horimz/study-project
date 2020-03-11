@@ -12,8 +12,6 @@ const ServiceHomeContainer: React.FC<ServiceHomeContainerProps> = props => {
       <ServiceActions />
       <Folder />
       <Folder />
-      <Folder />
-      <Url />
       <Url />
       <Url />
     </>

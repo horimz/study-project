@@ -5,46 +5,48 @@ import { Button } from "../common/Button";
 import { Input } from "../common/Input";
 import { useInputs } from "../../lib/hooks";
 
-const ServiceAddUrlModalHeader = styled.div`
+const ServiceEditUrlModalHeader = styled.div`
   padding: 2rem 2.5rem;
 `;
-const ServiceAddUrlModalBody = styled.div`
+const ServiceEditUrlModalBody = styled.div`
   padding: 2rem 2.5rem;
 `;
-const ServiceAddUrlModalActions = styled.div`
+const ServiceEditUrlModalActions = styled.div`
   padding: 2rem 2.5rem;
   display: flex;
   justify-content: space-between;
 `;
 
-interface ServiceAddUrlModalProps {
+interface ServiceEditUrlModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
+const ServiceEditUrlModal: React.FC<ServiceEditUrlModalProps> = ({
   open,
   onClose
 }) => {
-  const [inputs, onChange] = useInputs({ url: "", alias: "", description: "" });
-
+  const [inputs, onChange] = useInputs({
+    url: "url",
+    alias: "alias",
+    description: ""
+  });
   const closeModal = () => {
     onClose();
   };
 
   const header = (
-    <ServiceAddUrlModalHeader>
-      <h2>Add Url</h2>
-    </ServiceAddUrlModalHeader>
+    <ServiceEditUrlModalHeader>
+      <h2>Edit url</h2>
+    </ServiceEditUrlModalHeader>
   );
 
   const body = (
-    <ServiceAddUrlModalBody>
+    <ServiceEditUrlModalBody>
       <form>
         <Input
-          label='Url name'
-          id='service-url'
-          placeholder='Enter a url'
+          label='Url'
+          id='service-edit__url'
           name='url'
           value={inputs.url}
           onChange={onChange}
@@ -52,8 +54,7 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
         />
         <Input
           label='Alias'
-          id='service-alias'
-          placeholder='Enter an alias'
+          id='service-edit__alias'
           name='alias'
           value={inputs.alias}
           onChange={onChange}
@@ -61,33 +62,25 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
         />
         <Input
           label='Description'
-          id='service-description'
-          placeholder='Enter a short description'
+          id='service-edit__description'
           name='description'
           value={inputs.description}
           onChange={onChange}
           clearBackground
         />
       </form>
-    </ServiceAddUrlModalBody>
+    </ServiceEditUrlModalBody>
   );
 
   const actions = (
-    <ServiceAddUrlModalActions>
+    <ServiceEditUrlModalActions>
       <Button color='grey' onClick={closeModal}>
         Cancel
       </Button>
-      <Button
-        color='green'
-        onClick={() =>
-          console.log(
-            `Add Url, ${inputs.url} ${inputs.alias} ${inputs.description}`
-          )
-        }
-      >
-        Add url
+      <Button color='green' onClick={() => console.log("Edit url")}>
+        Apply changes
       </Button>
-    </ServiceAddUrlModalActions>
+    </ServiceEditUrlModalActions>
   );
 
   return (
@@ -97,9 +90,8 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
       header={header}
       body={body}
       actions={actions}
-      size='large'
     />
   );
 };
 
-export { ServiceAddUrlModal };
+export { ServiceEditUrlModal };

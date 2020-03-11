@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { AiOutlineShareAlt, AiOutlineQuestionCircle } from "react-icons/ai";
 import {
@@ -35,6 +35,7 @@ const ServiceAssistantBlock = styled.div<{ open: boolean }>`
 const ServiceAssistantContentBlock = styled(StyledSegmentBox)<{
   open: boolean;
   isFirst: boolean;
+  close: boolean;
 }>`
   position: absolute;
   bottom: 50px;
@@ -42,6 +43,12 @@ const ServiceAssistantContentBlock = styled(StyledSegmentBox)<{
   width: 180px;
   z-index: ${zIndex.service};
   ${boxShadow.serviceAssistant}
+  ${props =>
+    props.close &&
+    css`
+      display: none;
+    `}
+
   ${props =>
     props.isFirst
       ? css`
@@ -113,11 +120,22 @@ const ServiceAssistant: React.FC<ServiceAssistantProps> = ({
   onToggle
 }) => {
   const [isFirst, setIsFirst] = useState<boolean>(true);
+  const [close, setClose] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isFirst && !open) {
+      setTimeout(() => setClose(true), 300);
+    }
+
+    if (!isFirst && open) {
+      setClose(false);
+    }
+  }, [isFirst, open]);
 
   return (
     <ServiceAssistantBlock open={open}>
       <Backdrop open={open} onClick={onToggle} />
-      <ServiceAssistantContentBlock open={open} isFirst={isFirst}>
+      <ServiceAssistantContentBlock open={open} isFirst={isFirst} close={close}>
         <ServiceAssistantContent>
           <div className='assistant-container'>
             <div className='assistant-box'>

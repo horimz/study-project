@@ -17,10 +17,10 @@ const FolderBlock = styled.div`
   cursor: pointer;
   transition: all 0.2s;
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 2.4rem;
   }
   &:hover {
-    transform: scale(1.02);
+    /* transform: scale(1.02); */
   }
 `;
 

@@ -1,9 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { palette, boxShadow, TagColorMap } from "../../lib/styles";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
+import { palette, boxShadow, TagColorMap, animation } from "../../lib/styles";
 import { FiLink, FiEdit } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useToggle } from "../../lib/hooks";
+import { Button } from "../common/Button";
 
 const UrlBlock = styled.div`
   width: 100%;
@@ -16,10 +19,11 @@ const UrlBlock = styled.div`
   cursor: pointer;
   transition: all 0.2s;
   &:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 2.4rem;
   }
   &:hover {
-    transform: scale(1.02);
+    /* background-color: ${TagColorMap.lightBlue.backgroundColor};
+    color: ${TagColorMap.lightBlue.color}; */
   }
 `;
 
@@ -50,15 +54,11 @@ const UrlNameBlock = styled.div`
 
 const UrlRightBlock = styled.div`
   justify-self: flex-end;
-  .url__actions {
-    font-size: 1.75rem;
-    display: flex;
-    align-items: center;
-  }
   .url__action {
     padding: 0.75rem;
     border-radius: 8px;
     transition: all 0.2s;
+    position: relative;
     &:hover {
       background-color: ${palette.grey0};
     }
@@ -75,9 +75,100 @@ const UrlRightBlock = styled.div`
   }
 `;
 
+const UrlActionsBlock = styled.div`
+  font-size: 1.75rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+`;
+
+const UrlActionBlock = styled.div<{ open?: boolean; close?: boolean }>`
+  padding: 0.75rem;
+  border-radius: 8px;
+  transition: all 0.2s;
+  position: relative;
+  &:hover {
+    background-color: ${palette.grey0};
+  }
+  ${props =>
+    props.open &&
+    css`
+      background-color: ${palette.grey0};
+    `}
+  .url__trash-icon {
+    ${props =>
+      props.open &&
+      css`
+        color: ${TagColorMap.lightBlue.color};
+      `}
+  }
+
+  ${props =>
+    props.close &&
+    css`
+      display: none;
+    `}
+`;
+
+const UrlDeleteBlock = styled.div<{ open: boolean; isFirst: boolean }>`
+  position: absolute;
+  cursor: default;
+  top: 0;
+  right: 0;
+  ${boxShadow.serviceRightSideMenu}
+  background-color: white;
+  border-radius: 8px;
+  transform-origin: top right;
+  ${props =>
+    props.isFirst
+      ? css`
+          display: none;
+        `
+      : props.open
+      ? css`
+          display: flex;
+          animation: ${animation.fadeInFromTopToBottom} 0.3s
+            cubic-bezier(0.4, 0, 0, 1.5);
+          animation-fill-mode: both;
+        `
+      : css`
+          animation: ${animation.fadeOutAndScaleDown} 0.4s ease;
+          animation-fill-mode: both;
+        `}
+  div {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+  }
+  .url-action__cancle {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5rem;
+    background-color: white;
+    ${boxShadow.segmentBox}
+    color: ${palette.grey5};
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    transform: translate(-12px, -12px);
+    display: flex;
+    align-items: center;
+    transition: all 0.1s linear;
+    &:hover {
+      background-color: ${palette.background};
+    }
+  }
+`;
+
 interface UrlProps {}
 
 const Url: React.FC<UrlProps> = props => {
+  const [openDelete, onDeleteToggle] = useToggle(false);
+  const [isFirstDelete, setIsFirstDelete] = useState<boolean>(true);
+  const [openEdit] = useToggle(false);
+
   return (
     <UrlBlock>
       <UrlTopBlock>
@@ -88,14 +179,36 @@ const Url: React.FC<UrlProps> = props => {
           </UrlNameBlock>
         </Link>
         <UrlRightBlock>
-          <div className='url__actions'>
-            <div className='url__action'>
-              <FaRegTrashAlt className='url__trash-icon' />
-            </div>
-            <div className='url__action'>
+          <UrlActionsBlock>
+            <UrlActionBlock close={openDelete}>
               <FiEdit className='url__edit-icon' />
-            </div>
-          </div>
+            </UrlActionBlock>
+            <UrlActionBlock
+              open={openDelete}
+              close={openEdit}
+              onClick={() => {
+                setIsFirstDelete(false);
+                onDeleteToggle();
+              }}
+            >
+              <FaRegTrashAlt className='url__trash-icon' />
+            </UrlActionBlock>
+            <UrlDeleteBlock open={openDelete} isFirst={isFirstDelete}>
+              <div>
+                <MdClose
+                  className='url-action__cancle'
+                  onClick={() => onDeleteToggle()}
+                />
+                <Button
+                  color='red'
+                  size='small'
+                  onClick={() => console.log("remove url")}
+                >
+                  Remove
+                </Button>
+              </div>
+            </UrlDeleteBlock>
+          </UrlActionsBlock>
         </UrlRightBlock>
       </UrlTopBlock>
     </UrlBlock>

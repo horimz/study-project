@@ -17,7 +17,6 @@ const animation = {
   }
   100% {
     opacity: 0;
-    z-index: -1;
     transform: translateY(30px);
   }`,
   scaleUp: keyframes`
@@ -48,6 +47,7 @@ const animation = {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
     top: 50%;
+    box-shadow: 0 0 black;
   }
   `,
   scaleDownToBottom: keyframes`
@@ -60,6 +60,38 @@ const animation = {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0);
     top: 60%;
+  }`,
+  fadeIn: keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }`,
+  fadeOut: keyframes`
+    0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }`,
+  fadeInFromTopToBottom: keyframes`
+  0% {
+    opacity: 0;
+    transform: translate(-5px, 20px) scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-5px, 35px) scale(1);
+  }`,
+  fadeOutAndScaleDown: keyframes`
+  0% {
+    opacity: 1;
+    transform: translate(-5px, 35px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-5px, 20px) scale(0);;
   }`
 };
 

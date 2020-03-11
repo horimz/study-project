@@ -1,13 +1,26 @@
 import React from "react";
-import styled from "styled-components";
+import { useToggle } from "../../lib/hooks";
+import { ServiceDeleteFolderModal } from "./ServiceDeleteFolderModal";
+import { ServiceEditUrlModal } from "./ServiceEditUrlModal";
 
 interface ServiceContentModifierProps {}
 
-// Delete folder
-// Delete url
-// Edit url
 const ServiceContentModifier: React.FC<ServiceContentModifierProps> = props => {
-  return <div>Modifier</div>;
+  const [openDeleteFolderModal, onDeleteFolderModalToggle] = useToggle(false);
+  const [openEditUrlModal, onEditUrlModalToggle] = useToggle(false);
+
+  return (
+    <>
+      <ServiceDeleteFolderModal
+        open={openDeleteFolderModal}
+        onClose={onDeleteFolderModalToggle}
+      />
+      <ServiceEditUrlModal
+        open={openEditUrlModal}
+        onClose={onEditUrlModalToggle}
+      />
+    </>
+  );
 };
 
 export { ServiceContentModifier };
