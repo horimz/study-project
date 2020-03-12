@@ -1,11 +1,19 @@
 import { combineReducers } from "redux";
+import { authReducer, AuthState } from "./reducers/auth";
+import {
+  notificationReducer,
+  NotificationState
+} from "./reducers/notification";
+import { loadingReducer, LoadingState } from "./reducers/loading";
 
 export type RootState = {
-  auth: any;
+  auth: AuthState;
+  notifications: NotificationState;
+  loading: LoadingState;
 };
 
-const rootReducer = combineReducers({
-  auth: () => null
+export const rootReducer = combineReducers({
+  auth: authReducer,
+  notifications: notificationReducer,
+  loading: loadingReducer
 });
-
-export { rootReducer };

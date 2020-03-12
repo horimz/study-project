@@ -13,7 +13,8 @@ import {
 import { Link } from "react-router-dom";
 
 const ServiceHeaderBlock = styled.div`
-  position: absolute;
+  z-index: ${zIndex.service};
+  position: fixed;
   top: 20px;
   right: 20px;
   border-radius: 50px;
@@ -58,18 +59,18 @@ const ServiceHeaderDropdownBlock = styled.div<{
       ? css`
           display: flex;
           animation: ${animation.scaleUp} 0.3s cubic-bezier(0.4, 0, 0, 1.3);
-          animation-fill-mode: forwards;
+          animation-fill-mode: both;
         `
       : css`
           animation: ${animation.scaleDown} 0.3s ease;
-          animation-fill-mode: forwards;
+          animation-fill-mode: both;
         `}
 `;
 
 const ServiceHeaderDropdown = styled(StyledSegmentBox)`
   position: relative;
   height: 200px;
-
+  z-index: ${zIndex.service};
   &::after {
     content: "";
     position: absolute;
@@ -112,7 +113,7 @@ const ServiceHeaderDropdown = styled(StyledSegmentBox)`
   }
 `;
 
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   margin: 1rem 1.5rem;
   background-color: ${palette.divider};
@@ -121,9 +122,18 @@ const Serperator = styled.div`
 interface ServiceHeaderProps {
   open: boolean;
   onToggle: () => void;
+  onLogout: () => void;
+  username: string;
+  email: string;
 }
 
-const ServiceHeader: React.FC<ServiceHeaderProps> = ({ open, onToggle }) => {
+const ServiceHeader: React.FC<ServiceHeaderProps> = ({
+  open,
+  onToggle,
+  onLogout,
+  username,
+  email
+}) => {
   const [isFirst, setIsFirst] = useState<boolean>(true);
 
   return (
@@ -137,7 +147,7 @@ const ServiceHeader: React.FC<ServiceHeaderProps> = ({ open, onToggle }) => {
         }}
       >
         <h3>
-          horimz
+          {username}
           <MdArrowDropDown />
         </h3>
       </div>
@@ -145,13 +155,16 @@ const ServiceHeader: React.FC<ServiceHeaderProps> = ({ open, onToggle }) => {
         <ServiceHeaderDropdown>
           <div className='service__header'>
             <div className='service__header-username' onClick={onToggle}>
-              horimz<span>dp.horimz@gmail.com</span>
+              {username}
+              <span>{email}</span>
             </div>
-            <Serperator />
+            <Seperator />
             <Link to='/settings'>
               <div className='service__header-link'>Settings</div>
             </Link>
-            <div className='service__header-link'>Log out</div>
+            <div className='service__header-link' onClick={onLogout}>
+              Log out
+            </div>
           </div>
         </ServiceHeaderDropdown>
       </ServiceHeaderDropdownBlock>

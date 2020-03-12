@@ -4,7 +4,7 @@ import { palette, boxShadow, mixin } from "../../lib/styles";
 import { AiOutlineMenuUnfold, AiFillRightCircle } from "react-icons/ai";
 
 const ServiceSideMenuTogglerBlock = styled.div`
-  position: absolute;
+  position: fixed;
   top: 17px;
   left: 20px;
 `;

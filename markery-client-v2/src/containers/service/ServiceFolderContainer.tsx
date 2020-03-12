@@ -4,6 +4,7 @@ import { TiFolderDelete } from "react-icons/ti";
 import { ServiceActions } from "../../components/service/ServiceActions";
 import { Folder } from "../../components/base/Folder";
 import { Url } from "../../components/base/Url";
+import { Skeleton } from "../../components/base/Skeleton";
 
 const ServicdFolderHeader = styled.div`
   margin-bottom: 2.6rem;
@@ -33,6 +34,7 @@ const ServiceFolderContainer: React.FC<ServiceFolderContainerProps> = ({
       </ServicdFolderHeader>
       <Folder />
       <Url />
+      <Skeleton />
     </>
   );
 };

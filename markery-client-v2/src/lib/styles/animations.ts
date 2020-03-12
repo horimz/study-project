@@ -75,7 +75,7 @@ const animation = {
   100% {
     opacity: 0;
   }`,
-  fadeInFromTopToBottom: keyframes`
+  scaleUpFromTopLeft: keyframes`
   0% {
     opacity: 0;
     transform: translate(-5px, 20px) scale(0);
@@ -84,7 +84,7 @@ const animation = {
     opacity: 1;
     transform: translate(-5px, 35px) scale(1);
   }`,
-  fadeOutAndScaleDown: keyframes`
+  scaleDownToTopLeft: keyframes`
   0% {
     opacity: 1;
     transform: translate(-5px, 35px) scale(1);
@@ -92,6 +92,37 @@ const animation = {
   100% {
     opacity: 0;
     transform: translate(-5px, 20px) scale(0);;
+  }`,
+  moveInFromRight: keyframes`
+  0% {
+    transform: translateX(380px);
+  }
+  80% {
+    transform: translateX(-25px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+  `,
+  moveInToRight: keyframes`  
+  0% {
+    transform: translateX(0px);
+  }
+  20% {
+    transform: translateX(-25px);
+  }
+  100% {
+    transform: translateX(380px);
+  }`,
+  shrink: keyframes`
+  0% {
+    transform: translateX(380px);
+  }
+  100% {
+    transform: translateX(380px);
+    height: 0;
+    margin: 0;
+    padding: 0;
   }`
 };
 

@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { palette } from "../../lib/styles";
 import { Button } from "../common/Button";
 import { Input } from "../common/Input";
+import { Spinner } from "../common/Spinner";
 import { useInputs } from "../../lib/hooks";
+import { User } from "../../lib/api/auth/types";
 
 const SettingsPersonalInformationBlock = styled.div`
   border-bottom: 1px solid ${palette.border};
@@ -17,12 +19,20 @@ const SettingsPersonalInformationBlock = styled.div`
   }
 `;
 
-interface SettingsPersonalInformationProps {}
+interface SettingsPersonalInformationProps {
+  user: User;
+  onUpdate: Function;
+  isLoading: boolean;
+}
 
-const SettingsPersonalInformation: React.FC<SettingsPersonalInformationProps> = props => {
+const SettingsPersonalInformation: React.FC<SettingsPersonalInformationProps> = ({
+  user,
+  onUpdate,
+  isLoading
+}) => {
   const [inputs, onChange] = useInputs({
-    username: "Fetch username from user information",
-    description: ""
+    username: user.username,
+    description: user.description || ""
   });
 
   return (
@@ -47,7 +57,20 @@ const SettingsPersonalInformation: React.FC<SettingsPersonalInformationProps> = 
         type='text'
         clearBackground
       />
-      <Button color='green'>APPLY CHANGES</Button>
+      <Button
+        color='green'
+        onClick={() => onUpdate(inputs)}
+        isLoading={isLoading}
+      >
+        {isLoading ? (
+          <>
+            <Spinner size='small' />
+            APPLYING CHANGES
+          </>
+        ) : (
+          "APPLY CHANGES"
+        )}
+      </Button>
     </SettingsPersonalInformationBlock>
   );
 };

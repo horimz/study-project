@@ -15,7 +15,7 @@ import { TiFolderDelete } from "react-icons/ti";
 import { FiLink } from "react-icons/fi";
 
 const ServiceRightSideMenuBlock = styled.div<{ open: boolean }>`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: -350px;
   width: 350px;
@@ -63,7 +63,7 @@ const ServiceRightSideMenuCloseBlock = styled.div`
   }
 `;
 
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   margin: 0 2rem;
   background-color: ${palette.divider};
@@ -109,7 +109,7 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
             <span>Close</span>
           </div>
         </ServiceRightSideMenuCloseBlock>
-        <Serperator />
+        <Seperator />
         <ServiceRightSideMenuHomeBlock>
           <NavLink
             to='/service'
@@ -122,7 +122,7 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
             </div>
           </NavLink>
         </ServiceRightSideMenuHomeBlock>
-        <Serperator />
+        <Seperator />
         <ServiceRightSideMenuFoldersBlock>
           <NavLink
             to='/service/folders'
@@ -147,7 +147,7 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
             </div>
           </NavLink>
         </ServiceRightSideMenuUrlsBlock>
-        <Serperator />
+        <Seperator />
       </ServiceRightSideMenuBlock>
     </>
   );

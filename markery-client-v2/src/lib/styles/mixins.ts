@@ -37,6 +37,9 @@ const boxShadow = {
   `,
   folder: css`
     box-shadow: 0 0.625rem 3.5rem 0 rgba(198, 203, 222, 0.45);
+  `,
+  notification: css`
+    box-shadow: 0 3px 6px rgba(8, 35, 51, 0.05);
   `
 };
 

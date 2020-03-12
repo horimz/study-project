@@ -19,10 +19,12 @@ interface StyledButtonProps {
   color: ButtonColor;
   size: ButtonSize;
   strech: boolean;
+  isLoading: boolean;
 }
 
 const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
+  position: relative;
   align-items: center;
   justify-content: center;
   border-radius: 6px;
@@ -40,10 +42,20 @@ const StyledButton = styled.button<StyledButtonProps>`
   color: ${props => buttonColorMap[props.color].color};
   background: ${props => buttonColorMap[props.color].backgroundColor};
 
+  .spinner {
+    margin-right: 1rem;
+  }
+  
   &:hover,
   &:focus {
     background: ${props => buttonColorMap[props.color].hoverBackgroundColor};
   }
+
+  ${props =>
+    props.isLoading &&
+    css`
+      background: ${buttonColorMap[props.color].hoverBackgroundColor};
+    `}
 
   ${props =>
     props.strech &&
@@ -94,6 +106,7 @@ interface ButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, "size"> {
   color?: ButtonColor;
   size?: ButtonSize;
   strech?: boolean;
+  isLoading?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -101,6 +114,7 @@ const Button: React.FC<ButtonProps> = ({
   color = "lightGrey",
   size = "medium",
   strech = false,
+  isLoading = false,
   ...rest
 }) => {
   const htmlProps = rest as any;
@@ -110,6 +124,7 @@ const Button: React.FC<ButtonProps> = ({
       color={color}
       size={size}
       strech={strech}
+      isLoading={isLoading}
       {...htmlProps}
       onClick={event => {
         if (htmlProps.onClick) {

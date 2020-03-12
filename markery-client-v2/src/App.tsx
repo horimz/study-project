@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import loadable from "@loadable/component";
 import { ErrorBoundary } from "./containers/error/ErrorBoundary";
+import { NotificationContainer } from "./containers/notification/NotificationContainer";
 import { Helmet } from "react-helmet-async";
 import { NotFoundPage } from "./pages/NotFoundPage";
 
@@ -36,6 +37,7 @@ const App: React.FC<AppProps> = props => {
         />
       </Helmet>
       <ErrorBoundary>
+        <NotificationContainer />
         <Switch>
           <Route path='/' component={MainPage} exact />
           <Route path='/login' component={LoginPage} />

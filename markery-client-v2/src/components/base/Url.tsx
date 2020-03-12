@@ -127,12 +127,12 @@ const UrlDeleteBlock = styled.div<{ open: boolean; isFirst: boolean }>`
       : props.open
       ? css`
           display: flex;
-          animation: ${animation.fadeInFromTopToBottom} 0.3s
+          animation: ${animation.scaleUpFromTopLeft} 0.3s
             cubic-bezier(0.4, 0, 0, 1.5);
           animation-fill-mode: both;
         `
       : css`
-          animation: ${animation.fadeOutAndScaleDown} 0.4s ease;
+          animation: ${animation.scaleDownToTopLeft} 0.4s ease;
           animation-fill-mode: both;
         `}
   div {

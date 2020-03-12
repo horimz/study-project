@@ -1,5 +1,6 @@
-import React from "react";
-import { Route, Switch } from "react-router";
+import React, { useEffect } from "react";
+import { useAuth } from "../../lib/hooks";
+import { Route, Switch, useHistory } from "react-router-dom";
 import loadable from "@loadable/component";
 import { ServiceTemplate } from "../../components/service/ServiceTemplate";
 import {
@@ -20,6 +21,15 @@ const ServiceFolderPage = loadable(() => import("./ServiceFolderPage"));
 interface ServicePageProps {}
 
 const ServicePage: React.FC<ServicePageProps> = props => {
+  const { auth } = useAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!auth.user) {
+      history.push("/");
+    }
+  }, [auth, history]);
+
   return (
     <ServiceTemplate>
       <ServiceHeaderContainer />

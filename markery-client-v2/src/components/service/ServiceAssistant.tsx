@@ -14,7 +14,7 @@ import { Backdrop } from "../common/Backdrop";
 
 const ServiceAssistantBlock = styled.div<{ open: boolean }>`
   .assistant__question-circle {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 10px;
     font-size: 3rem;
@@ -37,7 +37,7 @@ const ServiceAssistantContentBlock = styled(StyledSegmentBox)<{
   isFirst: boolean;
   close: boolean;
 }>`
-  position: absolute;
+  position: fixed;
   bottom: 50px;
   right: 20px;
   width: 180px;
@@ -104,7 +104,7 @@ const ServiceAssistantContent = styled.div`
   }
 `;
 
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   margin: 1rem 1.5rem;
   background-color: ${palette.divider};
@@ -145,7 +145,7 @@ const ServiceAssistant: React.FC<ServiceAssistantProps> = ({
               Share content
               <AiOutlineShareAlt className='assistant__share-icon' />
             </div>
-            <Serperator />
+            <Seperator />
             <div className='assistant-box'>Send feedback</div>
             <div className='assistant-box'>Privacy policy</div>
           </div>

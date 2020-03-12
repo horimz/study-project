@@ -56,7 +56,7 @@ const ModalContentBlock = styled(StyledSegmentBox)<{
       }
     `}
 `;
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   width: 100%;
   background-color: ${palette.divider};
@@ -107,9 +107,9 @@ const Modal: React.FC<ModalProps> = ({
       <ModalBackdrop open={open} isFirst={isFirst} onClick={closeModal()} />
       <ModalContentBlock open={open} isFirst={isFirst} size={size}>
         <ModalHeader>{header}</ModalHeader>
-        <Serperator />
+        <Seperator />
         <ModalBody>{body}</ModalBody>
-        <Serperator />
+        <Seperator />
         <ModalActions>{actions}</ModalActions>
       </ModalContentBlock>
     </ModalBlock>
