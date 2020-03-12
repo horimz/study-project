@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { keys } from '../../keys';
-import { User, IUser } from '../../models/User';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { keys } from "../../keys";
+import { User, IUser } from "../../models/User";
 
 // Extend express request interface
 declare global {
@@ -21,11 +21,11 @@ export async function authenticateToken(
 ) {
   try {
     // Get headers authorization field
-    const authHeader = req.header('Authorization');
-    if (!authHeader) throw new Error('Authorization header is missing.');
+    const authHeader = req.header("Authorization");
+    if (!authHeader) throw new Error("Authorization header is missing.");
 
     // Get token in header
-    const token = authHeader.replace('Bearer ', '');
+    const token = authHeader.replace("Bearer ", "");
 
     // Decode and verify token
     const decoded: any = jwt.verify(token, keys.jwtSecret);
@@ -33,9 +33,10 @@ export async function authenticateToken(
     // Find user based on decoded token
     const user = await User.findOne({
       _id: decoded._id,
-      'tokens.token': token
+      "tokens.token": token
     });
-    if (!user) throw new Error('Cannot find user.');
+
+    if (!user) throw new Error("Cannot find user.");
 
     // Store user and token information in request object
     req.token = token;

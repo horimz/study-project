@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   get,
   controller,
@@ -7,15 +7,15 @@ import {
   use,
   patch,
   del
-} from './decorators';
-import { authenticateToken } from './middlewares/authenticateToken';
-import { Url } from '../models/Url';
-import { responseFormat } from './response/responseFormat';
+} from "./decorators";
+import { authenticateToken } from "./middlewares/authenticateToken";
+import { Url } from "../models/Url";
+import { responseFormat } from "./response/responseFormat";
 
-@controller('/api')
-export class UrlController {
+@controller("/api")
+class UrlController {
   // Send all urls under a folder
-  @get('/urls/:id')
+  @get("/urls/:id")
   @use(authenticateToken)
   async getUrls(req: Request, res: Response): Promise<void> {
     const { id: parentFolderId } = req.params;
@@ -32,8 +32,8 @@ export class UrlController {
   }
 
   // Create new url
-  @post('/url')
-  @bodyValidator('transactionTime', 'content')
+  @post("/url")
+  @bodyValidator("transactionTime", "content")
   @use(authenticateToken)
   async postUrl(req: Request, res: Response): Promise<void> {
     const {
@@ -66,8 +66,8 @@ export class UrlController {
   }
 
   // Update url
-  @patch('/url')
-  @bodyValidator('transactionTime', 'content')
+  @patch("/url")
+  @bodyValidator("transactionTime", "content")
   @use(authenticateToken)
   async patchUrl(req: Request, res: Response): Promise<any> {
     const {
@@ -103,7 +103,7 @@ export class UrlController {
   }
 
   // Delete url
-  @del('/url/:id')
+  @del("/url/:id")
   @use(authenticateToken)
   async deleteUrl(req: Request, res: Response): Promise<any> {
     const { id: urlId } = req.params;
@@ -111,7 +111,7 @@ export class UrlController {
     try {
       // Find url to delete
       const url = await Url.findOne({ _id: urlId });
-      if (!url) return res.status(404).send({ error: 'Failed to find url.' });
+      if (!url) return res.status(404).send({ error: "Failed to find url." });
 
       // Remove url from database
       await url.remove();
@@ -122,3 +122,5 @@ export class UrlController {
     }
   }
 }
+
+export { UrlController };
