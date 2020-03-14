@@ -13,37 +13,34 @@ declare global {
   }
 }
 
-// Find and verify token in header
 export async function authenticateToken(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   try {
-    // Get headers authorization field
     const authHeader = req.header("Authorization");
-    if (!authHeader) throw new Error("Authorization header is missing.");
+    if (!authHeader) {
+      return res.status(401).send({ errorMessage: "Unauthorized." });
+    }
 
-    // Get token in header
     const token = authHeader.replace("Bearer ", "");
-
-    // Decode and verify token
     const decoded: any = jwt.verify(token, keys.jwtSecret);
 
-    // Find user based on decoded token
     const user = await User.findOne({
       _id: decoded._id,
       "tokens.token": token
     });
 
-    if (!user) throw new Error("Cannot find user.");
+    if (!user) {
+      return res.status(401).send({ errorMessage: "Invalid token." });
+    }
 
-    // Store user and token information in request object
     req.token = token;
     req.user = user;
 
     next();
   } catch (e) {
-    res.status(401).send(false);
+    res.status(500).send();
   }
 }

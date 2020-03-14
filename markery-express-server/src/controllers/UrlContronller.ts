@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   get,
   controller,
@@ -7,116 +7,119 @@ import {
   use,
   patch,
   del
-} from "./decorators";
-import { authenticateToken } from "./middlewares/authenticateToken";
-import { Url } from "../models/Url";
-import { responseFormat } from "./response/responseFormat";
+} from './decorators';
+import { authenticateToken } from './middlewares/authenticateToken';
+import { Url } from '../models/Url';
+import { responseFormat } from './response/responseFormat';
 
-@controller("/api")
+@controller('/api')
 class UrlController {
-  // Send all urls under a folder
-  @get("/urls/:id")
+  @get('/urls')
   @use(authenticateToken)
-  async getUrls(req: Request, res: Response): Promise<void> {
-    const { id: parentFolderId } = req.params;
-
+  async getAllUrls(req: Request, res: Response): Promise<any> {
     try {
-      // Find all urls under "parent folder"
-      const urls = await Url.findAllUrls(parentFolderId);
+      const urls = await Url.findAllUrls(req.user._id);
 
-      // Send response
+      if (!urls) {
+        return res.status(404).send();
+      }
+
       res.send(responseFormat({ urls }));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Create new url
-  @post("/url")
-  @bodyValidator("transactionTime", "content")
+  @get('/urls/:id')
   @use(authenticateToken)
-  async postUrl(req: Request, res: Response): Promise<void> {
-    const {
-      transactionTime,
-      content: { url, alias, description, parentFolderId }
-    } = req.body;
+  async getUrlsInFolder(req: Request, res: Response): Promise<any> {
+    const { id: parentFolderId } = req.params;
 
     try {
-      // Create new url
-      const newUrl = new Url({
-        url,
-        alias,
-        description,
-        owner: parentFolderId
-      });
-      await newUrl.save();
+      const urls = await Url.findAllUrlsInFolder(req.user._id, parentFolderId);
 
-      // Send response
-      res.send(
-        responseFormat({
-          _id: newUrl._id,
-          url: newUrl.url,
-          alias: newUrl.alias,
-          description: newUrl.description
-        })
-      );
+      if (!urls) {
+        return res.status(404).send();
+      }
+
+      res.send(responseFormat({ urls }));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Update url
-  @patch("/url")
-  @bodyValidator("transactionTime", "content")
+  @post('/urls')
+  @bodyValidator('transactionTime', 'content')
   @use(authenticateToken)
-  async patchUrl(req: Request, res: Response): Promise<any> {
-    const {
-      transactionTime,
-      content: {
-        _id,
-        url: updatedUrl,
-        alias: updatedAlias,
-        description: updatedDescription
-      }
-    } = req.body;
+  async createUrl(req: Request, res: Response): Promise<void> {
+    const { url, alias, description, parentFolderId } = req.body.content;
 
     try {
-      // Find url to update
-      const url = await Url.findOne({
-        _id
+      const newUrl = new Url({
+        url,
+        alias,
+        description,
+        owner: req.user._id,
+        parentFolderId
       });
-      if (!url) return res.status(404).send();
 
-      // Update fields
+      await newUrl.save();
+
+      res.send(responseFormat(newUrl));
+    } catch (e) {
+      res.status(500).send(e);
+    }
+  }
+
+  @patch('/urls')
+  @bodyValidator('transactionTime', 'content')
+  @use(authenticateToken)
+  async updateUrl(req: Request, res: Response): Promise<any> {
+    const {
+      _id,
+      url: updatedUrl,
+      alias: updatedAlias,
+      description: updatedDescription
+    } = req.body.content;
+
+    try {
+      const url = await Url.findOne({
+        _id,
+        owner: req.user._id
+      });
+
+      if (!url) {
+        return res.status(404).send();
+      }
+
       url.url = updatedUrl;
       url.alias = updatedAlias;
       url.description = updatedDescription;
 
-      // Save updated url
       await url.save();
 
-      res.send();
+      res.send(responseFormat(url));
     } catch (e) {
       console.log(e);
       res.status(500).send(e);
     }
   }
 
-  // Delete url
-  @del("/url/:id")
+  @del('/urls/:id')
   @use(authenticateToken)
   async deleteUrl(req: Request, res: Response): Promise<any> {
-    const { id: urlId } = req.params;
+    const { id: _id } = req.params;
 
     try {
-      // Find url to delete
-      const url = await Url.findOne({ _id: urlId });
-      if (!url) return res.status(404).send({ error: "Failed to find url." });
+      const url = await Url.findOne({ _id, owner: req.user._id });
 
-      // Remove url from database
+      if (!url) {
+        return res.status(404).send();
+      }
+
       await url.remove();
 
-      res.send();
+      res.send(responseFormat(url));
     } catch (e) {
       res.status(500).send(e);
     }

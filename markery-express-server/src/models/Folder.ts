@@ -1,22 +1,32 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
 import { Url } from './Url';
 
+/* Types */
+
 export enum FolderTypes {
   root,
   normal
 }
 
 export interface IFolder extends Document {
-  // Fields
   folderName: string;
   type: FolderTypes;
+  owner: mongoose.Schema.Types.ObjectId;
+  parentFolderId?: mongoose.Schema.Types.ObjectId;
 }
 
-export interface IFolderModel extends Model<IFolder> {
-  // Static methods
-  findRootFolder(owner: string): Document;
-  findAllFolders(owner: string): Document[];
+export interface FolderDocument extends IFolder {}
+
+export interface FolderModel extends Model<IFolder> {
+  findRootFolder(owner: string): FolderDocument;
+  findAllFolders(owner: string): FolderDocument[];
+  findAllSubFoldersInFolder(
+    owner: string,
+    parentFolderId: string
+  ): FolderDocument[];
 }
+
+/* Schema */
 
 const folderSchema: Schema = new mongoose.Schema(
   {
@@ -28,11 +38,14 @@ const folderSchema: Schema = new mongoose.Schema(
       type: Number,
       required: true
     },
+    // The owner of the folder (user)
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      required: false,
+      required: true,
       ref: 'User'
     },
+    // Folders are contained in a folder
+    // However, *root folders* do not have a parent folder
     parentFolderId: {
       type: mongoose.Schema.Types.ObjectId,
       required: false,
@@ -49,14 +62,12 @@ const folderSchema: Schema = new mongoose.Schema(
   }
 );
 
-// Virtual property which connects two models
 folderSchema.virtual('urls', {
   ref: 'Url',
   localField: '_id',
   foreignField: 'owner'
 });
 
-// Virtual property which connects two models
 folderSchema.virtual('folders', {
   ref: 'Folder',
   localField: '_id',
@@ -67,11 +78,26 @@ folderSchema.virtual('folders', {
 
 folderSchema.statics.findRootFolder = async (owner: string) => {
   const folder = await Folder.findOne({ owner, type: FolderTypes.root });
+
   return folder;
 };
 
-folderSchema.statics.findAllFolders = async (parentFolderId: string) => {
-  const folders = await Folder.find({ parentFolderId });
+folderSchema.statics.findAllFolders = async (owner: string) => {
+  const folders = await Folder.find({ owner, type: FolderTypes.normal });
+
+  return folders;
+};
+
+folderSchema.statics.findAllSubFoldersInFolder = async (
+  owner: string,
+  parentFolderId: string
+) => {
+  const folders = await Folder.find({
+    owner,
+    parentFolderId,
+    type: FolderTypes.normal
+  });
+
   return folders;
 };
 
@@ -79,15 +105,14 @@ folderSchema.statics.findAllFolders = async (parentFolderId: string) => {
 folderSchema.pre('remove', async function(next) {
   const folder = this;
 
-  // Delete all sub folders
   await Folder.deleteMany({ parentFolderId: folder._id });
 
-  // Delete all urls
-  await Url.deleteMany({ owner: folder._id });
+  await Url.deleteMany({ parentFolderId: folder._id });
+
   next();
 });
 
-export const Folder: IFolderModel = mongoose.model<IFolder, IFolderModel>(
+export const Folder: FolderModel = mongoose.model<IFolder, FolderModel>(
   'Folder',
   folderSchema
 );

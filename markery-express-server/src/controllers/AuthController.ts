@@ -10,24 +10,21 @@ import {
 } from "./decorators";
 import { authenticateToken } from "./middlewares/authenticateToken";
 import { responseFormat } from "./response/responseFormat";
-import { User, IUser, Token, UserDocument } from "../models/User";
+import { User, Token, UserDocument } from "../models/User";
 import { Folder, FolderTypes } from "../models/Folder";
 
-@controller("/api/auth")
+@controller("/api")
 class AuthController {
-  // Send user information based on token
   @get("/users")
   @use(authenticateToken)
-  getLogin(req: Request, res: Response): void {
+  getUser(req: Request, res: Response): void {
     res.send(responseFormat(req.user.toJSON()));
   }
 
-  // Create new user
   @post("/users")
   @bodyValidator("transactionTime", "content")
-  async postUser(req: Request, res: Response): Promise<any> {
+  async createUser(req: Request, res: Response): Promise<any> {
     const {
-      transactionTime,
       content: { email, username }
     } = req.body;
 
@@ -36,7 +33,7 @@ class AuthController {
 
       if (emailExists) {
         return res.status(400).send({
-          message:
+          errorMessage:
             "This email has already been used. Please use a different email."
         });
       }
@@ -45,12 +42,14 @@ class AuthController {
 
       if (usernameExists) {
         return res.status(400).send({
-          message: "Username is already taken. Please use a different username."
+          errorMessage:
+            "Username is already taken. Please use a different username."
         });
       }
 
       // Create new user
       const user = new User(req.body.content);
+
       await user.save();
 
       // Create root folder
@@ -59,6 +58,7 @@ class AuthController {
         type: FolderTypes.root,
         owner: user._id
       });
+
       await rootFolder.save();
 
       // TODO: send welcome mail
@@ -73,28 +73,23 @@ class AuthController {
     }
   }
 
-  // Update user information
   @patch("/users")
   @bodyValidator("transactionTime", "content")
   @use(authenticateToken)
-  async patchUser(req: Request, res: Response): Promise<any> {
+  async updateUser(req: Request, res: Response): Promise<any> {
     const {
-      transactionTime,
       content: { username, description }
     } = req.body;
 
-    if (!username) throw new Error();
-
     try {
-      // Find user
       const user = await User.findOne({ _id: req.user._id });
-      if (!user) return res.status(404).send();
+      if (!user) {
+        throw new Error();
+      }
 
-      // Update user information
       user.username = username;
       user.description = description;
 
-      // Save updated user
       await user.save();
 
       res.send(responseFormat(user.toJSON()));
@@ -103,72 +98,66 @@ class AuthController {
     }
   }
 
-  // Delete user account
   @del("/users")
   @use(authenticateToken)
-  async deleteUser(req: Request, res: Response): Promise<any> {
+  async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      // Find user
       const user = await User.findOne({ _id: req.user._id });
 
-      // TODO: should there be other cases where the user should not be able to delete their account?
-      if (!user)
-        return res
-          .status(404)
-          .send({ message: "Failed to delete account due to..." });
+      if (!user) {
+        throw new Error();
+      }
 
-      // Delete user
       user.remove();
 
       res.send(responseFormat(user.toJSON()));
     } catch (e) {
+      // Internal server error
       res.status(500).send(e);
     }
   }
 
-  // Send user information and generate token after when user credentials are verified
-  @post("/login")
+  @post("/auth/login")
   @bodyValidator("transactionTime", "content")
-  async postLogin(req: Request, res: Response): Promise<void> {
+  async login(req: Request, res: Response): Promise<void> {
     const {
-      transactionTime,
       content: { email, password }
     } = req.body;
 
     try {
-      // Find user based on credentials
       const user: UserDocument = await User.findByCredentials(email, password);
 
-      // Generate token
       const token = await user.generateAuthToken();
 
-      // Send response
       res.send(responseFormat({ user: user.toJSON(), token }));
     } catch (e) {
-      res.status(500).send({ message: e.message });
+      // Unauthorized
+      res.status(401).send({ errorMessage: e.message });
     }
   }
 
-  // Remove token from user
-  @post("/logout")
+  @post("/auth/logout")
   @bodyValidator("transactionTime")
   @use(authenticateToken)
-  async postLogout(req: Request, res: Response): Promise<any> {
+  async logout(req: Request, res: Response): Promise<void> {
     try {
+      // Fetch users tokens list
       const { tokens } = req.user;
-      if (!tokens) throw new Error();
+      if (!tokens) {
+        throw new Error();
+      }
 
-      // Remove "one" token send from device
+      // Remove token
       req.user.tokens = tokens.filter((token: Token) => {
         return token.token != req.token;
       });
 
-      // Save updated user
       await req.user.save();
 
       res.send(responseFormat(req.user.toJSON()));
     } catch (e) {
-      res.status(500).send();
+      // Internal server error
+      res.status(500).send(e);
     }
   }
 }

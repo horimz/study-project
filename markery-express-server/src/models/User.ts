@@ -37,7 +37,13 @@ const userSchema: Schema = new Schema(
       unique: true,
       required: true,
       trim: true,
-      minlength: 2
+      minlength: 2,
+      validate(value: string) {
+        if (value.length < 2) {
+          throw new Error("Username must be longer than two characters.");
+        }
+        return true;
+      }
     },
     email: {
       type: String,
@@ -46,18 +52,24 @@ const userSchema: Schema = new Schema(
       trim: true,
       lowercase: true,
       validate(value: string) {
-        if (!validator.isEmail(value)) throw new Error("Email is invalid.");
+        if (!validator.isEmail(value)) {
+          throw new Error("Invalid email format.");
+        }
         return true;
       }
     },
-    description: {
-      type: String
-    },
+    description: String,
     password: {
       type: String,
       required: true,
       minlength: 8,
-      trim: true
+      trim: true,
+      validator(value: string) {
+        if (value.length < 8) {
+          throw new Error("Password must be longer than eight characters.");
+        }
+        return true;
+      }
     },
     tokens: [
       {
@@ -67,13 +79,9 @@ const userSchema: Schema = new Schema(
         }
       }
     ],
-    avatar: {
-      // Binary data to store images
-      type: Buffer
-    }
+    avatar: Buffer
   },
   {
-    // Timestamps default value is false
     timestamps: true,
     writeConcern: {
       w: "majority",
@@ -83,7 +91,6 @@ const userSchema: Schema = new Schema(
   }
 );
 
-// Virtual property which connects two models
 userSchema.virtual("folders", {
   ref: "Folder",
   localField: "_id",
@@ -97,7 +104,9 @@ userSchema.methods.generateAuthToken = async function() {
 
   const token = jwt.sign({ _id: user._id.toString() }, keys.jwtSecret);
 
+  // Add generated token to users tokens list
   user.tokens = user.tokens.concat({ token });
+
   await user.save();
 
   return token;
@@ -121,10 +130,12 @@ userSchema.statics.findByCredentials = async (
   password: string
 ) => {
   const user = await User.findOne({ email });
+
   if (!user || !user.password)
     throw new Error("Incorrect email. Please check your email.");
 
   const isMatch = await bcrypt.compare(password, user.password);
+
   if (!isMatch)
     throw new Error("Incorrect password. Please check your password.");
 
@@ -148,9 +159,11 @@ userSchema.pre("remove", async function(next) {
 
   // Find users root folder
   const usersRootFolder = await Folder.findOne({ owner: user._id });
+
   if (!usersRootFolder) throw new Error("Failed to find users root folder.");
 
   // Remove users root folder
+  // All subfolders will be deleted
   await usersRootFolder.remove();
   next();
 });
