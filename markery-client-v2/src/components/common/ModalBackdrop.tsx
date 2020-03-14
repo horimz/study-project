@@ -59,10 +59,18 @@ const ModalBackdrop: React.FC<ModalBackdropProps> = ({
     }
   }, [isFirst, open]);
 
+  // This prevents toggling the modal when modal is closed by sagas
+  // due to the 300ms delay
+  const closeModal = () => {
+    if (open) {
+      onClick();
+    }
+  };
+
   return (
     <ModalBackdropBlock
       open={open}
-      onClick={onClick}
+      onClick={closeModal}
       isFirst={isFirst}
       close={close}
     />

@@ -1,21 +1,8 @@
 import {
   notificationActionTypes,
-  NotificationType
+  NotificationState,
+  NotificationAction
 } from "../actions/notification";
-
-export interface Notification {
-  id: string;
-  type: NotificationType;
-  message: string;
-}
-
-export type NotificationState = Notification[];
-
-// TODO: any way for typesafe actions?
-export interface NotificationAction {
-  type: string;
-  payload?: any;
-}
 
 const initialState: NotificationState = [];
 

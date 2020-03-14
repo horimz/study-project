@@ -1,9 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { Modal } from "../common/Modal";
-import { Button } from "../common/Button";
-import { Input } from "../common/Input";
-import { useInputs } from "../../lib/hooks";
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Modal } from '../common/Modal';
+import { Button } from '../common/Button';
+import { Input } from '../common/Input';
+import { Spinner } from '../common/Spinner';
+import { useInputs, useContent, useLoading } from '../../lib/hooks';
+import { palette } from '../../lib/styles';
 
 const ServiceAddUrlModalHeader = styled.div`
   padding: 2rem 2.5rem;
@@ -15,21 +17,61 @@ const ServiceAddUrlModalActions = styled.div`
   padding: 2rem 2.5rem;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+`;
+const ErrorBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  transform: translateY(16px);
+  color: ${palette.error};
 `;
 
 interface ServiceAddUrlModalProps {
   open: boolean;
   onClose: () => void;
+  folderId: string;
 }
 
 const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
   open,
-  onClose
+  onClose,
+  folderId
 }) => {
-  const [inputs, onChange] = useInputs({ url: "", alias: "", description: "" });
+  const [error, setError] = useState<string | null>(null);
+  const { createUrlRequest } = useContent();
+  const { loading, LoadingType } = useLoading();
+  const [inputs, onChange, onReset] = useInputs({
+    url: '',
+    alias: '',
+    description: ''
+  });
+  const isLoading = loading.isLoading && loading.type === LoadingType.createUrl;
+
+  useEffect(() => {
+    if (!open) {
+      onReset();
+      setError(null);
+    }
+  }, [open, onReset]);
 
   const closeModal = () => {
-    onClose();
+    if (!isLoading) {
+      onClose();
+    }
+  };
+
+  const onCreate = () => {
+    if (!inputs.url) {
+      setError('Please enter a url');
+      return;
+    }
+
+    createUrlRequest({
+      url: inputs.url,
+      alias: inputs.alias,
+      description: inputs.description,
+      parentFolderId: folderId
+    });
   };
 
   const header = (
@@ -49,6 +91,7 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
           value={inputs.url}
           onChange={onChange}
           clearBackground
+          disabled={isLoading}
         />
         <Input
           label='Alias'
@@ -58,6 +101,7 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
           value={inputs.alias}
           onChange={onChange}
           clearBackground
+          disabled={isLoading}
         />
         <Input
           label='Description'
@@ -67,27 +111,31 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
           value={inputs.description}
           onChange={onChange}
           clearBackground
+          disabled={isLoading}
         />
       </form>
     </ServiceAddUrlModalBody>
   );
 
   const actions = (
-    <ServiceAddUrlModalActions>
-      <Button color='grey' onClick={closeModal}>
-        Cancel
-      </Button>
-      <Button
-        color='green'
-        onClick={() =>
-          console.log(
-            `Add Url, ${inputs.url} ${inputs.alias} ${inputs.description}`
-          )
-        }
-      >
-        Add url
-      </Button>
-    </ServiceAddUrlModalActions>
+    <>
+      <ErrorBlock>{error}</ErrorBlock>
+      <ServiceAddUrlModalActions>
+        <Button color='grey' onClick={closeModal}>
+          Cancel
+        </Button>
+        <Button color='green' onClick={onCreate} isLoading={isLoading}>
+          {isLoading ? (
+            <>
+              <Spinner size='small' />
+              Adding url
+            </>
+          ) : (
+            'Add url'
+          )}
+        </Button>
+      </ServiceAddUrlModalActions>
+    </>
   );
 
   return (
@@ -97,7 +145,6 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
       header={header}
       body={body}
       actions={actions}
-      size='large'
     />
   );
 };

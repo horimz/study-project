@@ -4,7 +4,7 @@ import { NotificationBox } from "./NotificationBox";
 import {
   NotificationState,
   Notification as NotificationType
-} from "../../modules/reducers/notification";
+} from "../../modules/actions/notification";
 
 interface NotificationProps {
   notifications: NotificationState;

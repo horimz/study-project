@@ -1,9 +1,17 @@
-import { takeEvery, takeLatest, call, fork, put } from "redux-saga/effects";
+import {
+  takeEvery,
+  takeLatest,
+  take,
+  call,
+  fork,
+  put
+} from "redux-saga/effects";
 import { authActionTypes, authActions } from "../actions/auth";
 import { loadingActions, LoadingType } from "../actions/loading";
 import { notificationActions, NotificationType } from "../actions/notification";
+import { contentActions } from "../actions/content";
 import * as authApi from "../../lib/api/auth";
-import * as authTypes from "../../lib/api/auth/types";
+import * as AuthTypes from "../../lib/api/auth/types";
 import { apiClient } from "../../lib/api/apiClient";
 import { storage } from "../../lib/storage";
 import { generateUID } from "../../lib/uuid";
@@ -13,7 +21,8 @@ import { generateUID } from "../../lib/uuid";
 function* fetchUser() {
   try {
     // Send request
-    const response: authTypes.FetchUserResponse = yield call(authApi.fetchUser);
+    const response: AuthTypes.FetchUserResponse = yield call(authApi.fetchUser);
+
     const { content: user } = response.data;
 
     // Set user
@@ -24,13 +33,13 @@ function* fetchUser() {
   }
 }
 
-function* login(action: { type: string; payload: authTypes.LoginInput }) {
+function* login(action: { type: string; payload: AuthTypes.LoginInput }) {
   // Start loading
   yield put(loadingActions.startLoading(LoadingType.login));
 
   try {
     // Send request
-    const response: authTypes.LoginResponse = yield call(
+    const response: AuthTypes.LoginResponse = yield call(
       authApi.login,
       action.payload
     );
@@ -60,6 +69,9 @@ function* login(action: { type: string; payload: authTypes.LoginInput }) {
 
     // Display success message
     yield put(notificationActions.addNotification(successMessage));
+
+    // Fetch users root folder id
+    yield put(contentActions.fetchRootFolderIdRequest());
   } catch (e) {
     // Set user to null
     yield put(authActions.loginFailure());
@@ -69,14 +81,13 @@ function* login(action: { type: string; payload: authTypes.LoginInput }) {
       id: generateUID(),
       type: NotificationType.error,
       message:
-        e.response.data.message ||
+        e.response.data.errorMessage ||
         "Incorrect credentials. Check your email and password."
     };
 
     // Display error message
     yield put(notificationActions.addNotification(errorMessage));
   }
-
   // Stop loading
   yield put(loadingActions.finishLoading());
 }
@@ -84,7 +95,7 @@ function* login(action: { type: string; payload: authTypes.LoginInput }) {
 function* logout() {
   try {
     // Send request
-    const response: authTypes.LogoutResponse = yield call(authApi.logout);
+    const response: AuthTypes.LogoutResponse = yield call(authApi.logout);
 
     if (response.status !== 200) {
       throw new Error();
@@ -106,6 +117,9 @@ function* logout() {
 
     // Display success message
     yield put(notificationActions.addNotification(successMessage));
+
+    // Reset content to prevent errors when user creates account in same session
+    yield put(contentActions.resetContent());
   } catch (e) {
     // Set user to null
     yield put(authActions.logoutFailure());
@@ -119,13 +133,13 @@ function* logout() {
   }
 }
 
-function* register(action: { type: string; payload: authTypes.RegisterInput }) {
+function* register(action: { type: string; payload: AuthTypes.RegisterInput }) {
   // Start loading
   yield put(loadingActions.startLoading(LoadingType.register));
 
   try {
     // Send request
-    const response: authTypes.RegisterResponse = yield call(
+    const response: AuthTypes.RegisterResponse = yield call(
       authApi.register,
       action.payload
     );
@@ -159,6 +173,9 @@ function* register(action: { type: string; payload: authTypes.RegisterInput }) {
 
     // Display success message
     yield put(notificationActions.addNotification(successMessage));
+
+    // Fetch users root folder id
+    yield put(contentActions.fetchRootFolderIdRequest());
   } catch (e) {
     // Set user to null
     yield put(authActions.registerFailure());
@@ -168,7 +185,7 @@ function* register(action: { type: string; payload: authTypes.RegisterInput }) {
       id: generateUID(),
       type: NotificationType.error,
       message:
-        e.response.data.message ||
+        e.response.data.errorMessage ||
         "Conflict! Email and username must be unique."
     };
 
@@ -181,14 +198,14 @@ function* register(action: { type: string; payload: authTypes.RegisterInput }) {
 
 function* updateUser(action: {
   type: string;
-  payload: authTypes.UpdateUserInput;
+  payload: AuthTypes.UpdateUserInput;
 }) {
   // Start loading
   yield put(loadingActions.startLoading(LoadingType.updateUser));
 
   try {
     // Send request
-    const response: authTypes.UpdateUserResponse = yield call(
+    const response: AuthTypes.UpdateUserResponse = yield call(
       authApi.updateUser,
       action.payload
     );
@@ -224,7 +241,7 @@ function* deleteUser() {
 
   try {
     // Send request
-    const response: authTypes.DeleteUserResponse = yield call(
+    const response: AuthTypes.DeleteUserResponse = yield call(
       authApi.deleteUser
     );
 
@@ -246,26 +263,18 @@ function* deleteUser() {
     const successMessage = {
       id: generateUID(),
       type: NotificationType.normal,
-      message: `😭 Bye, ${user.username}. Please send use feedback so we can improve Markery!`
+      message: `😭 Bye, ${user.username}. Please send use feedback to "example@markery.com" so we can improve Markery!`
     };
 
     // Display success message
     yield put(notificationActions.addNotification(successMessage));
+
+    // Reset content to prevent errors when user creates account in same session
+    yield put(contentActions.resetContent());
   } catch (e) {
     // Set user to null
     yield put(authActions.deleteUserFailure());
-
-    // Generate error message
-    const errorMessage = {
-      id: generateUID(),
-      type: NotificationType.error,
-      message: e.response.data.message || "Failed to delete account"
-    };
-
-    // Display error message
-    yield put(notificationActions.addNotification(errorMessage));
   }
-
   // Stop loading
   yield put(loadingActions.finishLoading());
 }
@@ -293,8 +302,18 @@ function* watchUpdateUserRequest() {
 }
 
 function* watchDeleteUserRequest() {
-  yield takeLatest(authActionTypes.DELETE_USER_REQUEST, deleteUser);
+  while (true) {
+    yield take(authActionTypes.DELETE_USER_REQUEST);
+    yield call(deleteUser);
+
+    // const action = yield take(action.type);
+    // yield call(deleteFolder, folderId);
+  }
 }
+
+// function* deleteFolder(folderId) {
+//   ...
+// }
 
 export const authSagas = [
   fork(watchFetchUserRequest),

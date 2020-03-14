@@ -1,27 +1,34 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { palette, boxShadow, TagColorMap } from "../../lib/styles";
-import { TiFolderDelete } from "react-icons/ti";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { Button } from "../common/Button";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { palette, boxShadow, TagColorMap } from '../../lib/styles';
+import { TiFolderDelete } from 'react-icons/ti';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
+import { Button } from '../common/Button';
+import { Link } from 'react-router-dom';
+import { Folder as FolderType } from '../../lib/api/folders/types';
+import { useContent } from '../../lib/hooks';
 
-const FolderBlock = styled.div`
+const FolderBlock = styled.div<{ open: boolean }>`
   width: 100%;
   padding: 1rem 1.5rem;
-  background-color: ${TagColorMap.blue.backgroundColor};
+  background-color: white;
   color: ${TagColorMap.blue.color};
   border-radius: 8px;
   ${boxShadow.segmentBox}
-  border: 1px solid ${palette.grey2};
+  border: 1px solid ${palette.border};
   cursor: pointer;
   transition: all 0.2s;
   &:not(:last-child) {
     margin-bottom: 2.4rem;
   }
   &:hover {
-    /* transform: scale(1.02); */
+    ${boxShadow.inputFocus}
   }
+  ${props =>
+    props.open &&
+    css`
+      ${boxShadow.inputFocus}
+    `}
 `;
 
 const FolderTopBlock = styled.div`
@@ -30,6 +37,9 @@ const FolderTopBlock = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   &:hover .folder__arrow-down-icon {
     color: ${TagColorMap.blue.color};
@@ -37,7 +47,6 @@ const FolderTopBlock = styled.div`
 `;
 
 const FolderNameBlock = styled.div`
-  flex: 1 0;
   display: flex;
   align-items: center;
   .folder__folder-icon {
@@ -47,16 +56,17 @@ const FolderNameBlock = styled.div`
 `;
 
 const FolderRightBlock = styled.div`
+  flex: 1 0;
   justify-self: flex-end;
   .folder__open {
     font-size: 2.25rem;
     display: flex;
     align-items: center;
     padding: 0.75rem;
-    border-radius: 8px;
+    border-radius: 50%;
     transition: all 0.2s;
     &:hover {
-      background-color: ${palette.grey0};
+      background-color: ${TagColorMap.blue.backgroundColor};
     }
   }
   .folder__arrow-down-icon {
@@ -95,26 +105,29 @@ const FolderHiddenBlock = styled.div<{ open: boolean }>`
     display: flex;
     align-items: center;
     padding: 0.75rem;
-    border-radius: 8px;
+    border-radius: 50%;
     transition: all 0.2s;
     &:hover {
-      background-color: ${palette.grey0};
+      background-color: ${TagColorMap.blue.backgroundColor};
     }
   }
 `;
 
-interface FolderProps {}
+interface FolderProps {
+  folder: FolderType;
+}
 
-const Folder: React.FC<FolderProps> = props => {
+const Folder: React.FC<FolderProps> = ({ folder }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { deleteFolderRequest } = useContent();
 
   return (
-    <FolderBlock>
+    <FolderBlock open={open}>
       <FolderTopBlock>
-        <Link to='/'>
+        <Link to={`/service/${folder._id}`}>
           <FolderNameBlock>
             <TiFolderDelete className='folder__folder-icon' />
-            <b>Folder name</b>
+            <b>{folder.folderName}</b>
           </FolderNameBlock>
         </Link>
         <FolderRightBlock>
@@ -128,7 +141,16 @@ const Folder: React.FC<FolderProps> = props => {
       <FolderHiddenBlock open={open}>
         <div className='folder__meta-data'>어떤 것을 넣을까..?</div>
         <div className='folder__actions'>
-          <Button color='greyToRed'>Delete</Button>
+          <Button
+            color='greyToRed'
+            onClick={() => {
+              if (folder._id) {
+                deleteFolderRequest(folder._id);
+              }
+            }}
+          >
+            Delete
+          </Button>
         </div>
         <div className='folder__close'>
           <div className='folder__arrow-up-icon' onClick={() => setOpen(false)}>

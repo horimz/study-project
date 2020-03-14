@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import loadable from "@loadable/component";
 import { ErrorBoundary } from "./containers/error/ErrorBoundary";
+import { GlobalLoader } from "./components/base/GlobalLoader";
 import { NotificationContainer } from "./containers/notification/NotificationContainer";
 import { Helmet } from "react-helmet-async";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -22,8 +23,6 @@ const ForgotPasswordPage = loadable(
 const SettingsPage = loadable(() => import("./pages/SettingsPage"));
 const ServicePage = loadable(() => import("./pages/service/ServicePage"));
 
-// TODO: add SharePage
-
 interface AppProps {}
 
 const App: React.FC<AppProps> = props => {
@@ -37,6 +36,7 @@ const App: React.FC<AppProps> = props => {
         />
       </Helmet>
       <ErrorBoundary>
+        <GlobalLoader />
         <NotificationContainer />
         <Switch>
           <Route path='/' component={MainPage} exact />

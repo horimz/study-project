@@ -1,12 +1,5 @@
 import { loadingActionTypes } from "./constants";
-
-export enum LoadingType {
-  none,
-  register,
-  login,
-  updateUser,
-  deleteUser
-}
+import { LoadingType } from "./type";
 
 export const startLoading = (type: LoadingType) => ({
   type: loadingActionTypes.START_LOADING,

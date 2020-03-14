@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../modules";
-import { LoadingState } from "../../modules/reducers/loading";
+import { LoadingState } from "../../modules/actions/loading";
 import { loadingActions, LoadingType } from "../../modules/actions/loading";
 
 export const useLoading = () => {

@@ -1,32 +1,32 @@
-import React, { useEffect } from "react";
-import { useAuth } from "../../lib/hooks";
-import { Route, Switch, useHistory } from "react-router-dom";
-import loadable from "@loadable/component";
-import { ServiceTemplate } from "../../components/service/ServiceTemplate";
+import React, { useEffect } from 'react';
+import { useAuth } from '../../lib/hooks';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import loadable from '@loadable/component';
+import { ServiceTemplate } from '../../components/service/ServiceTemplate';
 import {
   ServiceContentTemplate,
   ServiceContentSegmentBlock
-} from "../../components/service/ServiceContentTemplate";
-import { ServiceHeaderContainer } from "../../containers/service/ServiceHeaderContainer";
-import { ServiceSideMenuContainer } from "../../containers/service/ServiceSideMenuContainer";
-import { ServiceAssistantContainer } from "../../containers/service/ServiceAssistantContainer";
-import { ServiceContentHeaderContainer } from "../../containers/service/ServiceContentHeaderContainer";
-import { ServiceContentModifier } from "../../components/service/ServiceContentModifier";
+} from '../../components/service/ServiceContentTemplate';
+import { ServiceHeaderContainer } from '../../containers/service/ServiceHeaderContainer';
+import { ServiceSideMenuContainer } from '../../containers/service/ServiceSideMenuContainer';
+import { ServiceAssistantContainer } from '../../containers/service/ServiceAssistantContainer';
+import { ServiceContentHeaderContainer } from '../../containers/service/ServiceContentHeaderContainer';
+import { ServiceContentModifier } from '../../containers/service/ServiceContentModifier';
 
-const ServiceHomePage = loadable(() => import("./ServiceHomePage"));
-const ServiceFoldersPage = loadable(() => import("./ServiceFoldersPage"));
-const ServiceUrlsPage = loadable(() => import("./ServiceUrlsPage"));
-const ServiceFolderPage = loadable(() => import("./ServiceFolderPage"));
+const ServiceHomePage = loadable(() => import('./ServiceHomePage'));
+const ServiceFoldersPage = loadable(() => import('./ServiceFoldersPage'));
+const ServiceUrlsPage = loadable(() => import('./ServiceUrlsPage'));
+const ServiceFolderPage = loadable(() => import('./ServiceFolderPage'));
 
 interface ServicePageProps {}
 
 const ServicePage: React.FC<ServicePageProps> = props => {
-  const { auth } = useAuth();
   const history = useHistory();
+  const { auth } = useAuth();
 
   useEffect(() => {
     if (!auth.user) {
-      history.push("/");
+      history.push('/');
     }
   }, [auth, history]);
 

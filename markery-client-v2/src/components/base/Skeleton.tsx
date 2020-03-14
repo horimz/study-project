@@ -13,7 +13,7 @@ const loadingGradient = keyframes`
 const SkeletonBlock = styled.div`
   width: 100%;
   .service-skeleton__area {
-    &::after {
+    /* &::after {
       content: "";
       height: 12px;
       width: 100%;
@@ -23,14 +23,19 @@ const SkeletonBlock = styled.div`
       background: linear-gradient(to left, ${palette.grey1}, ${palette.grey3});
       background-size: 200% 200%;
       animation: ${loadingGradient} 1.4s infinite;
-    }
+    } */
     .service-skeleton {
       width: 100%;
       height: 60px;
-      background-image: linear-gradient(45deg, #e8e8e8, #ddd);
+      background-image: linear-gradient(
+        45deg,
+        ${palette.grey0},
+        ${palette.grey0}
+      );
       background-size: 100%;
       margin-bottom: 2.4rem;
       border-radius: 8px;
+      animation: ${loadingGradient} 1.4s infinite;
     }
   }
 `;

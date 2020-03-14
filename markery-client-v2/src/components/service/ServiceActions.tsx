@@ -1,10 +1,10 @@
-import React from "react";
-import styled from "styled-components";
-import { Button } from "../common/Button";
-import { ServiceAddFolderModal } from "./ServiceAddFolderModal";
-import { ServiceAddUrlModal } from "./ServiceAddUrlModal";
-import { useToggle } from "../../lib/hooks";
-import { media } from "../../lib/styles";
+import React from 'react';
+import styled from 'styled-components';
+import { Button } from '../common/Button';
+import { ServiceAddFolderModal } from './ServiceAddFolderModal';
+import { ServiceAddUrlModal } from './ServiceAddUrlModal';
+import { useModal } from '../../lib/hooks';
+import { media } from '../../lib/styles';
 
 const ServiceActionsBlock = styled.div`
   width: 100%;
@@ -31,8 +31,6 @@ const ServiceActionsBlock = styled.div`
     }
     ${media.custom(500)} {
       width: 100%;
-      height: 4rem;
-      font-size: 1.8rem;
       &:first-child {
         margin-bottom: 2rem;
       }
@@ -40,32 +38,35 @@ const ServiceActionsBlock = styled.div`
   }
 `;
 
-// TODO: manage current folder state with redux
 interface ServiceActionsProps {
-  folderId?: string;
+  folderId: string;
 }
 
 const ServiceActions: React.FC<ServiceActionsProps> = ({ folderId }) => {
-  const [openFolderModal, onAddFolderModalToggle] = useToggle(false);
-  const [openUrlModal, onAddUrlModalToggle] = useToggle(false);
+  const { modal, createFolderModalToggle, createUrlModalToggle } = useModal();
 
   return (
     <ServiceActionsBlock>
       <div className='service__action'>
-        <Button color='grey' onClick={onAddFolderModalToggle}>
+        <Button color='grey' onClick={createFolderModalToggle}>
           Add folder
         </Button>
       </div>
       <div className='service__action'>
-        <Button color='grey' onClick={onAddUrlModalToggle}>
+        <Button color='grey' onClick={createUrlModalToggle}>
           Add url
         </Button>
       </div>
       <ServiceAddFolderModal
-        open={openFolderModal}
-        onClose={onAddFolderModalToggle}
+        open={modal.createFolderModal}
+        onClose={createFolderModalToggle}
+        folderId={folderId}
       />
-      <ServiceAddUrlModal open={openUrlModal} onClose={onAddUrlModalToggle} />
+      <ServiceAddUrlModal
+        open={modal.createUrlModal}
+        onClose={createUrlModalToggle}
+        folderId={folderId}
+      />
     </ServiceActionsBlock>
   );
 };

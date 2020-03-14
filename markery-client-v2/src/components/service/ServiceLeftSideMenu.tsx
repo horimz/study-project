@@ -1,26 +1,26 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { Backdrop } from "../common/Backdrop";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { Backdrop } from '../common/Backdrop';
 import {
   boxShadow,
   TagColorMap,
   palette,
   zIndex,
   media
-} from "../../lib/styles";
-import { AiOutlineClose } from "react-icons/ai";
-import { GoHome } from "react-icons/go";
-import { NavLink } from "react-router-dom";
-import { TiFolderDelete } from "react-icons/ti";
-import { FiLink } from "react-icons/fi";
+} from '../../lib/styles';
+import { AiOutlineClose } from 'react-icons/ai';
+import { GoHome } from 'react-icons/go';
+import { NavLink } from 'react-router-dom';
+import { TiFolderDelete } from 'react-icons/ti';
+import { FiLink } from 'react-icons/fi';
 
-const ServiceRightSideMenuBlock = styled.div<{ open: boolean }>`
+const ServiceLeftSideMenuBlock = styled.div<{ open: boolean }>`
   position: fixed;
   top: 0;
   left: -350px;
   width: 350px;
   height: 100vh;
-  ${boxShadow.serviceRightSideMenu}
+  ${boxShadow.serviceLeftSideMenu}
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -36,7 +36,7 @@ const ServiceRightSideMenuBlock = styled.div<{ open: boolean }>`
   }
 `;
 
-const ServiceRightSideMenuCloseBlock = styled.div`
+const ServiceLeftSideMenuCloseBlock = styled.div`
   margin: 2rem 0;
   div {
     color: #6d758d;
@@ -69,8 +69,8 @@ const Seperator = styled.div`
   background-color: ${palette.divider};
 `;
 
-const ServiceRightSideMenuHomeBlock = styled(ServiceRightSideMenuCloseBlock)``;
-const ServiceRightSideMenuFoldersBlock = styled(ServiceRightSideMenuCloseBlock)`
+const ServiceLeftSideMenuHomeBlock = styled(ServiceLeftSideMenuCloseBlock)``;
+const ServiceLeftSideMenuFoldersBlock = styled(ServiceLeftSideMenuCloseBlock)`
   margin: 2rem 0 0.5rem;
   .service__add-folder {
     flex: 1 0;
@@ -79,7 +79,7 @@ const ServiceRightSideMenuFoldersBlock = styled(ServiceRightSideMenuCloseBlock)`
     margin-right: 2rem;
   }
 `;
-const ServiceRightSideMenuUrlsBlock = styled(ServiceRightSideMenuCloseBlock)`
+const ServiceLeftSideMenuUrlsBlock = styled(ServiceLeftSideMenuCloseBlock)`
   margin: 0;
   margin-bottom: 2rem;
   .service__add-url {
@@ -90,27 +90,27 @@ const ServiceRightSideMenuUrlsBlock = styled(ServiceRightSideMenuCloseBlock)`
   }
 `;
 
-interface ServiceRightSideMenuProps {
+interface ServiceLeftSideMenuProps {
   open: boolean;
   onToggle: () => void;
 }
 
-const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
+const ServiceLeftSideMenu: React.FC<ServiceLeftSideMenuProps> = ({
   open,
   onToggle
 }) => {
   return (
     <>
       <Backdrop open={open} onClick={onToggle} />
-      <ServiceRightSideMenuBlock open={open}>
-        <ServiceRightSideMenuCloseBlock>
+      <ServiceLeftSideMenuBlock open={open}>
+        <ServiceLeftSideMenuCloseBlock>
           <div onClick={() => onToggle()}>
             <AiOutlineClose />
             <span>Close</span>
           </div>
-        </ServiceRightSideMenuCloseBlock>
+        </ServiceLeftSideMenuCloseBlock>
         <Seperator />
-        <ServiceRightSideMenuHomeBlock>
+        <ServiceLeftSideMenuHomeBlock>
           <NavLink
             to='/service'
             activeClassName='service-side-menu__active'
@@ -121,9 +121,9 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
               <span>Home</span>
             </div>
           </NavLink>
-        </ServiceRightSideMenuHomeBlock>
+        </ServiceLeftSideMenuHomeBlock>
         <Seperator />
-        <ServiceRightSideMenuFoldersBlock>
+        <ServiceLeftSideMenuFoldersBlock>
           <NavLink
             to='/service/folders'
             activeClassName='service-side-menu__active'
@@ -134,8 +134,8 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
               <span>Folders</span>
             </div>
           </NavLink>
-        </ServiceRightSideMenuFoldersBlock>
-        <ServiceRightSideMenuUrlsBlock>
+        </ServiceLeftSideMenuFoldersBlock>
+        <ServiceLeftSideMenuUrlsBlock>
           <NavLink
             to='/service/urls'
             activeClassName='service-side-menu__active'
@@ -146,11 +146,11 @@ const ServiceRightSideMenu: React.FC<ServiceRightSideMenuProps> = ({
               <span>Urls</span>
             </div>
           </NavLink>
-        </ServiceRightSideMenuUrlsBlock>
+        </ServiceLeftSideMenuUrlsBlock>
         <Seperator />
-      </ServiceRightSideMenuBlock>
+      </ServiceLeftSideMenuBlock>
     </>
   );
 };
 
-export { ServiceRightSideMenu };
+export { ServiceLeftSideMenu };

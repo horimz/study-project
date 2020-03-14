@@ -1,6 +1,7 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { zIndex } from "../../lib/styles";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import styled, { css } from 'styled-components';
+import { zIndex } from '../../lib/styles';
 
 const BackdropBlock = styled.div<{
   open: boolean;
@@ -24,8 +25,15 @@ interface BackdropProps {
   onClick: () => void;
 }
 
+const backdropElement = document.getElementById('backdrop');
+
 const Backdrop: React.FC<BackdropProps> = ({ open, onClick }) => {
-  return <BackdropBlock open={open} onClick={onClick} />;
+  const backdrop = <BackdropBlock open={open} onClick={onClick} />;
+
+  if (!backdropElement)
+    throw new Error('Cannot find element with id "backdrop"');
+
+  return ReactDOM.createPortal(backdrop, backdropElement);
 };
 
 export { Backdrop };

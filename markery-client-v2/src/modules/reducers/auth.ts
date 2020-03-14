@@ -1,16 +1,5 @@
-import { authActionTypes } from "../actions/auth/constants";
-import { User } from "../../lib/api/auth/types";
+import { authActionTypes, AuthState, AuthAction } from "../actions/auth";
 import produce from "immer";
-
-export interface AuthState {
-  user: User | null;
-}
-
-// TODO: any way for typesafe actions?
-export interface AuthAction {
-  type: string;
-  payload?: any;
-}
 
 const initialState: AuthState = {
   user: null

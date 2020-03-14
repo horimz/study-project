@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
-import { AiOutlineShareAlt, AiOutlineQuestionCircle } from "react-icons/ai";
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import {
+  AiOutlineShareAlt,
+  AiOutlineQuestionCircle,
+  AiOutlineMessage
+} from 'react-icons/ai';
 import {
   palette,
   animation,
   boxShadow,
   TagColorMap,
   buttonColorMap,
-  zIndex
-} from "../../lib/styles";
-import { StyledSegmentBox } from "../common/SegmentBox";
-import { Backdrop } from "../common/Backdrop";
+  zIndex,
+  mixin
+} from '../../lib/styles';
+import { StyledSegmentBox } from '../common/SegmentBox';
+import { Backdrop } from '../common/Backdrop';
 
 const ServiceAssistantBlock = styled.div<{ open: boolean }>`
   .assistant__question-circle {
@@ -40,7 +45,7 @@ const ServiceAssistantContentBlock = styled(StyledSegmentBox)<{
   position: fixed;
   bottom: 50px;
   right: 20px;
-  width: 180px;
+  width: 210px;
   z-index: ${zIndex.service};
   ${boxShadow.serviceAssistant}
   ${props =>
@@ -85,6 +90,9 @@ const ServiceAssistantContent = styled.div`
         color: ${TagColorMap.green.color};
         background-color: ${TagColorMap.green.backgroundColor};
       }
+    }
+    span {
+      ${mixin.flexCenter}
     }
     svg {
       font-size: 2rem;
@@ -138,12 +146,18 @@ const ServiceAssistant: React.FC<ServiceAssistantProps> = ({
       <ServiceAssistantContentBlock open={open} isFirst={isFirst} close={close}>
         <ServiceAssistantContent>
           <div className='assistant-container'>
-            <div className='assistant-box'>
-              Content<div className='assistant__add-box'>Add</div>
-            </div>
+            {/* <div className='assistant-box'>
+              Folder <div className='assistant__add-box'>Add</div>
+            </div> */}
             <div className='assistant-box'>
               Share content
               <AiOutlineShareAlt className='assistant__share-icon' />
+            </div>
+            <div className='assistant-box'>
+              Send us a message
+              <span>
+                <AiOutlineMessage />
+              </span>
             </div>
             <Seperator />
             <div className='assistant-box'>Send feedback</div>

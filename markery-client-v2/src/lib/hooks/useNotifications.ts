@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../modules";
-import { NotificationState } from "../../modules/reducers/notification";
+import { NotificationState } from "../../modules/actions/notification";
 import {
   notificationActions,
   AddNotificationInput

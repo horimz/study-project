@@ -1,7 +1,18 @@
+import { AxiosResponse } from 'axios';
+
 // Folder type
+
+export enum FolderType {
+  root,
+  normal
+}
+
 export interface Folder {
-  id?: string;
+  _id?: string;
   folderName: string;
+  parentFolderId?: string;
+  owner?: string;
+  type?: FolderType;
 }
 
 // Input types
@@ -11,36 +22,43 @@ export interface CreateFolderInput {
 }
 
 export interface UpdateFolderInput {
-  id: string;
+  _id: string;
   folderName: string;
 }
 
 // Response types
-export interface GetRootFolderIdResponse {
+export interface FetchRootFolderIdResponse extends AxiosResponse {
   transactionTime: Date;
   content: {
-    id: string;
+    rootFolderId: string;
   };
 }
 
-export interface GetSubfoldersInFolderByIdResposne {
+export interface FetchAllFoldersResponse extends AxiosResponse {
   transactionTime: Date;
   content: {
     folders: Folder[];
   };
 }
 
-export interface CreateFolderResponse {
+export interface FetchSubfoldersInFolderByIdResponse extends AxiosResponse {
+  transactionTime: Date;
+  content: {
+    folders: Folder[];
+  };
+}
+
+export interface CreateFolderResponse extends AxiosResponse {
   transactionTime: Date;
   content: Folder;
 }
 
-export interface UpdateFolderResponse {
+export interface UpdateFolderResponse extends AxiosResponse {
   transactionTime: Date;
-  content: {};
+  content: Folder;
 }
 
-export interface DeleteFolderResponse {
+export interface DeleteFolderResponse extends AxiosResponse {
   transactionTime: Date;
-  content: {};
+  content: Folder;
 }

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../modules";
-import { AuthState } from "../../modules/reducers/auth";
+import { AuthState } from "../../modules/actions/auth";
 import { authActions } from "../../modules/actions/auth";
 import * as authTypes from "../api/auth/types";
 

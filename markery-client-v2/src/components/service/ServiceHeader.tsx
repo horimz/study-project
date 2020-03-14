@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { MdArrowDropDown } from "react-icons/md";
-import { StyledSegmentBox } from "../common/SegmentBox";
-import { Backdrop } from "../common/Backdrop";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { MdArrowDropDown } from 'react-icons/md';
+import { StyledSegmentBox } from '../common/SegmentBox';
+import { Backdrop } from '../common/Backdrop';
 import {
   palette,
   buttonColorMap,
   TagColorMap,
   animation,
-  zIndex
-} from "../../lib/styles";
-import { Link } from "react-router-dom";
+  zIndex,
+  boxShadow
+} from '../../lib/styles';
+import { Link } from 'react-router-dom';
 
-const ServiceHeaderBlock = styled.div`
-  z-index: ${zIndex.service};
+const ServiceHeaderBlock = styled.div<{ open: boolean }>`
   position: fixed;
   top: 20px;
   right: 20px;
@@ -24,6 +24,11 @@ const ServiceHeaderBlock = styled.div`
   &:hover {
     background-color: ${buttonColorMap.lightGrey.backgroundColor};
   }
+  ${props =>
+    props.open &&
+    css`
+      background-color: ${buttonColorMap.lightGrey.backgroundColor};
+    `}
   &:hover svg {
     color: ${palette.grey8};
     transform: scale(1.1);
@@ -45,10 +50,10 @@ const ServiceHeaderDropdownBlock = styled.div<{
   open: boolean;
   isFirst: boolean;
 }>`
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  z-index: ${zIndex.service};
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  z-index: 100;
   transform-origin: 85% 0%;
   ${props =>
     props.isFirst
@@ -71,8 +76,9 @@ const ServiceHeaderDropdown = styled(StyledSegmentBox)`
   position: relative;
   height: 200px;
   z-index: ${zIndex.service};
+  ${boxShadow.serviceLeftSideMenu}
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: 0;
@@ -137,20 +143,22 @@ const ServiceHeader: React.FC<ServiceHeaderProps> = ({
   const [isFirst, setIsFirst] = useState<boolean>(true);
 
   return (
-    <ServiceHeaderBlock>
+    <>
+      <ServiceHeaderBlock open={open}>
+        <div
+          className='service__header-toggler'
+          onClick={() => {
+            setIsFirst(false);
+            onToggle();
+          }}
+        >
+          <h3>
+            {username}
+            <MdArrowDropDown />
+          </h3>
+        </div>
+      </ServiceHeaderBlock>
       <Backdrop open={open} onClick={onToggle} />
-      <div
-        className='service__header-toggler'
-        onClick={() => {
-          setIsFirst(false);
-          onToggle();
-        }}
-      >
-        <h3>
-          {username}
-          <MdArrowDropDown />
-        </h3>
-      </div>
       <ServiceHeaderDropdownBlock open={open} isFirst={isFirst}>
         <ServiceHeaderDropdown>
           <div className='service__header'>
@@ -168,7 +176,7 @@ const ServiceHeader: React.FC<ServiceHeaderProps> = ({
           </div>
         </ServiceHeaderDropdown>
       </ServiceHeaderDropdownBlock>
-    </ServiceHeaderBlock>
+    </>
   );
 };
 

@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { palette } from "../../lib/styles";
+import React from 'react';
+import styled from 'styled-components';
+import { palette } from '../../lib/styles';
 
 const ServiceTemplateBlock = styled.div`
   display: flex;

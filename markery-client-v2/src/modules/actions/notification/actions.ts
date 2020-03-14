@@ -1,15 +1,5 @@
 import { notificationActionTypes } from "./constants";
-
-export enum NotificationType {
-  normal,
-  error
-}
-
-export interface AddNotificationInput {
-  id: string;
-  type: NotificationType;
-  message: string;
-}
+import { AddNotificationInput } from "./type";
 
 export const addNotification = (data: AddNotificationInput) => ({
   type: notificationActionTypes.ADD_NOTIFICATION,

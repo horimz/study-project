@@ -2,18 +2,18 @@ import { apiClient } from "../apiClient";
 import { formatRequest } from "../formatRequest";
 import * as authTypes from "./types";
 
-const prefix = "/api/auth";
+const prefix = "/api";
 
 // Auth api
 export const login = (data: authTypes.LoginInput) =>
   apiClient.post<authTypes.LoginResponse>(
-    `${prefix}/login`,
+    `${prefix}/auth/login`,
     formatRequest(data)
   );
 
 export const logout = () =>
   apiClient.post<authTypes.LogoutResponse>(
-    `${prefix}/logout`,
+    `${prefix}/auth/logout`,
     formatRequest({})
   );
 

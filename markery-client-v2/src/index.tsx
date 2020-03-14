@@ -14,7 +14,8 @@ import createSagaMiddleware from "redux-saga";
 import { rootReducer } from "./modules";
 import { rootSaga } from "./modules/sagas";
 import { storage } from "./lib/storage";
-import { setUser, fetchUserRequest } from "./modules/actions/auth/actions";
+import { setUser, fetchUserRequest } from "./modules/actions/auth";
+import { fetchRootFolderIdRequest } from "./modules/actions/content";
 
 const logger = createLogger();
 const sagaMiddleware = createSagaMiddleware();
@@ -32,6 +33,7 @@ function loadUser() {
   if (user) {
     store.dispatch(setUser(user));
     store.dispatch(fetchUserRequest());
+    store.dispatch(fetchRootFolderIdRequest());
   }
 }
 

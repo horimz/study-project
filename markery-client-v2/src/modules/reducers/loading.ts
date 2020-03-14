@@ -1,15 +1,9 @@
-import { loadingActionTypes, LoadingType } from "../actions/loading";
-
-export interface LoadingState {
-  isLoading: boolean;
-  type: LoadingType;
-}
-
-// TODO: any way for typesafe actions?
-export interface LoadingAction {
-  type: string;
-  payload?: any;
-}
+import {
+  loadingActionTypes,
+  LoadingType,
+  LoadingState,
+  LoadingAction
+} from "../actions/loading";
 
 const initialState: LoadingState = {
   isLoading: false,

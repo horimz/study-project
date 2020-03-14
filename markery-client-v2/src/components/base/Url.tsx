@@ -1,30 +1,30 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { palette, boxShadow, TagColorMap, animation } from "../../lib/styles";
-import { FiLink, FiEdit } from "react-icons/fi";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
-import { Link } from "react-router-dom";
-import { useToggle } from "../../lib/hooks";
-import { Button } from "../common/Button";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { useContent, useLoading, useModal } from '../../lib/hooks';
+import { palette, boxShadow, animation, zIndex } from '../../lib/styles';
+import { FiLink, FiEdit } from 'react-icons/fi';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { useToggle } from '../../lib/hooks';
+import { Button } from '../common/Button';
+import { Backdrop } from '../common/Backdrop';
+import { Spinner } from '../common/Spinner';
+import { Url as UrlType } from '../../lib/api/urls/types';
 
 const UrlBlock = styled.div`
   width: 100%;
   padding: 1rem 1.5rem;
-  background-color: ${TagColorMap.lightBlue.backgroundColor};
-  color: ${TagColorMap.lightBlue.color};
   border-radius: 8px;
   ${boxShadow.segmentBox}
-  border: 1px solid ${palette.grey2};
+  border: 1px solid ${palette.border};
   cursor: pointer;
   transition: all 0.2s;
   &:not(:last-child) {
     margin-bottom: 2.4rem;
   }
   &:hover {
-    /* background-color: ${TagColorMap.lightBlue.backgroundColor};
-    color: ${TagColorMap.lightBlue.color}; */
+    ${boxShadow.inputFocus}
   }
+
 `;
 
 const UrlTopBlock = styled.div`
@@ -33,12 +33,15 @@ const UrlTopBlock = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
   &:hover .url__trash-icon {
-    color: ${TagColorMap.lightBlue.color};
+    color: ${palette.text};
   }
   &:hover .url__edit-icon {
-    color: ${TagColorMap.lightBlue.color};
+    color: ${palette.text};
   }
 `;
 
@@ -50,6 +53,10 @@ const UrlNameBlock = styled.div`
     font-size: 2rem;
     margin-right: 1rem;
   }
+  span {
+    color: ${palette.grey6};
+    font-size: 12px;
+  }
 `;
 
 const UrlRightBlock = styled.div`
@@ -59,9 +66,6 @@ const UrlRightBlock = styled.div`
     border-radius: 8px;
     transition: all 0.2s;
     position: relative;
-    &:hover {
-      background-color: ${palette.grey0};
-    }
   }
   .url__trash-icon {
     color: transparent;
@@ -88,21 +92,20 @@ const UrlActionBlock = styled.div<{ open?: boolean; close?: boolean }>`
   transition: all 0.2s;
   position: relative;
   &:hover {
-    background-color: ${palette.grey0};
+    background-color: ${palette.grey1};
   }
   ${props =>
     props.open &&
     css`
-      background-color: ${palette.grey0};
+      background-color: ${palette.grey1};
     `}
   .url__trash-icon {
     ${props =>
       props.open &&
       css`
-        color: ${TagColorMap.lightBlue.color};
+        color: ${palette.grey6};
       `}
   }
-
   ${props =>
     props.close &&
     css`
@@ -115,10 +118,11 @@ const UrlDeleteBlock = styled.div<{ open: boolean; isFirst: boolean }>`
   cursor: default;
   top: 0;
   right: 0;
-  ${boxShadow.serviceRightSideMenu}
+  ${boxShadow.serviceLeftSideMenu}
   background-color: white;
   border-radius: 8px;
   transform-origin: top right;
+  z-index: ${zIndex.deleteUrlBlock};
   ${props =>
     props.isFirst
       ? css`
@@ -135,52 +139,61 @@ const UrlDeleteBlock = styled.div<{ open: boolean; isFirst: boolean }>`
           animation: ${animation.scaleDownToTopLeft} 0.4s ease;
           animation-fill-mode: both;
         `}
-  div {
+  .url__delete-box {
     padding: 1rem;
     display: flex;
     align-items: center;
-  }
-  .url-action__cancle {
-    cursor: pointer;
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 0.5rem;
-    background-color: white;
-    ${boxShadow.segmentBox}
-    color: ${palette.grey5};
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    transform: translate(-12px, -12px);
-    display: flex;
-    align-items: center;
-    transition: all 0.1s linear;
-    &:hover {
-      background-color: ${palette.background};
+    ${boxShadow.serviceLeftSideMenu}
+    button .spinner {
+      margin-right: 0.5rem;
     }
   }
 `;
 
-interface UrlProps {}
+interface UrlProps {
+  url: UrlType;
+}
 
-const Url: React.FC<UrlProps> = props => {
+const Url: React.FC<UrlProps> = ({ url }) => {
+  const { deleteUrlRequest } = useContent();
+  const { loading, LoadingType } = useLoading();
+  const { setModalContent, updateUrlModalToggle } = useModal();
   const [openDelete, onDeleteToggle] = useToggle(false);
   const [isFirstDelete, setIsFirstDelete] = useState<boolean>(true);
   const [openEdit] = useToggle(false);
+  const isLoading = loading.isLoading && loading.type === LoadingType.deleteUrl;
+
+  const closeBackdrop = () => {
+    if (!isLoading) {
+      onDeleteToggle();
+    }
+  };
 
   return (
     <UrlBlock>
       <UrlTopBlock>
-        <Link to='/'>
+        <a href={url.url} rel='noopener noreferrer' target='_blank'>
           <UrlNameBlock>
             <FiLink className='url__url-icon' />
-            <b>Url alias</b>
+            {url.alias ? (
+              <>
+                <b>{url.alias}</b>&nbsp;
+                <span>({url.url})</span>
+              </>
+            ) : (
+              <b>{url.url}</b>
+            )}
           </UrlNameBlock>
-        </Link>
+        </a>
         <UrlRightBlock>
           <UrlActionsBlock>
-            <UrlActionBlock close={openDelete}>
+            <UrlActionBlock
+              close={openDelete}
+              onClick={() => {
+                setModalContent(url);
+                updateUrlModalToggle();
+              }}
+            >
               <FiEdit className='url__edit-icon' />
             </UrlActionBlock>
             <UrlActionBlock
@@ -194,17 +207,26 @@ const Url: React.FC<UrlProps> = props => {
               <FaRegTrashAlt className='url__trash-icon' />
             </UrlActionBlock>
             <UrlDeleteBlock open={openDelete} isFirst={isFirstDelete}>
-              <div>
-                <MdClose
-                  className='url-action__cancle'
-                  onClick={() => onDeleteToggle()}
-                />
+              <Backdrop open={openDelete} onClick={closeBackdrop} />
+              <div className='url__delete-box'>
                 <Button
                   color='red'
                   size='small'
-                  onClick={() => console.log("remove url")}
+                  onClick={() => {
+                    if (url._id) {
+                      deleteUrlRequest(url._id);
+                    }
+                  }}
+                  isLoading={isLoading}
                 >
-                  Remove
+                  {isLoading ? (
+                    <>
+                      <Spinner size='tiny' />
+                      Removing
+                    </>
+                  ) : (
+                    'Remove'
+                  )}
                 </Button>
               </div>
             </UrlDeleteBlock>

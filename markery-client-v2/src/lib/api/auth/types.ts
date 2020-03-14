@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 
 // User type
 export interface User {
-  id?: string;
+  _id?: string;
   username: string;
   email?: string;
   description?: string;
