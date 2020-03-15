@@ -5,7 +5,8 @@ const initialState: ModalState = {
   content: null,
   createFolderModal: false,
   createUrlModal: false,
-  updateUrlModal: false
+  updateUrlModal: false,
+  deleteFolderModal: false
 };
 
 export function modalReducer(
@@ -35,6 +36,13 @@ export function modalReducer(
       return produce(state, draft => {
         draft.updateUrlModal = !draft.updateUrlModal;
         if (!draft.updateUrlModal) {
+          draft.content = null;
+        }
+      });
+    case modalActionTypes.DELETE_FOLDER_MODAL_TOGGLE:
+      return produce(state, draft => {
+        draft.deleteFolderModal = !draft.deleteFolderModal;
+        if (!draft.deleteFolderModal) {
           draft.content = null;
         }
       });

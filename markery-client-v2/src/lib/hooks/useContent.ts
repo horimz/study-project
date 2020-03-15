@@ -18,6 +18,12 @@ export const useContent = () => {
     [dispatch]
   );
 
+  const setCurrentFolder = useCallback(
+    (folder: FolderTypes.Folder | null) =>
+      dispatch(contentActions.setCurrentFolder(folder)),
+    [dispatch]
+  );
+
   const fetchRootFolderIdRequest = useCallback(
     () => dispatch(contentActions.fetchRootFolderIdRequest()),
     [dispatch]
@@ -76,6 +82,7 @@ export const useContent = () => {
   return {
     content,
     resetContent,
+    setCurrentFolder,
     fetchRootFolderIdRequest,
     fetchContentRequest,
     fetchAllFoldersRequest,

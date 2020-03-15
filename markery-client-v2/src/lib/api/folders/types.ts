@@ -8,7 +8,7 @@ export enum FolderType {
 }
 
 export interface Folder {
-  _id?: string;
+  _id: string;
   folderName: string;
   parentFolderId?: string;
   owner?: string;

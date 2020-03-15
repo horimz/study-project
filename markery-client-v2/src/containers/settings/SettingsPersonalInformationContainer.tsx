@@ -1,6 +1,7 @@
-import React from "react";
-import { useAuth, useLoading } from "../../lib/hooks";
-import { SettingsPersonalInformation } from "../../components/settings/SettingsPersonalInformation";
+import React from 'react';
+import { useAuth, useLoading } from '../../lib/hooks';
+import { UpdateUserInput } from '../../lib/api/auth/types';
+import { SettingsPersonalInformation } from '../../components/settings/SettingsPersonalInformation';
 
 interface SettingsPersonalInformationContainerProps {}
 
@@ -10,10 +11,21 @@ const SettingsPersonalInformationContainer: React.FC<SettingsPersonalInformation
 
   if (!auth.user) return null;
 
+  const onUpdate = (data: UpdateUserInput) => {
+    if (!auth.user) return;
+    if (
+      auth.user.username === data.username &&
+      auth.user.description === data.description
+    )
+      return;
+
+    updateUserRequest(data);
+  };
+
   return (
     <SettingsPersonalInformation
       user={auth.user}
-      onUpdate={updateUserRequest}
+      onUpdate={onUpdate}
       isLoading={loading.isLoading && loading.type === LoadingType.updateUser}
     />
   );

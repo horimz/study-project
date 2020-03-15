@@ -38,6 +38,11 @@ export const resetContent = () => ({
   type: contentActionTypes.RESET_CONTENT
 });
 
+export const setCurrentFolder = (folder: folderTypes.Folder | null) => ({
+  type: contentActionTypes.SET_CURRENT_FOLDER,
+  payload: folder
+});
+
 export const fetchAllFolderRequest = () => ({
   type: contentActionTypes.FETCH_ALL_FOLDERS_REQUEST
 });
@@ -157,6 +162,7 @@ export const contentActions = {
   fetchRootFolderIdSuccess,
   fetchRootFolderIdFailure,
   resetContent,
+  setCurrentFolder,
   fetchAllFolderRequest,
   fetchAllFolderSuccess,
   fetchAllFolderFailure,

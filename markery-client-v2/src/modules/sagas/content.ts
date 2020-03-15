@@ -2,6 +2,7 @@ import { takeLatest, take, call, fork, put } from 'redux-saga/effects';
 import { contentActionTypes, contentActions } from '../actions/content';
 import { loadingActions, LoadingType } from '../actions/loading';
 import { notificationActions, NotificationType } from '../actions/notification';
+import { errorActions, ErrorType } from '../actions/error';
 import { modalActions } from '../actions/modal';
 import { generateUID } from '../../lib/uuid';
 import * as folderApi from '../../lib/api/folders';
@@ -70,7 +71,22 @@ function* fetchContent(action: { type: string; payload: string }) {
   } catch (e) {
     // Set content to null
     yield put(contentActions.fetchContentFailure());
+
+    // Set error
+    yield put(errorActions.setError(ErrorType.badRequest));
+    console.log(e.response.data);
+    // Generate error message
+    const errorMessage = {
+      id: generateUID(),
+      type: NotificationType.error,
+      message:
+        e.response.data.errorMessage || 'Bad request. Cannot find content.'
+    };
+
+    // Display error message
+    yield put(notificationActions.addNotification(errorMessage));
   }
+
   // Stop loading
   yield put(loadingActions.finishLoading());
 }
@@ -94,7 +110,7 @@ function* fetchAllFolders() {
     yield put(contentActions.fetchAllFolderFailure());
   }
   // Stop loading
-  yield put(loadingActions.startLoading(LoadingType.fetchContent));
+  yield put(loadingActions.finishLoading());
 }
 
 function* fetchAllUrls() {
@@ -116,7 +132,7 @@ function* fetchAllUrls() {
     yield put(contentActions.fetchAllUrlFailure());
   }
   // Stop loading
-  yield put(loadingActions.startLoading(LoadingType.fetchContent));
+  yield put(loadingActions.finishLoading());
 }
 
 function* createFolder(action: {

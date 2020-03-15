@@ -17,9 +17,14 @@ export const updateUrlModalToggle = () => ({
   type: modalActionTypes.UPDATE_URL_MODAL_TOOGGLE
 });
 
+export const deleteFolderModalToggle = () => ({
+  type: modalActionTypes.DELETE_FOLDER_MODAL_TOGGLE
+});
+
 export const modalActions = {
   setModalContent,
   createFolderModalToggle,
   createUrlModalToggle,
-  updateUrlModalToggle
+  updateUrlModalToggle,
+  deleteFolderModalToggle
 };

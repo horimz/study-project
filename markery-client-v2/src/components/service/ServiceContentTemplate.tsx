@@ -4,18 +4,19 @@ import { StyledSegmentBox } from '../common/SegmentBox';
 import { media } from '../../lib/styles';
 
 const ServiceContentTemplateBlock = styled.div`
-  width: 1800px;
+  width: 1400px;
   margin: 10rem 2rem;
   justify-content: flex-start;
   align-items: flex-start;
   ${media.xxlarge} {
-    width: 1360px;
+    width: 1300px;
   }
   ${media.xlarge} {
-    width: 1000px;
+    width: 980px;
   }
-  ${media.custom(1040)} {
+  ${media.medium} {
     width: 100%;
+    margin: 10rem 0;
   }
 `;
 

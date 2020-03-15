@@ -45,7 +45,7 @@ const ServicePage: React.FC<ServicePageProps> = props => {
               component={ServiceFoldersPage}
               exact
             />
-            <Route path='/service/:folderId' component={ServiceFolderPage} />
+            <Route path='/service/:folder' component={ServiceFolderPage} />
           </Switch>
         </ServiceContentSegmentBlock>
       </ServiceContentTemplate>

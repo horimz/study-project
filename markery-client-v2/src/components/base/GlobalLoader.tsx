@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "styled-components";
-import Interwind from "../../static/svg/Interwind.svg";
-import { zIndex } from "../../lib/styles";
-import { useLoading } from "../../lib/hooks";
+import React from 'react';
+import styled from 'styled-components';
+import DualRing from '../../static/svg/DualRing.svg';
+import { zIndex } from '../../lib/styles';
+import { useLoading } from '../../lib/hooks';
 
 const GlobalLoaderBlock = styled.div`
   height: 100vh;
@@ -22,7 +22,7 @@ const GlobalLoader: React.FC<GlobalLoaderProps> = props => {
   if (loading.isLoading && loading.type === LoadingType.global) {
     return (
       <GlobalLoaderBlock>
-        <img src={Interwind} alt='loader' />
+        <img src={DualRing} alt='loader' />
       </GlobalLoaderBlock>
     );
   }

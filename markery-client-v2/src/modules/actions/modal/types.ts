@@ -3,6 +3,7 @@ export interface ModalState {
   createFolderModal: boolean;
   createUrlModal: boolean;
   updateUrlModal: boolean;
+  deleteFolderModal: boolean;
 }
 
 // TODO: any way for typesafe actions?

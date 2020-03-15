@@ -1,19 +1,19 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { palette, buttonColorMap, boxShadow } from "../../lib/styles";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { palette, buttonColorMap, boxShadow } from '../../lib/styles';
 
 type ButtonColor =
-  | "lightGren"
-  | "grey"
-  | "darkGrey"
-  | "green"
-  | "lightBlue"
-  | "blue"
-  | "red"
-  | "pink"
-  | "greyToRed";
+  | 'lightGrey'
+  | 'grey'
+  | 'darkGrey'
+  | 'green'
+  | 'lightBlue'
+  | 'blue'
+  | 'red'
+  | 'pink'
+  | 'greyToRed';
 
-type ButtonSize = "small" | "medium" | "large";
+type ButtonSize = 'small' | 'medium' | 'large';
 
 interface StyledButtonProps {
   color: ButtonColor;
@@ -64,7 +64,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     `}
 
   ${props =>
-    props.size === "small" &&
+    props.size === 'small' &&
     css`
       height: 2.5rem;
       padding-left: 1rem;
@@ -73,7 +73,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     `}
 
   ${props =>
-    props.size === "medium" &&
+    props.size === 'medium' &&
     css`
       height: 3.25rem;
       padding-left: 1.45rem;
@@ -82,7 +82,7 @@ const StyledButton = styled.button<StyledButtonProps>`
     `}
 
   ${props =>
-    props.size === "large" &&
+    props.size === 'large' &&
     css`
       height: 5rem;
       padding-left: 1.75rem;
@@ -102,7 +102,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 `;
 
-interface ButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, "size"> {
+interface ButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'> {
   color?: ButtonColor;
   size?: ButtonSize;
   strech?: boolean;
@@ -111,8 +111,8 @@ interface ButtonProps extends Omit<React.HTMLProps<HTMLButtonElement>, "size"> {
 
 const Button: React.FC<ButtonProps> = ({
   children,
-  color = "lightGrey",
-  size = "medium",
+  color = 'lightGrey',
+  size = 'medium',
   strech = false,
   isLoading = false,
   ...rest

@@ -1,6 +1,6 @@
-import React from "react";
-import { useToggle, useAuth } from "../../lib/hooks";
-import { ServiceHeader } from "../../components/service/ServiceHeader";
+import React from 'react';
+import { useToggle, useAuth } from '../../lib/hooks';
+import { ServiceHeader } from '../../components/service/ServiceHeader';
 
 interface ServiceHeaderContainerProps {}
 

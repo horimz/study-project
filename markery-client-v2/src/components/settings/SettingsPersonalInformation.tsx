@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import { palette } from "../../lib/styles";
-import { Button } from "../common/Button";
-import { Input } from "../common/Input";
-import { Spinner } from "../common/Spinner";
-import { useInputs } from "../../lib/hooks";
-import { User } from "../../lib/api/auth/types";
+import React from 'react';
+import styled from 'styled-components';
+import { palette } from '../../lib/styles';
+import { Button } from '../common/Button';
+import { Input } from '../common/Input';
+import { Spinner } from '../common/Spinner';
+import { useInputs } from '../../lib/hooks';
+import { User } from '../../lib/api/auth/types';
 
 const SettingsPersonalInformationBlock = styled.div`
   border-bottom: 1px solid ${palette.border};
@@ -32,7 +32,7 @@ const SettingsPersonalInformation: React.FC<SettingsPersonalInformationProps> = 
 }) => {
   const [inputs, onChange] = useInputs({
     username: user.username,
-    description: user.description || ""
+    description: user.description || ''
   });
 
   return (
@@ -68,7 +68,7 @@ const SettingsPersonalInformation: React.FC<SettingsPersonalInformationProps> = 
             APPLYING CHANGES
           </>
         ) : (
-          "APPLY CHANGES"
+          'APPLY CHANGES'
         )}
       </Button>
     </SettingsPersonalInformationBlock>

@@ -3,6 +3,7 @@ import { Url } from '../../../lib/api/urls/types';
 
 export interface ContentState {
   rootFolderId: string | null;
+  currentFolder: Folder | null;
   folders: Folder[] | null;
   urls: Url[] | null;
 }

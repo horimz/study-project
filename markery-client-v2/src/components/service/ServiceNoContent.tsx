@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AiOutlineQuestionCircle } from 'react-icons/ai';
 
 const ServiceNoContentBlock = styled.div`
   width: 100%;
@@ -48,11 +47,6 @@ const ServiceNoContent: React.FC<ServiceNoContentProps> = props => {
             👋
           </span>
           Welcome! Try adding folders and urls.
-        </p>
-        <p className='service__no-content__text'>
-          Have a question? Click the&nbsp;
-          <AiOutlineQuestionCircle />
-          &nbsp;button at the bottom right to message us!
         </p>
       </div>
     </ServiceNoContentBlock>

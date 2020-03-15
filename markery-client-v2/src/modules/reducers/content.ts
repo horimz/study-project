@@ -7,6 +7,7 @@ import produce from 'immer';
 
 const initialState: ContentState = {
   rootFolderId: null,
+  currentFolder: null,
   folders: null,
   urls: null
 };
@@ -36,8 +37,13 @@ export function contentReducer(
       });
     case contentActionTypes.RESET_CONTENT:
       return produce(state, draft => {
+        draft.currentFolder = null;
         draft.folders = null;
         draft.urls = null;
+      });
+    case contentActionTypes.SET_CURRENT_FOLDER:
+      return produce(state, draft => {
+        draft.currentFolder = action.payload;
       });
     case contentActionTypes.FETCH_ALL_FOLDERS_SUCCESS: {
       return produce(state, draft => {

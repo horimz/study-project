@@ -6,6 +6,7 @@ import { Input } from '../common/Input';
 import { Spinner } from '../common/Spinner';
 import { useInputs, useContent, useLoading } from '../../lib/hooks';
 import { palette } from '../../lib/styles';
+import { Folder, FolderType } from '../../lib/api/folders/types';
 
 const ServiceAddFolderModalHeader = styled.div`
   padding: 2rem 2.5rem;
@@ -28,13 +29,13 @@ const ErrorBlock = styled.div`
 interface ServiceAddFolderModalProps {
   open: boolean;
   onClose: () => void;
-  folderId: string;
+  folder: Folder;
 }
 
 const ServiceAddFolderModal: React.FC<ServiceAddFolderModalProps> = ({
   open,
   onClose,
-  folderId
+  folder
 }) => {
   const [error, setError] = useState<string | null>(null);
   const { createFolderRequest } = useContent();
@@ -64,13 +65,17 @@ const ServiceAddFolderModal: React.FC<ServiceAddFolderModalProps> = ({
 
     createFolderRequest({
       folderName: inputs.folderName,
-      parentFolderId: folderId
+      parentFolderId: folder._id
     });
   };
 
   const header = (
     <ServiceAddFolderModalHeader>
-      <h2>Add folder</h2>
+      <h2>
+        {folder.type === FolderType.root
+          ? 'Add folder'
+          : `Add folder in "${folder.folderName}"`}
+      </h2>
     </ServiceAddFolderModalHeader>
   );
 

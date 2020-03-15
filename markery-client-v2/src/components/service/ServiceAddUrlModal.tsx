@@ -6,6 +6,7 @@ import { Input } from '../common/Input';
 import { Spinner } from '../common/Spinner';
 import { useInputs, useContent, useLoading } from '../../lib/hooks';
 import { palette } from '../../lib/styles';
+import { Folder, FolderType } from '../../lib/api/folders/types';
 
 const ServiceAddUrlModalHeader = styled.div`
   padding: 2rem 2.5rem;
@@ -29,13 +30,13 @@ const ErrorBlock = styled.div`
 interface ServiceAddUrlModalProps {
   open: boolean;
   onClose: () => void;
-  folderId: string;
+  folder: Folder;
 }
 
 const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
   open,
   onClose,
-  folderId
+  folder
 }) => {
   const [error, setError] = useState<string | null>(null);
   const { createUrlRequest } = useContent();
@@ -70,13 +71,17 @@ const ServiceAddUrlModal: React.FC<ServiceAddUrlModalProps> = ({
       url: inputs.url,
       alias: inputs.alias,
       description: inputs.description,
-      parentFolderId: folderId
+      parentFolderId: folder._id
     });
   };
 
   const header = (
     <ServiceAddUrlModalHeader>
-      <h2>Add Url</h2>
+      <h2>
+        {folder.type === FolderType.root
+          ? 'Add url'
+          : `Add url in "${folder.folderName}"`}
+      </h2>
     </ServiceAddUrlModalHeader>
   );
 

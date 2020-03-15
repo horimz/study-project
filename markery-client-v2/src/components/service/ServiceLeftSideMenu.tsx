@@ -17,8 +17,8 @@ import { FiLink } from 'react-icons/fi';
 const ServiceLeftSideMenuBlock = styled.div<{ open: boolean }>`
   position: fixed;
   top: 0;
-  left: -350px;
-  width: 350px;
+  left: -260px;
+  width: 260px;
   height: 100vh;
   ${boxShadow.serviceLeftSideMenu}
   display: flex;
@@ -29,10 +29,10 @@ const ServiceLeftSideMenuBlock = styled.div<{ open: boolean }>`
   ${props =>
     props.open &&
     css`
-      transform: translateX(350px);
+      transform: translateX(260px);
     `}
   ${media.small} {
-    width: 250px;
+    width: 180px;
   }
 `;
 

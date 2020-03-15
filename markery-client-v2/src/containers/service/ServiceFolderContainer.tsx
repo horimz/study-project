@@ -1,44 +1,45 @@
 import React, { useEffect } from 'react';
-import { useContent } from '../../lib/hooks';
-import { ServiceActions } from '../../components/service/ServiceActions';
+import { useContent, useLoading } from '../../lib/hooks';
 import { Folder } from '../../components/base/Folder';
 import { Url } from '../../components/base/Url';
 import { Skeleton } from '../../components/base/Skeleton';
-import { Folder as FolderType } from '../../lib/api/folders/types';
+import { Folder as IFolder, FolderType } from '../../lib/api/folders/types';
 import { Url as UrlType } from '../../lib/api/urls/types';
 
 interface ServiceFolderContainerProps {
   folderId: string;
+  folderName: string;
 }
 
 const ServiceFolderContainer: React.FC<ServiceFolderContainerProps> = ({
-  folderId
+  folderId,
+  folderName
 }) => {
-  const { content, fetchContentRequest } = useContent();
+  const { content, fetchContentRequest, setCurrentFolder } = useContent();
+  const { loading, LoadingType } = useLoading();
 
   useEffect(() => {
+    setCurrentFolder({ _id: folderId, folderName, type: FolderType.normal });
     fetchContentRequest(folderId);
-  }, [fetchContentRequest, folderId]);
+  }, [setCurrentFolder, fetchContentRequest, folderId, folderName]);
 
   const renderContent = () => {
     if (!content.rootFolderId || !content.folders || !content.urls) {
       return <Skeleton />;
     }
 
+    if (loading.isLoading && loading.type === LoadingType.global) {
+      return <div>Loading</div>;
+    }
+
     if (content.folders.length === 0 && content.urls.length === 0) {
-      return (
-        <>
-          <ServiceActions folderId={folderId} />
-          <div>No Content...</div>
-        </>
-      );
+      return <div>No Content</div>;
     }
 
     return (
       <>
-        <ServiceActions folderId={folderId} />
         {content.folders &&
-          content.folders.map((folder: FolderType) => {
+          content.folders.map((folder: IFolder, FolderType) => {
             return <Folder key={folder._id} folder={folder} />;
           })}
         {content.urls &&

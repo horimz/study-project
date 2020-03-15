@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useContent } from '../../lib/hooks';
+import { useContent, useLoading } from '../../lib/hooks';
 import { Folder } from '../../components/base/Folder';
 import { Skeleton } from '../../components/base/Skeleton';
 import { Folder as FolderType } from '../../lib/api/folders/types';
@@ -7,19 +7,25 @@ import { Folder as FolderType } from '../../lib/api/folders/types';
 interface ServiceFoldersContainerProps {}
 
 const ServiceFoldersContainer: React.FC<ServiceFoldersContainerProps> = () => {
-  const { content, fetchAllFoldersRequest } = useContent();
+  const { content, fetchAllFoldersRequest, setCurrentFolder } = useContent();
+  const { loading, LoadingType } = useLoading();
 
   useEffect(() => {
+    setCurrentFolder(null);
     fetchAllFoldersRequest();
-  }, [fetchAllFoldersRequest]);
+  }, [setCurrentFolder, fetchAllFoldersRequest]);
 
   const renderContent = () => {
     if (!content.rootFolderId || !content.folders) {
       return <Skeleton />;
     }
 
+    if (loading.isLoading && loading.type === LoadingType.global) {
+      return <div>Loading</div>;
+    }
+
     if (content.folders && content.folders.length === 0) {
-      return <div>No Content...</div>;
+      return <div>No Content</div>;
     }
 
     return (
