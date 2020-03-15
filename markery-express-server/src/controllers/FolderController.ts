@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   get,
   controller,
@@ -7,14 +7,14 @@ import {
   use,
   patch,
   del
-} from "./decorators";
-import { authenticateToken } from "./middlewares/authenticateToken";
-import { responseFormat } from "./response/responseFormat";
-import { Folder, FolderTypes } from "../models/Folder";
+} from './decorators';
+import { authenticateToken } from './middlewares/authenticateToken';
+import { responseFormat } from './response/responseFormat';
+import { Folder, FolderTypes } from '../models/Folder';
 
-@controller("/api")
+@controller('/api')
 class FolderController {
-  @get("/folders/root")
+  @get('/folders/root')
   @use(authenticateToken)
   async getRootFolderId(req: Request, res: Response): Promise<any> {
     try {
@@ -30,7 +30,7 @@ class FolderController {
     }
   }
 
-  @get("/folders")
+  @get('/folders')
   @use(authenticateToken)
   async getAllFolders(req: Request, res: Response): Promise<any> {
     try {
@@ -46,7 +46,7 @@ class FolderController {
     }
   }
 
-  @get("/folders/:id")
+  @get('/folders/:id')
   @use(authenticateToken)
   async getAllSubfoldersInFolderById(
     req: Request,
@@ -61,7 +61,9 @@ class FolderController {
       );
 
       if (!folders) {
-        return res.status(404).send();
+        return res
+          .status(404)
+          .send({ errorMessage: 'Bad request. Cannot find folder.' });
       }
 
       res.send(responseFormat({ folders }));
@@ -70,8 +72,8 @@ class FolderController {
     }
   }
 
-  @post("/folders")
-  @bodyValidator("transactionTime", "content")
+  @post('/folders')
+  @bodyValidator('transactionTime', 'content')
   @use(authenticateToken)
   async createFolder(req: Request, res: Response): Promise<void> {
     const { folderName, parentFolderId } = req.body.content;
@@ -92,8 +94,8 @@ class FolderController {
     }
   }
 
-  @patch("/folders")
-  @bodyValidator("transactionTime", "content")
+  @patch('/folders')
+  @bodyValidator('transactionTime', 'content')
   @use(authenticateToken)
   async updateFolder(req: Request, res: Response): Promise<any> {
     const { _id, folderName } = req.body.content;
@@ -117,7 +119,7 @@ class FolderController {
     }
   }
 
-  @del("/folders/:id")
+  @del('/folders/:id')
   @use(authenticateToken)
   async deleteFolder(req: Request, res: Response): Promise<any> {
     const { id: _id } = req.params;
