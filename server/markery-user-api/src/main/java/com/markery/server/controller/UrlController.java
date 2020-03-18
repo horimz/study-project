@@ -68,14 +68,14 @@ public class UrlController {
     public Header<UrlResponse> update(Authentication authentication,
                                       @RequestBody Header<UrlRequest> resource){
         UrlRequest urlRequest = resource.getContent();
-        UrlService.updateUrl(urlRequest);
-        return Header.OK();
+        UrlResponse urlResponse = UrlService.updateUrl(urlRequest);
+        return Header.OK(urlResponse);
     }
 
     @DeleteMapping("/urls/{urlId}")
     public Header<UrlResponse> delete(Authentication authentication,
                                       @PathVariable Long urlId){
-        UrlService.deleteURL(urlId);
-        return Header.OK();
+        UrlResponse urlResponse = UrlService.deleteURL(urlId);
+        return Header.OK(urlResponse);
     }
 }

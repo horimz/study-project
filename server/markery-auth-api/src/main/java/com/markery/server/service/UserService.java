@@ -91,6 +91,17 @@ public class UserService {
         return false;
     }
 
+    public UserResponse confirm(Long uid){
+        User user = userRepository.findById(uid).orElseThrow(null);
+        UserResponse userResponse = UserResponse.builder()
+                .id(user.getId())
+                .userName(user.getUserName())
+                .email(user.getEmail())
+                .build();
+
+        return userResponse;
+    }
+
     public void sednEmail(User user) throws javax.mail.MessagingException {
         MailUtil sendMail = new MailUtil(mailSender);
 
