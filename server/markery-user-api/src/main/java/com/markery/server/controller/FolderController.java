@@ -58,14 +58,14 @@ public class FolderController {
     public Header<FolderResponse> update(Authentication authentication,
                                          @RequestBody Header<FolderRequest>  resource){
         FolderRequest folderRequest = resource.getContent();
-        folderService.updatefolder(folderRequest);
-        return Header.OK();
+        FolderResponse folderResponse = folderService.updatefolder(folderRequest);
+        return Header.OK(folderResponse);
     }
 
     @DeleteMapping("/{folderId}")
     public Header<FolderResponse> delete(Authentication authentication,
                                          @PathVariable Long folderId){
-        folderService.deleteFolder(folderId);
-        return Header.OK();
+        FolderResponse folderResponse = folderService.deleteFolder(folderId);
+        return Header.OK(folderResponse);
     }
 }

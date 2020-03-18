@@ -6,6 +6,7 @@ import com.markery.server.model.network.response.UserResponse;
 import com.markery.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,14 +14,16 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ResponseEntity<Header<UserResponse>> create(@Valid @RequestBody Header<UserRequest> resoruce) throws URISyntaxException {
+    @PostMapping("/users")
+    public ResponseEntity<Header<UserResponse>> create(
+            Authentication authentication,
+            @Valid @RequestBody Header<UserRequest> resoruce) throws URISyntaxException {
 
         UserResponse userResponse = userService.register(resoruce);
         String url = "/users/" + userResponse.getId();

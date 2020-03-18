@@ -113,7 +113,7 @@ public class UrlService {
     }
 
     @Transactional
-    public void updateUrl(UrlRequest urlRequest) {
+    public UrlResponse updateUrl(UrlRequest urlRequest) {
         Url url = urlRepository.findById(urlRequest.getId()).orElseGet(null);
         String Url = urlRequest.getUrl();
         String alias = urlRequest.getAlias();
@@ -125,12 +125,26 @@ public class UrlService {
         if(!description.isEmpty())url.setDescription(description);
         if(parentFolderId != null) url.setFolder(folderRepository.getOne(parentFolderId));
 
-        urlRepository.save(url);
+        Url result = urlRepository.save(url);
+        UrlResponse urlResponse = UrlResponse.builder()
+                .id(result.getId())
+                .url(result.getUrl())
+                .alias(result.getAlias())
+                .description(result.getDescription())
+                .build();
+        return urlResponse;
     }
 
     @Transactional
-    public void deleteURL(Long urlId){
+    public UrlResponse deleteURL(Long urlId){
+        Url url = urlRepository.findById(urlId).orElseThrow(null);
         urlRepository.deleteById(urlId);
+        UrlResponse urlResponse = UrlResponse.builder()
+                .id(url.getId())
+                .url(url.getUrl())
+                .alias(url.getAlias())
+                .build();
+        return urlResponse;
     }
 
 }
