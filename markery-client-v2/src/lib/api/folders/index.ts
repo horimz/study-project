@@ -4,7 +4,6 @@ import * as FolderTypes from './types';
 
 const prefix = '/api/folders';
 
-// Folders api
 export const fetchRootFolderId = () =>
   apiClient.get<FolderTypes.FetchRootFolderIdResponse>(`${prefix}/root`);
 

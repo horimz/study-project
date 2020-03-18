@@ -1,5 +1,5 @@
-import { authActionTypes, AuthState, AuthAction } from "../actions/auth";
-import produce from "immer";
+import { authActionTypes, AuthState, AuthAction } from '../actions/auth';
+import produce from 'immer';
 
 const initialState: AuthState = {
   user: null
@@ -61,9 +61,7 @@ export function authReducer(
       });
     }
     case authActionTypes.UPDATE_USER_FAILURE: {
-      return produce(state, draft => {
-        draft.user = null;
-      });
+      return state;
     }
     case authActionTypes.DELETE_USER_SUCCESS: {
       return produce(state, draft => {

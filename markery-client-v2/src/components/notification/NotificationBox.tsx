@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
-import { palette, boxShadow, animation } from "../../lib/styles";
-import { MdClose } from "react-icons/md";
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import { palette, boxShadow, animation } from '../../lib/styles';
+import { MdClose } from 'react-icons/md';
 import {
   NotificationType,
   Notification
-} from "../../modules/actions/notification";
+} from '../../modules/actions/notification';
 
 const NotificationBoxBlock = styled.div<{
   close: boolean;

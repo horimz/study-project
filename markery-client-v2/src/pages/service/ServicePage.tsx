@@ -12,6 +12,7 @@ import { ServiceSideMenuContainer } from '../../containers/service/ServiceSideMe
 import { ServiceAssistantContainer } from '../../containers/service/ServiceAssistantContainer';
 import { ServiceContentHeaderContainer } from '../../containers/service/ServiceContentHeaderContainer';
 import { ServiceContentModifier } from '../../containers/service/ServiceContentModifier';
+import { Helmet } from 'react-helmet-async';
 
 const ServiceHomePage = loadable(() => import('./ServiceHomePage'));
 const ServiceFoldersPage = loadable(() => import('./ServiceFoldersPage'));
@@ -32,6 +33,9 @@ const ServicePage: React.FC<ServicePageProps> = props => {
 
   return (
     <ServiceTemplate>
+      <Helmet>
+        <title>Service - Markery</title>
+      </Helmet>
       <ServiceHeaderContainer />
       <ServiceSideMenuContainer />
       <ServiceContentTemplate>
