@@ -1,55 +1,90 @@
-import React from "react";
-import styled from "styled-components";
-import { Button } from "../common/Button";
-import { ServiceAddFolderModal } from "./ServiceAddFolderModal";
-import { ServiceAddUrlModal } from "./ServiceAddUrlModal";
-import { useToggle } from "../../lib/hooks";
+import React from 'react';
+import styled from 'styled-components';
+import { Button } from '../common/Button';
+import { ServiceAddFolderModal } from './ServiceAddFolderModal';
+import { ServiceAddUrlModal } from './ServiceAddUrlModal';
+import { useModal } from '../../lib/hooks';
+import { media } from '../../lib/styles';
+// import { TiFolderAdd } from 'react-icons/ti';
+// import { FiLink } from 'react-icons/fi';
+import { Folder } from '../../lib/api/folders/types';
 
 const ServiceActionsBlock = styled.div`
-  width: 100%;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 3rem;
+  ${media.xsmall} {
+    flex-direction: column;
+    justify-content: stretch;
+  }
   .service__action {
     &:not(:last-child) {
       margin-right: 1rem;
+      ${media.xsmall} {
+        margin: 0;
+      }
     }
   }
   button {
-    transition: transform 100ms ease 0s, color 0.2s linear,
-      background-color 0.2s linear;
+    transition: color 150ms ease 0s, border 150ms ease 0s,
+      transform 100ms ease 0s;
+    background-color: transparent;
+    color: #0c344b;
+    font-size: 16px;
+    font-weight: 700;
+    word-break: keep-all;
+    border: 2px solid #8fa6b2;
     &:active {
       transform: translate3d(0px, 1px, 0px);
+      background-color: transparent;
+    }
+    &:hover {
+      border: 2px solid #ccd9df;
+      background-color: transparent;
+    }
+    svg {
+      font-size: 1.6rem;
+      margin-right: 0.5rem;
+    }
+    ${media.xsmall} {
+      width: 160px;
+      &:first-child {
+        margin-bottom: 1.4rem;
+      }
     }
   }
 `;
 
-// TODO: manage current folder state with redux
 interface ServiceActionsProps {
-  folderId?: string;
+  folder: Folder;
 }
 
-const ServiceActions: React.FC<ServiceActionsProps> = ({ folderId }) => {
-  const [openFolderModal, onFolderModalToggle] = useToggle(false);
-  const [openUrlModal, onUrlModalToggle] = useToggle(false);
+const ServiceActions: React.FC<ServiceActionsProps> = ({ folder }) => {
+  const { modal, createFolderModalToggle, createUrlModalToggle } = useModal();
 
   return (
     <ServiceActionsBlock>
       <div className='service__action'>
-        <Button color='grey' onClick={onFolderModalToggle}>
+        <Button color='grey' onClick={createFolderModalToggle}>
+          {/* <TiFolderAdd /> */}
           Add folder
         </Button>
       </div>
       <div className='service__action'>
-        <Button color='grey' onClick={onUrlModalToggle}>
+        <Button color='grey' onClick={createUrlModalToggle}>
+          {/* <FiLink /> */}
           Add url
         </Button>
       </div>
       <ServiceAddFolderModal
-        open={openFolderModal}
-        onClose={onFolderModalToggle}
+        open={modal.createFolderModal}
+        onClose={createFolderModalToggle}
+        folder={folder}
       />
-      <ServiceAddUrlModal open={openUrlModal} onClose={onUrlModalToggle} />
+      <ServiceAddUrlModal
+        open={modal.createUrlModal}
+        onClose={createUrlModalToggle}
+        folder={folder}
+      />
     </ServiceActionsBlock>
   );
 };

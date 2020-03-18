@@ -1,27 +1,27 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import loadable from "@loadable/component";
-import { ErrorBoundary } from "./containers/error/ErrorBoundary";
-import { Helmet } from "react-helmet-async";
-import { NotFoundPage } from "./pages/NotFoundPage";
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component';
+import { ErrorBoundary } from './containers/error/ErrorBoundary';
+import { GlobalLoader } from './components/base/GlobalLoader';
+import { NotificationContainer } from './containers/notification/NotificationContainer';
+import { Helmet } from 'react-helmet-async';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 const loadableConfig = {
-  fallback: <div style={{ backgroundColor: "#eff3f5" }}></div>
+  fallback: <div style={{ backgroundColor: '#eff3f5' }}></div>
 };
-const MainPage = loadable(() => import("./pages/MainPage"), loadableConfig);
-const LoginPage = loadable(() => import("./pages/LoginPage"), loadableConfig);
+const MainPage = loadable(() => import('./pages/MainPage'), loadableConfig);
+const LoginPage = loadable(() => import('./pages/LoginPage'), loadableConfig);
 const RegisterPage = loadable(
-  () => import("./pages/RegisterPage"),
+  () => import('./pages/RegisterPage'),
   loadableConfig
 );
 const ForgotPasswordPage = loadable(
-  () => import("./pages/ForgotPasswordPage"),
+  () => import('./pages/ForgotPasswordPage'),
   loadableConfig
 );
-const SettingsPage = loadable(() => import("./pages/SettingsPage"));
-const ServicePage = loadable(() => import("./pages/service/ServicePage"));
-
-// TODO: add SharePage
+const SettingsPage = loadable(() => import('./pages/SettingsPage'));
+const ServicePage = loadable(() => import('./pages/service/ServicePage'));
 
 interface AppProps {}
 
@@ -35,7 +35,9 @@ const App: React.FC<AppProps> = props => {
           content='Manage and share bookmarks with Markery'
         />
       </Helmet>
+      <NotificationContainer />
       <ErrorBoundary>
+        <GlobalLoader />
         <Switch>
           <Route path='/' component={MainPage} exact />
           <Route path='/login' component={LoginPage} />

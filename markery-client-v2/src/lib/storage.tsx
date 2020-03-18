@@ -6,8 +6,11 @@ class Storage {
 
   getItem(key: string) {
     const formatedValue = localStorage.getItem(key);
-    const parsedValue = JSON.parse(formatedValue || "");
-    return parsedValue;
+    if (formatedValue) {
+      const parsedValue = JSON.parse(formatedValue || "");
+      return parsedValue;
+    }
+    return false;
   }
 
   removeItem(key: string) {

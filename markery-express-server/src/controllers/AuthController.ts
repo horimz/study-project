@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   get,
   controller,
@@ -7,143 +7,159 @@ import {
   use,
   patch,
   del
-} from './decorators';
-import { authenticateToken } from './middlewares/authenticateToken';
-import { responseFormat } from './response/responseFormat';
-import { User, IUser, IToken } from '../models/User';
-import { Folder, FolderTypes } from '../models/Folder';
+} from "./decorators";
+import { authenticateToken } from "./middlewares/authenticateToken";
+import { responseFormat } from "./response/responseFormat";
+import { User, Token, UserDocument } from "../models/User";
+import { Folder, FolderTypes } from "../models/Folder";
 
-@controller('/api')
-export class LoginController {
-  // Send user information based on token
-  @get('/user')
+@controller("/api")
+class AuthController {
+  @get("/users")
   @use(authenticateToken)
-  getLogin(req: Request, res: Response): void {
+  getUser(req: Request, res: Response): void {
     res.send(responseFormat(req.user.toJSON()));
   }
 
-  // Create new user
-  @post('/user')
-  @bodyValidator('transactionTime', 'content')
-  async postUser(req: Request, res: Response): Promise<void> {
+  @post("/users")
+  @bodyValidator("transactionTime", "content")
+  async createUser(req: Request, res: Response): Promise<any> {
+    const {
+      content: { email, username }
+    } = req.body;
+
     try {
+      const emailExists = await User.findOne({ email });
+
+      if (emailExists) {
+        return res.status(400).send({
+          errorMessage:
+            "This email has already been used. Please use a different email."
+        });
+      }
+
+      const usernameExists = await User.findOne({ username });
+
+      if (usernameExists) {
+        return res.status(400).send({
+          errorMessage:
+            "Username is already taken. Please use a different username."
+        });
+      }
+
       // Create new user
       const user = new User(req.body.content);
+
       await user.save();
 
       // Create root folder
       const rootFolder = new Folder({
-        folderName: 'Root',
+        folderName: "__ROOT_FOLDER__",
         type: FolderTypes.root,
         owner: user._id
       });
+
       await rootFolder.save();
 
       // TODO: send welcome mail
 
-      // Generate json web token
-      if (!user.generateAuthToken) throw new Error();
       const token = await user.generateAuthToken();
 
       // Send response
       res.status(201).send(responseFormat({ user: user.toJSON(), token }));
     } catch (e) {
-      res.status(400).send(e);
+      console.log(e);
+      res.status(500).send(e);
     }
   }
 
-  // Update user information
-  @patch('/user')
-  @bodyValidator('transactionTime', 'content')
+  @patch("/users")
+  @bodyValidator("transactionTime", "content")
   @use(authenticateToken)
-  async patchUser(req: Request, res: Response): Promise<any> {
+  async updateUser(req: Request, res: Response): Promise<any> {
     const {
-      transactionTime,
       content: { username, description }
     } = req.body;
 
-    if (!username) throw new Error();
-
     try {
-      // Find user
       const user = await User.findOne({ _id: req.user._id });
-      if (!user) return res.status(404).send();
+      if (!user) {
+        throw new Error();
+      }
 
-      // Update user information
       user.username = username;
       user.description = description;
 
-      // Save updated user
       await user.save();
 
-      res.send();
+      res.send(responseFormat(user.toJSON()));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Delete user account
-  @del('/user')
+  @del("/users")
   @use(authenticateToken)
-  async deleteUser(req: Request, res: Response): Promise<any> {
+  async deleteUser(req: Request, res: Response): Promise<void> {
     try {
-      // Find user
       const user = await User.findOne({ _id: req.user._id });
-      if (!user) return res.status(404).send();
 
-      // Delete user
+      if (!user) {
+        throw new Error();
+      }
+
       user.remove();
 
-      res.send();
+      res.send(responseFormat(user.toJSON()));
     } catch (e) {
+      // Internal server error
       res.status(500).send(e);
     }
   }
 
-  // Send user information and generate token after when user credentials are verified
-  @post('/login')
-  @bodyValidator('transactionTime', 'content')
-  async postLogin(req: Request, res: Response): Promise<void> {
+  @post("/auth/login")
+  @bodyValidator("transactionTime", "content")
+  async login(req: Request, res: Response): Promise<void> {
     const {
-      transactionTime,
       content: { email, password }
     } = req.body;
 
     try {
-      // Find user based on credentials
-      const user: IUser = await User.findByCredentials(email, password);
+      const user: UserDocument = await User.findByCredentials(email, password);
 
-      // Generate json web token
-      if (!user.generateAuthToken) throw new Error();
       const token = await user.generateAuthToken();
 
-      // Send response
-      res.send(responseFormat({ user, token }));
+      res.send(responseFormat({ user: user.toJSON(), token }));
     } catch (e) {
-      res.status(400).send(e);
+      // Unauthorized
+      res.status(401).send({ errorMessage: e.message });
     }
   }
 
-  // Remove token from user
-  @post('/logout')
-  @bodyValidator('transactionTime')
+  @post("/auth/logout")
+  @bodyValidator("transactionTime")
   @use(authenticateToken)
-  async postLogout(req: Request, res: Response): Promise<any> {
+  async logout(req: Request, res: Response): Promise<void> {
     try {
+      // Fetch users tokens list
       const { tokens } = req.user;
-      if (!tokens) throw new Error();
+      if (!tokens) {
+        throw new Error();
+      }
 
-      // Remove "one" token send from device
-      req.user.tokens = tokens.filter((token: IToken) => {
+      // Remove token
+      req.user.tokens = tokens.filter((token: Token) => {
         return token.token != req.token;
       });
 
-      // Save updated user
       await req.user.save();
 
-      res.send();
+      res.send(responseFormat(req.user.toJSON()));
     } catch (e) {
-      res.status(500).send();
+      // Internal server error
+      res.status(500).send(e);
     }
   }
 }
+
+export { AuthController };

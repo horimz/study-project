@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import styled, { css } from "styled-components";
-import { Backdrop } from "../common/Backdrop";
+import { ModalBackdrop } from "../common/ModalBackdrop";
 import { StyledSegmentBox } from "../common/SegmentBox";
 import { palette, zIndex, animation, media } from "../../lib/styles";
 
@@ -23,12 +23,13 @@ const ModalContentBlock = styled(StyledSegmentBox)<{
         `
       : props.open
       ? css`
-          animation: ${animation.scaleUpFromBottom} 0.3s ease;
-          animation-fill-mode: forwards;
+          animation: ${animation.scaleUpFromBottom} 0.3s
+            cubic-bezier(0.4, 0, 0, 1.5);
+          animation-fill-mode: both;
         `
       : css`
           animation: ${animation.scaleDownToBottom} 0.5s ease;
-          animation-fill-mode: forwards;
+          animation-fill-mode: both;
         `}
   ${props =>
     props.size === "small" &&
@@ -55,7 +56,7 @@ const ModalContentBlock = styled(StyledSegmentBox)<{
       }
     `}
 `;
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   width: 100%;
   background-color: ${palette.divider};
@@ -103,12 +104,12 @@ const Modal: React.FC<ModalProps> = ({
 
   const modal = (
     <ModalBlock>
-      <Backdrop open={open} onClick={closeModal()} color='dark' />
+      <ModalBackdrop open={open} isFirst={isFirst} onClick={closeModal()} />
       <ModalContentBlock open={open} isFirst={isFirst} size={size}>
         <ModalHeader>{header}</ModalHeader>
-        <Serperator />
+        <Seperator />
         <ModalBody>{body}</ModalBody>
-        <Serperator />
+        <Seperator />
         <ModalActions>{actions}</ModalActions>
       </ModalContentBlock>
     </ModalBlock>

@@ -18,6 +18,13 @@ const AuthFormBlock = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 15px 30px 30px;
+  form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
   h1 {
     font-size: 24px;
     font-weight: 400;

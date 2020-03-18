@@ -1,15 +1,22 @@
-import React from "react";
-import styled from "styled-components";
-import { StyledSegmentBox } from "../common/SegmentBox";
-import { media } from "../../lib/styles";
+import React from 'react';
+import styled from 'styled-components';
+import { StyledSegmentBox } from '../common/SegmentBox';
+import { media } from '../../lib/styles';
 
 const ServiceContentTemplateBlock = styled.div`
-  width: 1000px;
+  width: 1400px;
   margin: 10rem 2rem;
   justify-content: flex-start;
   align-items: flex-start;
-  ${media.custom(1040)} {
+  ${media.xxlarge} {
+    width: 1300px;
+  }
+  ${media.xlarge} {
+    width: 980px;
+  }
+  ${media.medium} {
     width: 100%;
+    margin: 10rem 0;
   }
 `;
 

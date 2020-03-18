@@ -13,111 +13,135 @@ import { responseFormat } from './response/responseFormat';
 import { Folder, FolderTypes } from '../models/Folder';
 
 @controller('/api')
-export class FolderController {
-  // Send current users root folder id
-  @get('/folder/:id')
+class FolderController {
+  @get('/folders/root')
   @use(authenticateToken)
-  async getFolder(req: Request, res: Response): Promise<void> {
-    const { id: userId } = req.params;
-
+  async getRootFolderId(req: Request, res: Response): Promise<any> {
     try {
-      // Find root folder
-      const folder = await Folder.findRootFolder(userId);
+      const folder = await Folder.findRootFolder(req.user._id);
 
-      // Send response
+      if (!folder) {
+        return res.status(404).send();
+      }
+
       res.send(responseFormat({ rootFolderId: folder._id }));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Send all sub folders in a folder
-  @get('/folders/:id')
+  @get('/folders')
   @use(authenticateToken)
-  async getFolders(req: Request, res: Response): Promise<void> {
-    const { id: parentFolderId } = req.params;
-
+  async getAllFolders(req: Request, res: Response): Promise<any> {
     try {
-      // Find all folders under "parent folder"
-      const folders = await Folder.findAllFolders(parentFolderId);
+      const folders = await Folder.findAllFolders(req.user._id);
 
-      // Send response
+      if (!folders) {
+        return res.status(404).send();
+      }
+
       res.send(responseFormat({ folders }));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Create new folder
-  @post('/folder')
-  @bodyValidator('transactionTime', 'content')
+  @get('/folders/:id')
   @use(authenticateToken)
-  async postFolder(req: Request, res: Response): Promise<void> {
-    const { folderName, parentFolderId } = req.body.content;
+  async getAllSubfoldersInFolderById(
+    req: Request,
+    res: Response
+  ): Promise<any> {
+    const { id: parentFolderId } = req.params;
 
     try {
-      // Create new folder
-      const folder = new Folder({
-        folderName,
-        parentFolderId,
-        type: FolderTypes.normal
-      });
-      await folder.save();
-
-      // Send response
-      res.send(
-        responseFormat({ _id: folder._id, folderName: folder.folderName })
+      const folders = await Folder.findAllSubFoldersInFolder(
+        req.user._id,
+        parentFolderId
       );
+
+      if (!folders) {
+        return res
+          .status(404)
+          .send({ errorMessage: 'Bad request. Cannot find folder.' });
+      }
+
+      res.send(responseFormat({ folders }));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Update folder
-  @patch('/folder')
+  @post('/folders')
   @bodyValidator('transactionTime', 'content')
   @use(authenticateToken)
-  async patchSubFolder(req: Request, res: Response): Promise<any> {
-    const {
-      transactionTime,
-      content: { _id, folderName }
-    } = req.body;
+  async createFolder(req: Request, res: Response): Promise<void> {
+    const { folderName, parentFolderId } = req.body.content;
+
+    try {
+      const folder = new Folder({
+        folderName,
+        parentFolderId,
+        owner: req.user._id,
+        type: FolderTypes.normal
+      });
+
+      await folder.save();
+
+      res.send(responseFormat(folder));
+    } catch (e) {
+      res.status(500).send(e);
+    }
+  }
+
+  @patch('/folders')
+  @bodyValidator('transactionTime', 'content')
+  @use(authenticateToken)
+  async updateFolder(req: Request, res: Response): Promise<any> {
+    const { _id, folderName } = req.body.content;
 
     try {
       // Find folder to update
-      const folder = await Folder.findOne({ _id });
-      if (!folder) return res.status(404).send();
+      const folder = await Folder.findOne({ _id, owner: req.user._id });
+
+      if (!folder) {
+        return res.status(404).send();
+      }
 
       // Update folder
       folder.folderName = folderName;
 
-      // Save updated folder
       await folder.save();
 
-      res.send();
+      res.send(responseFormat(folder));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 
-  // Delete folder
-  @del('/folder/:id')
+  @del('/folders/:id')
   @use(authenticateToken)
   async deleteFolder(req: Request, res: Response): Promise<any> {
-    const { id: folderId } = req.params;
+    const { id: _id } = req.params;
 
     try {
       // Find folder to delete
-      const folder = await Folder.findOne({ _id: folderId });
-      if (!folder)
-        return res.status(404).send({ error: 'Failed to find folder.' });
+      const folder = await Folder.findOne({
+        _id,
+        owner: req.user._id
+      });
 
-      // Remove folder from database
+      if (!folder) {
+        return res.status(404).send();
+      }
+
       await folder.remove();
 
-      res.send();
+      res.send(responseFormat(folder));
     } catch (e) {
       res.status(500).send(e);
     }
   }
 }
+
+export { FolderController };

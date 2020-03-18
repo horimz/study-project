@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { StyledSegmentBox } from "../common/SegmentBox";
 import { palette } from "../../lib/styles";
-import { SettingsPersonalInformation } from "./SettingsPersonalInformation";
-import { SettingsDeleteAccount } from "./SettingsDeleteAccount";
+import { SettingsPersonalInformationContainer } from "../../containers/settings/SettingsPersonalInformationContainer";
+import { SettingsDeleteAccountContainer } from "../../containers/settings/SettingsDeleteAccountContainer";
 import { SettingsAgreements } from "./SettingsAgreements";
 
 const SettingsAccountBlock = styled(StyledSegmentBox)`
@@ -34,9 +34,9 @@ const SettingsAccount: React.FC<SettingsAccountProps> = () => {
       <SettingHeader>
         <h2>Settings</h2>
       </SettingHeader>
-      <SettingsPersonalInformation />
+      <SettingsPersonalInformationContainer />
       <SettingsAgreements />
-      <SettingsDeleteAccount />
+      <SettingsDeleteAccountContainer />
     </SettingsAccountBlock>
   );
 };

@@ -7,6 +7,7 @@ const palette = {
   border: "#ccd9df",
   divider: "#d9e3ed",
   error: "#ff4f56",
+  backdrop: "rgba(0, 0, 0, 0.3)",
   /* Grey */
   grey0: "#F8F9FA",
   grey1: "#F1F3F5",

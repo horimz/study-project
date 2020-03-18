@@ -1,20 +1,25 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { AiOutlineShareAlt, AiOutlineQuestionCircle } from "react-icons/ai";
+import React, { useState, useEffect } from 'react';
+import styled, { css } from 'styled-components';
+import {
+  AiOutlineShareAlt,
+  AiOutlineQuestionCircle,
+  AiOutlineMessage
+} from 'react-icons/ai';
 import {
   palette,
   animation,
   boxShadow,
   TagColorMap,
   buttonColorMap,
-  zIndex
-} from "../../lib/styles";
-import { StyledSegmentBox } from "../common/SegmentBox";
-import { Backdrop } from "../common/Backdrop";
+  zIndex,
+  mixin
+} from '../../lib/styles';
+import { StyledSegmentBox } from '../common/SegmentBox';
+import { Backdrop } from '../common/Backdrop';
 
 const ServiceAssistantBlock = styled.div<{ open: boolean }>`
   .assistant__question-circle {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 10px;
     font-size: 3rem;
@@ -35,13 +40,20 @@ const ServiceAssistantBlock = styled.div<{ open: boolean }>`
 const ServiceAssistantContentBlock = styled(StyledSegmentBox)<{
   open: boolean;
   isFirst: boolean;
+  close: boolean;
 }>`
-  position: absolute;
+  position: fixed;
   bottom: 50px;
   right: 20px;
-  width: 180px;
+  width: 210px;
   z-index: ${zIndex.service};
   ${boxShadow.serviceAssistant}
+  ${props =>
+    props.close &&
+    css`
+      display: none;
+    `}
+
   ${props =>
     props.isFirst
       ? css`
@@ -79,6 +91,9 @@ const ServiceAssistantContent = styled.div`
         background-color: ${TagColorMap.green.backgroundColor};
       }
     }
+    span {
+      ${mixin.flexCenter}
+    }
     svg {
       font-size: 2rem;
     }
@@ -97,7 +112,7 @@ const ServiceAssistantContent = styled.div`
   }
 `;
 
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   margin: 1rem 1.5rem;
   background-color: ${palette.divider};
@@ -113,21 +128,38 @@ const ServiceAssistant: React.FC<ServiceAssistantProps> = ({
   onToggle
 }) => {
   const [isFirst, setIsFirst] = useState<boolean>(true);
+  const [close, setClose] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isFirst && !open) {
+      setTimeout(() => setClose(true), 300);
+    }
+
+    if (!isFirst && open) {
+      setClose(false);
+    }
+  }, [isFirst, open]);
 
   return (
     <ServiceAssistantBlock open={open}>
       <Backdrop open={open} onClick={onToggle} />
-      <ServiceAssistantContentBlock open={open} isFirst={isFirst}>
+      <ServiceAssistantContentBlock open={open} isFirst={isFirst} close={close}>
         <ServiceAssistantContent>
           <div className='assistant-container'>
-            <div className='assistant-box'>
-              Content<div className='assistant__add-box'>Add</div>
-            </div>
+            {/* <div className='assistant-box'>
+              Folder <div className='assistant__add-box'>Add</div>
+            </div> */}
             <div className='assistant-box'>
               Share content
               <AiOutlineShareAlt className='assistant__share-icon' />
             </div>
-            <Serperator />
+            <div className='assistant-box'>
+              Send us a message
+              <span>
+                <AiOutlineMessage />
+              </span>
+            </div>
+            <Seperator />
             <div className='assistant-box'>Send feedback</div>
             <div className='assistant-box'>Privacy policy</div>
           </div>

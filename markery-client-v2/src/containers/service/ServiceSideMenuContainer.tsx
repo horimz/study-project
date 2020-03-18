@@ -1,7 +1,7 @@
-import React from "react";
-import { useToggle } from "../../lib/hooks";
-import { ServiceSideMenuToggler } from "../../components/service/ServiceSideMenuToggler";
-import { ServiceRightSideMenu } from "../../components/service/ServiceRightSideMenu";
+import React from 'react';
+import { useToggle } from '../../lib/hooks';
+import { ServiceSideMenuToggler } from '../../components/service/ServiceSideMenuToggler';
+import { ServiceLeftSideMenu } from '../../components/service/ServiceLeftSideMenu';
 
 interface ServiceSideMenuContainerProps {}
 
@@ -11,7 +11,7 @@ const ServiceSideMenuContainer: React.FC<ServiceSideMenuContainerProps> = props 
   return (
     <>
       <ServiceSideMenuToggler open={open} onToggle={onToggle} />
-      <ServiceRightSideMenu open={open} onToggle={onToggle} />
+      <ServiceLeftSideMenu open={open} onToggle={onToggle} />
     </>
   );
 };

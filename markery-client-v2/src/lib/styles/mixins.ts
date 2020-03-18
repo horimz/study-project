@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 const mixin = {
   flexCenter: css`
@@ -23,7 +23,7 @@ const boxShadow = {
   inputFocus: css`
     box-shadow: rgb(15, 122, 216) 0px 0px 0px 2px inset;
   `,
-  serviceRightSideMenu: css`
+  serviceLeftSideMenu: css`
     box-shadow: 0 12px 48px 0 rgba(96, 101, 123, 0.24);
   `,
   sideMenuToggler: css`
@@ -37,6 +37,9 @@ const boxShadow = {
   `,
   folder: css`
     box-shadow: 0 0.625rem 3.5rem 0 rgba(198, 203, 222, 0.45);
+  `,
+  notification: css`
+    box-shadow: 0 3px 6px rgba(8, 35, 51, 0.05);
   `
 };
 

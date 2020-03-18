@@ -1,9 +1,10 @@
 import React from "react";
+import { ServiceUrlsContainer } from "../../containers/service/ServiceUrlsContainer";
 
 interface ServiceUrlsPageProps {}
 
 const ServiceUrlsPage: React.FC<ServiceUrlsPageProps> = props => {
-  return <div>ServiceUrlsPage (Fetch all urls + Pagination)</div>;
+  return <ServiceUrlsContainer />;
 };
 
 export { ServiceUrlsPage as default };

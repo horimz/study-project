@@ -1,19 +1,20 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
-import { MdArrowDropDown } from "react-icons/md";
-import { StyledSegmentBox } from "../common/SegmentBox";
-import { Backdrop } from "../common/Backdrop";
+import React, { useState } from 'react';
+import styled, { css } from 'styled-components';
+import { MdArrowDropDown } from 'react-icons/md';
+import { StyledSegmentBox } from '../common/SegmentBox';
+import { Backdrop } from '../common/Backdrop';
 import {
   palette,
   buttonColorMap,
   TagColorMap,
   animation,
-  zIndex
-} from "../../lib/styles";
-import { Link } from "react-router-dom";
+  zIndex,
+  boxShadow
+} from '../../lib/styles';
+import { Link } from 'react-router-dom';
 
-const ServiceHeaderBlock = styled.div`
-  position: absolute;
+const ServiceHeaderBlock = styled.div<{ open: boolean }>`
+  position: fixed;
   top: 20px;
   right: 20px;
   border-radius: 50px;
@@ -23,6 +24,11 @@ const ServiceHeaderBlock = styled.div`
   &:hover {
     background-color: ${buttonColorMap.lightGrey.backgroundColor};
   }
+  ${props =>
+    props.open &&
+    css`
+      background-color: ${buttonColorMap.lightGrey.backgroundColor};
+    `}
   &:hover svg {
     color: ${palette.grey8};
     transform: scale(1.1);
@@ -44,10 +50,10 @@ const ServiceHeaderDropdownBlock = styled.div<{
   open: boolean;
   isFirst: boolean;
 }>`
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  z-index: ${zIndex.service};
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  z-index: 100;
   transform-origin: 85% 0%;
   ${props =>
     props.isFirst
@@ -57,21 +63,22 @@ const ServiceHeaderDropdownBlock = styled.div<{
       : props.open
       ? css`
           display: flex;
-          animation: ${animation.scaleUp} 0.3s ease;
-          animation-fill-mode: forwards;
+          animation: ${animation.scaleUp} 0.3s cubic-bezier(0.4, 0, 0, 1.3);
+          animation-fill-mode: both;
         `
       : css`
           animation: ${animation.scaleDown} 0.3s ease;
-          animation-fill-mode: forwards;
+          animation-fill-mode: both;
         `}
 `;
 
 const ServiceHeaderDropdown = styled(StyledSegmentBox)`
   position: relative;
   height: 200px;
-
+  z-index: ${zIndex.service};
+  ${boxShadow.serviceLeftSideMenu}
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     right: 0;
@@ -112,7 +119,7 @@ const ServiceHeaderDropdown = styled(StyledSegmentBox)`
   }
 `;
 
-const Serperator = styled.div`
+const Seperator = styled.div`
   height: 1px;
   margin: 1rem 1.5rem;
   background-color: ${palette.divider};
@@ -121,41 +128,55 @@ const Serperator = styled.div`
 interface ServiceHeaderProps {
   open: boolean;
   onToggle: () => void;
+  onLogout: () => void;
+  username: string;
+  email: string;
 }
 
-const ServiceHeader: React.FC<ServiceHeaderProps> = ({ open, onToggle }) => {
+const ServiceHeader: React.FC<ServiceHeaderProps> = ({
+  open,
+  onToggle,
+  onLogout,
+  username,
+  email
+}) => {
   const [isFirst, setIsFirst] = useState<boolean>(true);
 
   return (
-    <ServiceHeaderBlock>
+    <>
+      <ServiceHeaderBlock open={open}>
+        <div
+          className='service__header-toggler'
+          onClick={() => {
+            setIsFirst(false);
+            onToggle();
+          }}
+        >
+          <h3>
+            {username}
+            <MdArrowDropDown />
+          </h3>
+        </div>
+      </ServiceHeaderBlock>
       <Backdrop open={open} onClick={onToggle} />
-      <div
-        className='service__header-toggler'
-        onClick={() => {
-          setIsFirst(false);
-          onToggle();
-        }}
-      >
-        <h3>
-          horimz
-          <MdArrowDropDown />
-        </h3>
-      </div>
       <ServiceHeaderDropdownBlock open={open} isFirst={isFirst}>
         <ServiceHeaderDropdown>
           <div className='service__header'>
             <div className='service__header-username' onClick={onToggle}>
-              horimz<span>dp.horimz@gmail.com</span>
+              {username}
+              <span>{email}</span>
             </div>
-            <Serperator />
+            <Seperator />
             <Link to='/settings'>
               <div className='service__header-link'>Settings</div>
             </Link>
-            <div className='service__header-link'>Log out</div>
+            <div className='service__header-link' onClick={onLogout}>
+              Log out
+            </div>
           </div>
         </ServiceHeaderDropdown>
       </ServiceHeaderDropdownBlock>
-    </ServiceHeaderBlock>
+    </>
   );
 };
 

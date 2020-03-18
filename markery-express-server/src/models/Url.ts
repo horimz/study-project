@@ -1,15 +1,18 @@
-import mongoose, { Schema, Document, Model } from 'mongoose';
+import mongoose, { Schema, Document, Model, mongo } from "mongoose";
 
 export interface IUrl extends Document {
-  // Fields
   url: string;
   alias: string;
   description: string;
+  owner: mongoose.Schema.Types.ObjectId;
+  parentFolderId?: mongoose.Schema.Types.ObjectId;
 }
 
+export interface UrlDocument extends IUrl {}
+
 export interface IUrlModel extends Model<IUrl> {
-  // Static methods
-  findAllUrls(owner: string): Document[];
+  findAllUrls(owner: string): UrlDocument[];
+  findAllUrlsInFolder(owner: string, parentFolderId: string): UrlDocument[];
 }
 
 const urlSchema: Schema = new mongoose.Schema(
@@ -29,13 +32,18 @@ const urlSchema: Schema = new mongoose.Schema(
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'Folder'
+      ref: "User"
+    },
+    parentFolderId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Folder"
     }
   },
   {
     timestamps: true,
     writeConcern: {
-      w: 'majority',
+      w: "majority",
       j: true,
       wtimeout: 1000
     }
@@ -49,4 +57,12 @@ urlSchema.statics.findAllUrls = async (owner: string) => {
   return urls;
 };
 
-export const Url: IUrlModel = mongoose.model<IUrl, IUrlModel>('Url', urlSchema);
+urlSchema.statics.findAllUrlsInFolder = async (
+  owner: string,
+  parentFolderId: string
+) => {
+  const urls = await Url.find({ owner, parentFolderId });
+  return urls;
+};
+
+export const Url: IUrlModel = mongoose.model<IUrl, IUrlModel>("Url", urlSchema);

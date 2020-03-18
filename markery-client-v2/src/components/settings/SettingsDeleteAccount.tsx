@@ -11,9 +11,17 @@ const SettingsDeleteAccountBlock = styled.div`
   }
 `;
 
-interface SettingsDeleteAccountProps {}
+interface SettingsDeleteAccountProps {
+  onDelete: () => void;
+  isLoading: boolean;
+  email: string;
+}
 
-const SettingsDeleteAccount: React.FC<SettingsDeleteAccountProps> = props => {
+const SettingsDeleteAccount: React.FC<SettingsDeleteAccountProps> = ({
+  onDelete,
+  isLoading,
+  email
+}) => {
   const [open, onToggle] = useToggle(false);
 
   return (
@@ -21,7 +29,13 @@ const SettingsDeleteAccount: React.FC<SettingsDeleteAccountProps> = props => {
       <Button color='red' onClick={onToggle}>
         DELETE ACCOUNT
       </Button>
-      <SettingsDeleteAccountModal open={open} onClose={onToggle} />
+      <SettingsDeleteAccountModal
+        open={open}
+        onClose={onToggle}
+        onDelete={onDelete}
+        isLoading={isLoading}
+        email={email}
+      />
     </SettingsDeleteAccountBlock>
   );
 };

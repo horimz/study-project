@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Modal } from "../common/Modal";
 import { Button } from "../common/Button";
+import { Spinner } from "../common/Spinner";
 import { AiOutlineUserDelete } from "react-icons/ai";
 
 const SettingsDeleteAccountModalHeader = styled.div`
@@ -24,17 +25,22 @@ const SettingsDeleteAccountModalActions = styled.div`
 
 interface SettingsDeleteAccountModalProps {
   open: boolean;
+  email: string;
   onClose: () => void;
+  onDelete: () => void;
+  isLoading: boolean;
 }
 
 const SettingsDeleteAccountModal: React.FC<SettingsDeleteAccountModalProps> = ({
   open,
-  onClose
+  email,
+  onClose,
+  onDelete,
+  isLoading
 }) => {
   const closeModal = () => {
     onClose();
   };
-
   const header = (
     <SettingsDeleteAccountModalHeader>
       <AiOutlineUserDelete />
@@ -45,17 +51,24 @@ const SettingsDeleteAccountModal: React.FC<SettingsDeleteAccountModalProps> = ({
   const body = (
     <SettingsDeleteAccountModalBody>
       You are about to delete your Markery account with email&nbsp;
-      <b>"dp.horimz@gmail.com"</b>
+      <b>"{email}"</b>
     </SettingsDeleteAccountModalBody>
   );
 
   const actions = (
     <SettingsDeleteAccountModalActions>
       <Button color='grey' onClick={closeModal}>
-        Cancel
+        CANCEL
       </Button>
-      <Button color='red' onClick={() => console.log("Remove account")}>
-        Remove account
+      <Button color='red' onClick={() => onDelete()} isLoading={isLoading}>
+        {isLoading ? (
+          <>
+            <Spinner size='small' />
+            REMOVING ACCOUNT
+          </>
+        ) : (
+          "REMOVE ACCOUNT"
+        )}
       </Button>
     </SettingsDeleteAccountModalActions>
   );

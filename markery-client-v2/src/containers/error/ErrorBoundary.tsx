@@ -1,8 +1,16 @@
-import React from "react";
-import { ErrorTemplate } from "../../components/error/ErrorTemplate";
-import { ErrorContent } from "../../components/error/ErrorContent";
+import React from 'react';
+import { connect } from 'react-redux';
+import { resetError, ErrorState } from '../../modules/actions/error';
+import { ErrorTemplate } from '../../components/error/ErrorTemplate';
+import { ErrorContent } from '../../components/error/ErrorContent';
+import { RootState } from '../../modules';
 
-class ErrorBoundary extends React.Component {
+interface ErrorBoundaryProps {
+  error: ErrorState;
+  resetError: () => void;
+}
+
+class _ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   state = { hasError: false, error: null, errorInfo: null };
 
   static getDerivedStateFromError(error: Error) {
@@ -14,8 +22,6 @@ class ErrorBoundary extends React.Component {
     // You can also log the error to an error reporting service
     // logErrorToMyService(error, errorInfo);
     this.setState({ error, errorInfo });
-    console.log(error);
-    console.log(errorInfo);
   }
 
   render() {
@@ -32,9 +38,21 @@ class ErrorBoundary extends React.Component {
       );
     }
 
+    if (this.props.error.hasError) {
+      return (
+        <ErrorTemplate>
+          <ErrorContent resetError={this.props.resetError} />
+        </ErrorTemplate>
+      );
+    }
+
     // Normally, just render children
     return this.props.children;
   }
 }
 
-export { ErrorBoundary };
+const mapStateToProps = (state: RootState) => ({ error: state.error });
+
+export const ErrorBoundary = connect(mapStateToProps, { resetError })(
+  _ErrorBoundary
+);
