@@ -2,11 +2,15 @@ import { apiClient } from '../apiClient';
 import { formatRequest } from '../formatRequest';
 import * as authTypes from './types';
 
-let config = {};
+let config = {
+  baseURL: '/',
+  withCredentials: true
+};
 
 if (process.env.NODE_ENV === 'production') {
   config = {
-    baseURL: process.env.REACT_APP_AUTH_HOST
+    baseURL: process.env.REACT_APP_AUTH_HOST || '/',
+    withCredentials: true
   };
 }
 
