@@ -62,6 +62,7 @@ public class FolderService {
         Folder folder = folderRepository.findByUserIdAndType(userId, FolderType.ROOT);
         FolderResponse folderResponse = FolderResponse.builder()
                 .id(folder.getId())
+                .folderName(folder.getName())
                 .build();
         return folderResponse;
     }
