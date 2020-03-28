@@ -11,12 +11,11 @@ if (process.env.NODE_ENV === 'development') {
 
 const token = storage.getItem('TOKEN') || false;
 
+// header["Access-Control-Allow-Origin"] must be set in server
 const apiClient = axios.create({
   baseURL: host,
   withCredentials: true
 });
-
-apiClient.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 if (token) {
   // If headers are set in constructor configuration they cannot be changed
