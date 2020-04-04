@@ -14,12 +14,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8000"})
 @RequestMapping("/api")
 public class UserController {
 
     @Autowired
     private UserService userService;
-
+    @CrossOrigin()
     @PostMapping("/users")
     public ResponseEntity<Header<UserResponse>> create(
             Authentication authentication,
