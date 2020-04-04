@@ -6,15 +6,16 @@ var host;
 if (process.env.NODE_ENV === 'development') {
   host = '/';
 } else {
-  host = process.env.REACT_APP_API_HOST || '/';
+  // host = process.env.REACT_APP_API_HOST || '/';
+  host = '/';
 }
 
 const token = storage.getItem('TOKEN') || false;
 
 // header["Access-Control-Allow-Origin"] must be set in server
 const apiClient = axios.create({
-  baseURL: host,
-  withCredentials: true
+  baseURL: host
+  // withCredentials: true
 });
 
 if (token) {
