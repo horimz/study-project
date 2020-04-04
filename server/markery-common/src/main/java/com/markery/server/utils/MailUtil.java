@@ -41,4 +41,7 @@ public class MailUtil {
     public void send() {
         mailSender.send(message);
     }
+
+    //custrom sending function
+
 }

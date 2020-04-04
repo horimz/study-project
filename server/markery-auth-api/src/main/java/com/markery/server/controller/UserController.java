@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8000"})
 @RequestMapping("/auth/users")
 public class UserController {
 
@@ -28,7 +29,9 @@ public class UserController {
     private FolderService folderService;
 
     @PostMapping
-    public ResponseEntity<Header<UserResponse>> create(@Valid @RequestBody Header<UserRequest> resoruce) throws URISyntaxException, javax.mail.MessagingException {
+    public ResponseEntity<Header<UserResponse>> create(
+            @Valid @RequestBody Header<UserRequest> resoruce)
+            throws URISyntaxException, javax.mail.MessagingException {
         String date = resoruce.getTransactionTime();
         UserResponse userResponse = userService.register(resoruce);
         String url = "/users/" + userResponse.getId();
@@ -45,10 +48,9 @@ public class UserController {
     public ResponseEntity<Header<UserResponse>> validate(@RequestParam Long uid,
                                                          @RequestParam String email,
                                                          @RequestParam String authkey) throws URISyntaxException {
-
         boolean varifier = userService.validate(uid, email, authkey);
 
-        String uri = "/users/confirm";
+        String uri = "/auth/users/confirm";
 
         if(varifier)return ResponseEntity.ok().body(Header.OK());
         else return ResponseEntity.badRequest().body(Header.ERROR());

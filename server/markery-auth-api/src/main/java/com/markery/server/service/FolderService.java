@@ -27,7 +27,7 @@ public class FolderService {
     public FolderResponse createRootFolder(Long userId, String createdAt){
         User user = userRepository.getOne(userId);
         Folder folderTocreate = Folder.builder()
-                .name(user.getUserName())
+                .name(user.getUserName() + "_root")
                 .user(user)
                 .type(FolderType.ROOT)
                 .build();

@@ -12,6 +12,7 @@ import com.markery.server.service.exception.PasswordValidatorWrongException;
 import com.markery.server.service.exception.PasswordWrongException;
 import com.markery.server.utils.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -104,11 +105,11 @@ public class UserService {
 
     public void sednEmail(User user) throws javax.mail.MessagingException {
         MailUtil sendMail = new MailUtil(mailSender);
-
+        String responseUrl = "http://ec2-15-164-38-191.ap-northeast-2.compute.amazonaws.com:8000/auth/users/validate";
         sendMail.setSubject("Markery 이메일 인증");
         sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
                 .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
-                .append("<a href='http://localhost:8080/users/confirm?uid=")
+                .append("<a href=" + responseUrl + "?uid=")
                 .append(user.getId())
                 .append("&email=")
                 .append(user.getEmail())

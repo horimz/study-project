@@ -18,6 +18,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8000"})
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
