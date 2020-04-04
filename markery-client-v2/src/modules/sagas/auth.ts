@@ -5,16 +5,16 @@ import {
   call,
   fork,
   put
-} from "redux-saga/effects";
-import { authActionTypes, authActions } from "../actions/auth";
-import { loadingActions, LoadingType } from "../actions/loading";
-import { notificationActions, NotificationType } from "../actions/notification";
-import { contentActions } from "../actions/content";
-import * as authApi from "../../lib/api/auth";
-import * as AuthTypes from "../../lib/api/auth/types";
-import { apiClient } from "../../lib/api/apiClient";
-import { storage } from "../../lib/storage";
-import { generateUID } from "../../lib/uuid";
+} from 'redux-saga/effects';
+import { authActionTypes, authActions } from '../actions/auth';
+import { loadingActions, LoadingType } from '../actions/loading';
+import { notificationActions, NotificationType } from '../actions/notification';
+import { contentActions } from '../actions/content';
+import * as authApi from '../../lib/api/auth';
+import * as AuthTypes from '../../lib/api/auth/types';
+import { apiClient } from '../../lib/api/apiClient';
+import { storage } from '../../lib/storage';
+import { generateUID } from '../../lib/uuid';
 
 /* Worker sagas */
 
@@ -50,12 +50,12 @@ function* login(action: { type: string; payload: AuthTypes.LoginInput }) {
     } = response.data;
 
     // Set token and user in local storage
-    storage.setItem("TOKEN", token);
-    storage.setItem("CURRENT_USER", user);
-    storage.setItem("LOGGED_IN_AT", transactionTime);
+    storage.setItem('TOKEN', token);
+    storage.setItem('CURRENT_USER', user);
+    storage.setItem('LOGGED_IN_AT', transactionTime);
 
     // Set authorization header with token
-    apiClient.defaults.headers.common["Authorization"] = token;
+    apiClient.defaults.headers.common['Authorization'] = token;
 
     // Set user
     yield put(authActions.loginSuccess(user));
@@ -82,7 +82,7 @@ function* login(action: { type: string; payload: AuthTypes.LoginInput }) {
       type: NotificationType.error,
       message:
         e.response.data.errorMessage ||
-        "Incorrect credentials. Check your email and password."
+        'Incorrect credentials. Check your email and password.'
     };
 
     // Display error message
@@ -103,7 +103,7 @@ function* logout() {
 
     const { transactionTime, content: user } = response.data;
 
-    storage.setItem("LOGGED_OUT_AT", transactionTime);
+    storage.setItem('LOGGED_OUT_AT', transactionTime);
 
     // Set user to null
     yield put(authActions.logoutSuccess());
@@ -125,11 +125,11 @@ function* logout() {
     yield put(authActions.logoutFailure());
   } finally {
     // Remove all items in local storage
-    storage.removeItem("TOKEN");
-    storage.removeItem("CURRENT_USER");
+    storage.removeItem('TOKEN');
+    storage.removeItem('CURRENT_USER');
 
     // Remove authorization header
-    apiClient.defaults.headers.common["Authorization"] = "";
+    apiClient.defaults.headers.common['Authorization'] = '';
   }
 }
 
@@ -154,12 +154,12 @@ function* register(action: { type: string; payload: AuthTypes.RegisterInput }) {
     } = response.data;
 
     // Set token and user in local storage
-    storage.setItem("TOKEN", token);
-    storage.setItem("CURRENT_USER", user);
-    storage.setItem("LOGGED_IN_AT", transactionTime);
+    storage.setItem('TOKEN', token);
+    storage.setItem('CURRENT_USER', user);
+    storage.setItem('LOGGED_IN_AT', transactionTime);
 
     // Set authorization header with token
-    apiClient.defaults.headers.common["Authorization"] = token;
+    apiClient.defaults.headers.common['Authorization'] = token;
 
     // Set user
     yield put(authActions.registerSuccess(user));
@@ -186,7 +186,7 @@ function* register(action: { type: string; payload: AuthTypes.RegisterInput }) {
       type: NotificationType.error,
       message:
         e.response.data.errorMessage ||
-        "Conflict! Email and username must be unique."
+        'Conflict! Email and username must be unique.'
     };
 
     // Display error message
@@ -213,7 +213,7 @@ function* updateUser(action: {
     const { content: user } = response.data;
 
     // Store updated user in local storage in order to prevent errors for unexpected refreshes
-    storage.setItem("CURRENT_USER", user);
+    storage.setItem('CURRENT_USER', user);
 
     // Set user
     yield put(authActions.updateUserSuccess(user));
@@ -222,14 +222,25 @@ function* updateUser(action: {
     const successMessage = {
       id: generateUID(),
       type: NotificationType.normal,
-      message: "Successfully applied changes."
+      message: 'Successfully applied changes.'
     };
 
     // Display success message
     yield put(notificationActions.addNotification(successMessage));
   } catch (e) {
-    // Set user to null
     yield put(authActions.updateUserFailure());
+
+    // Generate error message
+    const errorMessage = {
+      id: generateUID(),
+      type: NotificationType.error,
+      message:
+        e.response.data.errorMessage ||
+        'Username must be longer than 2 characters and unique.'
+    };
+
+    // Display error message
+    yield put(notificationActions.addNotification(errorMessage));
   }
   // Stop loading
   yield put(loadingActions.finishLoading());
@@ -251,13 +262,13 @@ function* deleteUser() {
     yield put(authActions.deleteUserSuccess());
 
     // Remove all items in local storage
-    storage.removeItem("TOKEN");
-    storage.removeItem("CURRENT_USER");
-    storage.removeItem("LOGGED_IN_AT");
-    storage.removeItem("LOGGED_OUT_AT");
+    storage.removeItem('TOKEN');
+    storage.removeItem('CURRENT_USER');
+    storage.removeItem('LOGGED_IN_AT');
+    storage.removeItem('LOGGED_OUT_AT');
 
     // Remove authorization header
-    apiClient.defaults.headers.common["Authorization"] = "";
+    apiClient.defaults.headers.common['Authorization'] = '';
 
     // Generate success message
     const successMessage = {
@@ -305,15 +316,8 @@ function* watchDeleteUserRequest() {
   while (true) {
     yield take(authActionTypes.DELETE_USER_REQUEST);
     yield call(deleteUser);
-
-    // const action = yield take(action.type);
-    // yield call(deleteFolder, folderId);
   }
 }
-
-// function* deleteFolder(folderId) {
-//   ...
-// }
 
 export const authSagas = [
   fork(watchFetchUserRequest),

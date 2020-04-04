@@ -1,10 +1,9 @@
-import { apiClient } from "../apiClient";
-import { formatRequest } from "../formatRequest";
-import * as UrlTypes from "./types";
+import { apiClient } from '../apiClient';
+import { formatRequest } from '../formatRequest';
+import * as UrlTypes from './types';
 
-const prefix = "/api/urls";
+const prefix = '/api/urls';
 
-// Urls api
 export const fetchAllUrls = () =>
   apiClient.get<UrlTypes.FetchAllUrlsResponse>(`${prefix}`);
 

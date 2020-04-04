@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { LoginForm, LoginInputs } from "../../components/auth/LoginForm";
-import { useAuth, useLoading } from "../../lib/hooks";
+import React, { useState } from 'react';
+import { LoginForm, LoginInputs } from '../../components/auth/LoginForm';
+import { useAuth, useLoading } from '../../lib/hooks';
 
 interface LoginContainerProps {}
 
@@ -11,12 +11,12 @@ const LoginContainer: React.FC<LoginContainerProps> = props => {
 
   const onSubmit = (data: LoginInputs) => {
     if (!data.email) {
-      setError("Please enter your email");
+      setError('Please enter your email');
       return;
     }
 
     if (!data.password) {
-      setError("Please enter your password");
+      setError('Please enter your password');
       return;
     }
 

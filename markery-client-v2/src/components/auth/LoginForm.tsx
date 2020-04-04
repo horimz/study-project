@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { AuthFormTemplate } from "./AuthFormTemplate";
-import { Button } from "../common/Button";
-import { Input } from "../common/Input";
-import { Spinner } from "../common/Spinner";
-import { useInputs } from "../../lib/hooks";
-import { palette } from "../../lib/styles";
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { AuthFormTemplate } from './AuthFormTemplate';
+import { Button } from '../common/Button';
+import { Input } from '../common/Input';
+import { Spinner } from '../common/Spinner';
+import { useInputs } from '../../lib/hooks';
+import { palette } from '../../lib/styles';
 
 const LoginTextBlock = styled.div`
   display: flex;
@@ -38,8 +38,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
   isLoading
 }) => {
   const [inputs, onChange] = useInputs({
-    email: "",
-    password: ""
+    email: '',
+    password: ''
   });
 
   return (
@@ -83,7 +83,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
               LOGGING IN
             </>
           ) : (
-            "LOG IN"
+            'LOG IN'
           )}
         </Button>
       </form>
