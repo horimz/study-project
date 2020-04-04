@@ -14,7 +14,7 @@ export const fetchUser = () =>
 export const register = (data: authTypes.RegisterInput) =>
   apiClient.post<authTypes.RegisterResponse>(
     `/auth/users`,
-    formatRequest(data)
+    formatRequest({ ...data, passwordValidator: data.password })
   );
 
 export const updateUser = (data: authTypes.UpdateUserInput) =>
