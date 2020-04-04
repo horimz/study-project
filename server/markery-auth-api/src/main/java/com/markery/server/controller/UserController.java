@@ -47,7 +47,6 @@ public class UserController {
     public ResponseEntity<Header<UserResponse>> validate(@RequestParam Long uid,
                                                          @RequestParam String email,
                                                          @RequestParam String authkey) throws URISyntaxException {
-
         boolean varifier = userService.validate(uid, email, authkey);
 
         String uri = "/auth/users/confirm";
